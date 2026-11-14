@@ -20,18 +20,18 @@ export default function Home() {
   const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('dubflow-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const dark = stored ? stored === 'dark' : prefersDark;
-    setIsDark(dark);
-    document.documentElement.classList.toggle('dark', dark);
+    setIsDark(document.documentElement.classList.contains('dark'));
   }, []);
 
   const toggleTheme = () => {
-    const newDark = !isDark;
-    setIsDark(newDark);
+    const newDark = !document.documentElement.classList.contains('dark');
     document.documentElement.classList.toggle('dark', newDark);
-    localStorage.setItem('dubflow-theme', newDark ? 'dark' : 'light');
+    setIsDark(newDark);
+    try {
+      localStorage.setItem('dubflow-theme', newDark ? 'dark' : 'light');
+    } catch (error) {
+      console.warn('Unable to persist the selected theme.', error);
+    }
   };
 
   const openLogin = () => { setShowLogin(true); setShowSignup(false); };
@@ -39,7 +39,7 @@ export default function Home() {
   const closeModals = () => { setShowLogin(false); setShowSignup(false); };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-navy-950 transition-colors duration-300">
+    <div className="min-h-screen theme-bg-main theme-text-primary transition-colors duration-200">
       <Header
         isDark={isDark}
         onToggleTheme={toggleTheme}

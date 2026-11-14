@@ -40,17 +40,17 @@ function Home() {
     const [showLogin, setShowLogin] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showSignup, setShowSignup] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const stored = localStorage.getItem('dubflow-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const dark = stored ? stored === 'dark' : prefersDark;
-        setIsDark(dark);
-        document.documentElement.classList.toggle('dark', dark);
+        setIsDark(document.documentElement.classList.contains('dark'));
     }, []);
     const toggleTheme = ()=>{
-        const newDark = !isDark;
-        setIsDark(newDark);
+        const newDark = !document.documentElement.classList.contains('dark');
         document.documentElement.classList.toggle('dark', newDark);
-        localStorage.setItem('dubflow-theme', newDark ? 'dark' : 'light');
+        setIsDark(newDark);
+        try {
+            localStorage.setItem('dubflow-theme', newDark ? 'dark' : 'light');
+        } catch (error) {
+            console.warn('Unable to persist the selected theme.', error);
+        }
     };
     const openLogin = ()=>{
         setShowLogin(true);
@@ -65,7 +65,7 @@ function Home() {
         setShowSignup(false);
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-white dark:bg-navy-950 transition-colors duration-300",
+        className: "min-h-screen theme-bg-main theme-text-primary transition-colors duration-200",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Header$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 isDark: isDark,
@@ -233,7 +233,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$ModalWrapper$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
             onClose: onClose,
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 p-10 text-center shadow-2xl",
+                className: "theme-card rounded-2xl border theme-border p-10 text-center theme-shadow-float",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                         initial: {
@@ -246,10 +246,10 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                             type: 'spring',
                             damping: 15
                         },
-                        className: "w-16 h-16 rounded-full bg-green-100 dark:bg-green-500/15 flex items-center justify-center mx-auto mb-4",
+                        className: "w-16 h-16 rounded-full theme-success flex items-center justify-center mx-auto mb-4",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$in$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__LogIn$3e$__["LogIn"], {
                             size: 28,
-                            className: "text-green-500"
+                            className: "theme-success-text"
                         }, void 0, false, {
                             fileName: "[project]/components/auth/LoginModal.jsx",
                             lineNumber: 53,
@@ -261,7 +261,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                        className: "text-xl font-bold text-slate-900 dark:text-white mb-1",
+                        className: "text-xl font-bold theme-text-primary mb-1",
                         children: "Welcome back!"
                     }, void 0, false, {
                         fileName: "[project]/components/auth/LoginModal.jsx",
@@ -269,7 +269,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-slate-500 dark:text-slate-400",
+                        className: "text-sm theme-text-secondary",
                         children: "Signing you in to DubFlow AI..."
                     }, void 0, false, {
                         fileName: "[project]/components/auth/LoginModal.jsx",
@@ -291,10 +291,10 @@ function LoginModal({ onClose, onSwitchToSignup }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$ModalWrapper$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
         onClose: onClose,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-2xl overflow-hidden",
+            className: "theme-card rounded-2xl border theme-border theme-shadow-float overflow-hidden",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "relative px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50",
+                    className: "relative px-6 pt-6 pb-4 border-b theme-border",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex items-center justify-between",
@@ -308,7 +308,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: onClose,
-                                    className: "w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors",
+                                    className: "w-8 h-8 rounded-lg flex items-center justify-center theme-text-muted theme-accent-hover theme-hover transition-colors",
                                     "aria-label": "Close",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
                                         size: 18
@@ -332,7 +332,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                             className: "mt-4",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                    className: "text-xl font-bold text-slate-900 dark:text-white",
+                                    className: "text-xl font-bold theme-text-primary",
                                     children: "Welcome back"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
@@ -340,7 +340,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-sm text-slate-500 dark:text-slate-400 mt-0.5",
+                                    className: "text-sm theme-text-secondary mt-0.5",
                                     children: "Sign in to your DubFlow AI account"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
@@ -366,7 +366,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
-                            className: "w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-colors",
+                            className: "w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border theme-border text-sm font-medium theme-text-primary theme-hover transition-colors",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                     width: "18",
@@ -423,14 +423,14 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                             className: "relative flex items-center gap-3",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 h-px bg-slate-200 dark:bg-slate-700"
+                                    className: "flex-1 h-px theme-bg-secondary"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
                                     lineNumber: 100,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-xs text-slate-400",
+                                    className: "text-xs theme-text-muted",
                                     children: "or"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
@@ -438,7 +438,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 h-px bg-slate-200 dark:bg-slate-700"
+                                    className: "flex-1 h-px theme-bg-secondary"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
                                     lineNumber: 102,
@@ -454,7 +454,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                     htmlFor: "login-email",
-                                    className: "block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5",
+                                    className: "block text-xs font-semibold theme-text-primary mb-1.5",
                                     children: "Email Address"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
@@ -465,7 +465,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     className: "relative",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400",
+                                            className: "absolute left-3 top-1/2 -translate-y-1/2 theme-text-muted",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
                                                 size: 16
                                             }, void 0, false, {
@@ -487,11 +487,10 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                             onChange: handleChange,
                                             placeholder: "you@example.com",
                                             className: `w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border transition-colors
-                            bg-slate-50 dark:bg-slate-800/60 
-                            text-slate-900 dark:text-slate-100
-                            placeholder:text-slate-400 dark:placeholder:text-slate-500
-                            focus:outline-none focus:ring-2 focus:ring-blue-500/30
-                            ${errors.email ? 'border-red-400 dark:border-red-500 focus:border-red-400' : 'border-slate-200 dark:border-slate-700 focus:border-blue-400 dark:focus:border-blue-500'}`
+                            theme-input
+                            theme-text-primary
+                            theme-focus
+                            ${errors.email ? 'theme-input-error' : 'theme-border'}`
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
                                             lineNumber: 114,
@@ -504,13 +503,13 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     columnNumber: 13
                                 }, this),
                                 errors.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "flex items-center gap-1 mt-1 text-xs text-red-500",
+                                    className: "flex items-center gap-1 mt-1 text-xs theme-danger-text",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$exclamation$2d$point$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                                             size: 11
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 135,
+                                            lineNumber: 134,
                                             columnNumber: 17
                                         }, this),
                                         " ",
@@ -518,7 +517,7 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 134,
+                                    lineNumber: 133,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -534,43 +533,43 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                             htmlFor: "login-password",
-                                            className: "text-xs font-semibold text-slate-700 dark:text-slate-300",
+                                            className: "text-xs font-semibold theme-text-primary",
                                             children: "Password"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 143,
+                                            lineNumber: 142,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             type: "button",
-                                            className: "text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors",
+                                            className: "text-xs theme-text-accent theme-accent-hover transition-colors",
                                             children: "Forgot password?"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 146,
+                                            lineNumber: 145,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 142,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "relative",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400",
+                                            className: "absolute left-3 top-1/2 -translate-y-1/2 theme-text-muted",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$lock$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Lock$3e$__["Lock"], {
                                                 size: 16
                                             }, void 0, false, {
                                                 fileName: "[project]/components/auth/LoginModal.jsx",
-                                                lineNumber: 152,
+                                                lineNumber: 151,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 151,
+                                            lineNumber: 150,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -582,53 +581,52 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                             onChange: handleChange,
                                             placeholder: "••••••••",
                                             className: `w-full pl-9 pr-10 py-2.5 rounded-xl text-sm border transition-colors
-                            bg-slate-50 dark:bg-slate-800/60 
-                            text-slate-900 dark:text-slate-100
-                            placeholder:text-slate-400 dark:placeholder:text-slate-500
-                            focus:outline-none focus:ring-2 focus:ring-blue-500/30
-                            ${errors.password ? 'border-red-400 dark:border-red-500 focus:border-red-400' : 'border-slate-200 dark:border-slate-700 focus:border-blue-400 dark:focus:border-blue-500'}`
+                            theme-input
+                            theme-text-primary
+                            theme-focus
+                            ${errors.password ? 'theme-input-error' : 'theme-border'}`
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 154,
+                                            lineNumber: 153,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             type: "button",
                                             onClick: ()=>setShowPass(!showPass),
-                                            className: "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors",
+                                            className: "absolute right-3 top-1/2 -translate-y-1/2 theme-text-muted theme-accent-hover transition-colors",
                                             "aria-label": showPass ? 'Hide password' : 'Show password',
                                             children: showPass ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2d$off$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__EyeOff$3e$__["EyeOff"], {
                                                 size: 16
                                             }, void 0, false, {
                                                 fileName: "[project]/components/auth/LoginModal.jsx",
-                                                lineNumber: 178,
+                                                lineNumber: 176,
                                                 columnNumber: 29
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
                                                 size: 16
                                             }, void 0, false, {
                                                 fileName: "[project]/components/auth/LoginModal.jsx",
-                                                lineNumber: 178,
+                                                lineNumber: 176,
                                                 columnNumber: 52
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 172,
+                                            lineNumber: 170,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 150,
+                                    lineNumber: 149,
                                     columnNumber: 13
                                 }, this),
                                 errors.password && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "flex items-center gap-1 mt-1 text-xs text-red-500",
+                                    className: "flex items-center gap-1 mt-1 text-xs theme-danger-text",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$exclamation$2d$point$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                                             size: 11
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/LoginModal.jsx",
-                                            lineNumber: 183,
+                                            lineNumber: 181,
                                             columnNumber: 17
                                         }, this),
                                         " ",
@@ -636,13 +634,13 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 182,
+                                    lineNumber: 180,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/LoginModal.jsx",
-                            lineNumber: 141,
+                            lineNumber: 140,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -653,32 +651,32 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                     type: "checkbox",
                                     checked: remember,
                                     onChange: (e)=>setRemember(e.target.checked),
-                                    className: "w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500/30"
+                                    className: "w-4 h-4 rounded theme-border accent-[var(--primary-accent)] focus:ring-[var(--primary-accent)]/30"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 190,
+                                    lineNumber: 188,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                     htmlFor: "remember-me",
-                                    className: "text-xs text-slate-600 dark:text-slate-400 cursor-pointer",
+                                    className: "text-xs theme-text-secondary cursor-pointer",
                                     children: "Remember me for 30 days"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 197,
+                                    lineNumber: 195,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/LoginModal.jsx",
-                            lineNumber: 189,
+                            lineNumber: 187,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
                             type: "submit",
                             disabled: loading,
                             className: `w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all
-                        ${loading ? 'bg-blue-500/60 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/20'}`,
+                        ${loading ? 'theme-button opacity-60 cursor-not-allowed' : 'theme-button theme-shadow'}`,
                             whileHover: !loading ? {
                                 scale: 1.01
                             } : {},
@@ -692,14 +690,14 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                         className: "animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/components/auth/LoginModal.jsx",
-                                        lineNumber: 216,
+                                        lineNumber: 214,
                                         columnNumber: 17
                                     }, this),
                                     "Signing in..."
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/auth/LoginModal.jsx",
-                                lineNumber: 215,
+                                lineNumber: 213,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                 children: [
@@ -707,40 +705,40 @@ function LoginModal({ onClose, onSwitchToSignup }) {
                                         size: 16
                                     }, void 0, false, {
                                         fileName: "[project]/components/auth/LoginModal.jsx",
-                                        lineNumber: 221,
+                                        lineNumber: 219,
                                         columnNumber: 17
                                     }, this),
                                     "Sign In"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/auth/LoginModal.jsx",
-                                lineNumber: 220,
+                                lineNumber: 218,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/auth/LoginModal.jsx",
-                            lineNumber: 203,
+                            lineNumber: 201,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-center text-xs text-slate-500 dark:text-slate-400",
+                            className: "text-center text-xs theme-text-secondary",
                             children: [
                                 "Don't have an account?",
                                 ' ',
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     type: "button",
                                     onClick: onSwitchToSignup,
-                                    className: "text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-semibold transition-colors",
+                                    className: "theme-text-accent theme-accent-hover font-semibold transition-colors",
                                     children: "Create Account"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/LoginModal.jsx",
-                                    lineNumber: 230,
+                                    lineNumber: 228,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/LoginModal.jsx",
-                            lineNumber: 228,
+                            lineNumber: 226,
                             columnNumber: 11
                         }, this)
                     ]
@@ -816,10 +814,10 @@ function PasswordStrength({ password }) {
     ];
     const textColors = [
         '',
-        'text-red-500',
+        'theme-danger-text',
         'text-yellow-500',
         'text-blue-500',
-        'text-green-500'
+        'theme-success-text'
     ];
     if (!password) return null;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -833,7 +831,7 @@ function PasswordStrength({ password }) {
                     3,
                     4
                 ].map((i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `flex-1 h-1 rounded-full transition-all duration-300 ${i <= strength ? colors[strength] : 'bg-slate-200 dark:bg-slate-700'}`
+                        className: `flex-1 h-1 rounded-full transition-all duration-300 ${i <= strength ? colors[strength] : 'theme-bg-secondary'}`
                     }, i, false, {
                         fileName: "[project]/components/auth/SignupModal.jsx",
                         lineNumber: 30,
@@ -914,7 +912,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$ModalWrapper$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
             onClose: onClose,
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 p-10 text-center shadow-2xl",
+                className: "theme-card rounded-2xl border theme-border p-10 text-center theme-shadow-float",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                         initial: {
@@ -927,10 +925,10 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                             type: 'spring',
                             damping: 15
                         },
-                        className: "w-16 h-16 rounded-full bg-green-100 dark:bg-green-500/15 flex items-center justify-center mx-auto mb-4",
+                        className: "w-16 h-16 rounded-full theme-success flex items-center justify-center mx-auto mb-4",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__["CheckCircle"], {
                             size: 32,
-                            className: "text-green-500"
+                            className: "theme-success-text"
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
                             lineNumber: 95,
@@ -942,7 +940,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                        className: "text-xl font-bold text-slate-900 dark:text-white mb-2",
+                        className: "text-xl font-bold theme-text-primary mb-2",
                         children: "Account Created!"
                     }, void 0, false, {
                         fileName: "[project]/components/auth/SignupModal.jsx",
@@ -950,7 +948,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-slate-500 dark:text-slate-400 mb-1",
+                        className: "text-sm theme-text-secondary mb-1",
                         children: [
                             "Welcome to DubFlow AI, ",
                             form.name.split(' ')[0],
@@ -962,7 +960,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-xs text-slate-400",
+                        className: "text-xs theme-text-muted",
                         children: "Setting up your workspace..."
                     }, void 0, false, {
                         fileName: "[project]/components/auth/SignupModal.jsx",
@@ -985,7 +983,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                     htmlFor: id,
-                    className: "block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5",
+                    className: "block text-xs font-semibold theme-text-primary mb-1.5",
                     children: label
                 }, void 0, false, {
                     fileName: "[project]/components/auth/SignupModal.jsx",
@@ -996,7 +994,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                     className: "relative",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400",
+                            className: "absolute left-3 top-1/2 -translate-y-1/2 theme-text-muted",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                                 size: 16
                             }, void 0, false, {
@@ -1018,11 +1016,10 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                             onChange: handleChange,
                             placeholder: placeholder,
                             className: `w-full pl-9 ${showToggle ? 'pr-10' : 'pr-4'} py-2.5 rounded-xl text-sm border transition-colors
-                      bg-slate-50 dark:bg-slate-800/60 
-                      text-slate-900 dark:text-slate-100
-                      placeholder:text-slate-400 dark:placeholder:text-slate-500
-                      focus:outline-none focus:ring-2 focus:ring-blue-500/30
-                      ${error ? 'border-red-400 dark:border-red-500 focus:border-red-400' : 'border-slate-200 dark:border-slate-700 focus:border-blue-400 dark:focus:border-blue-500'}`
+                      theme-input
+                      theme-text-primary
+                      theme-focus
+                      ${error ? 'theme-input-error' : 'theme-border'}`
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
                             lineNumber: 116,
@@ -1031,24 +1028,24 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                         showToggle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
                             onClick: onToggle,
-                            className: "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors",
+                            className: "absolute right-3 top-1/2 -translate-y-1/2 theme-text-muted theme-accent-hover transition-colors",
                             "aria-label": showValue ? 'Hide password' : 'Show password',
                             children: showValue ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2d$off$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__EyeOff$3e$__["EyeOff"], {
                                 size: 16
                             }, void 0, false, {
                                 fileName: "[project]/components/auth/SignupModal.jsx",
-                                lineNumber: 141,
+                                lineNumber: 140,
                                 columnNumber: 26
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
                                 size: 16
                             }, void 0, false, {
                                 fileName: "[project]/components/auth/SignupModal.jsx",
-                                lineNumber: 141,
+                                lineNumber: 140,
                                 columnNumber: 49
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 135,
+                            lineNumber: 134,
                             columnNumber: 11
                         }, this)
                     ]
@@ -1058,13 +1055,13 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                     columnNumber: 7
                 }, this),
                 error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "flex items-center gap-1 mt-1 text-xs text-red-500",
+                    className: "flex items-center gap-1 mt-1 text-xs theme-danger-text",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$exclamation$2d$point$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                             size: 11
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 147,
+                            lineNumber: 146,
                             columnNumber: 11
                         }, this),
                         " ",
@@ -1072,7 +1069,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/auth/SignupModal.jsx",
-                    lineNumber: 146,
+                    lineNumber: 145,
                     columnNumber: 9
                 }, this)
             ]
@@ -1084,10 +1081,10 @@ function SignupModal({ onClose, onSwitchToLogin }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$ModalWrapper$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
         onClose: onClose,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto",
+            className: "theme-card rounded-2xl border theme-border theme-shadow-float overflow-hidden max-h-[90vh] overflow-y-auto",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "relative px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50 sticky top-0 bg-white dark:bg-navy-800 z-10",
+                    className: "relative px-6 pt-6 pb-4 border-b theme-border sticky top-0 theme-card z-10",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex items-center justify-between",
@@ -1096,60 +1093,60 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                     size: "sm"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 159,
+                                    lineNumber: 158,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: onClose,
-                                    className: "w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors",
+                                    className: "w-8 h-8 rounded-lg flex items-center justify-center theme-text-muted theme-accent-hover theme-hover transition-colors",
                                     "aria-label": "Close",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
                                         size: 18
                                     }, void 0, false, {
                                         fileName: "[project]/components/auth/SignupModal.jsx",
-                                        lineNumber: 165,
+                                        lineNumber: 164,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 160,
+                                    lineNumber: 159,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 158,
+                            lineNumber: 157,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "mt-4",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                    className: "text-xl font-bold text-slate-900 dark:text-white",
+                                    className: "text-xl font-bold theme-text-primary",
                                     children: "Create your account"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 169,
+                                    lineNumber: 168,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-sm text-slate-500 dark:text-slate-400 mt-0.5",
+                                    className: "text-sm theme-text-secondary mt-0.5",
                                     children: "Start dubbing videos in multiple languages"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 170,
+                                    lineNumber: 169,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 168,
+                            lineNumber: 167,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/auth/SignupModal.jsx",
-                    lineNumber: 157,
+                    lineNumber: 156,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1159,7 +1156,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
-                            className: "w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-colors",
+                            className: "w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border theme-border text-sm font-medium theme-text-primary theme-hover transition-colors",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                     width: "18",
@@ -1172,7 +1169,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                             fill: "#4285F4"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/SignupModal.jsx",
-                                            lineNumber: 182,
+                                            lineNumber: 181,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1180,7 +1177,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                             fill: "#34A853"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/SignupModal.jsx",
-                                            lineNumber: 183,
+                                            lineNumber: 182,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1188,7 +1185,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                             fill: "#FBBC05"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/SignupModal.jsx",
-                                            lineNumber: 184,
+                                            lineNumber: 183,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1196,51 +1193,51 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                             fill: "#EA4335"
                                         }, void 0, false, {
                                             fileName: "[project]/components/auth/SignupModal.jsx",
-                                            lineNumber: 185,
+                                            lineNumber: 184,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 181,
+                                    lineNumber: 180,
                                     columnNumber: 13
                                 }, this),
                                 "Continue with Google"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 177,
+                            lineNumber: 176,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "relative flex items-center gap-3",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 h-px bg-slate-200 dark:bg-slate-700"
+                                    className: "flex-1 h-px theme-bg-secondary"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/auth/SignupModal.jsx",
+                                    lineNumber: 190,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "text-xs theme-text-muted",
+                                    children: "or"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
                                     lineNumber: 191,
                                     columnNumber: 13
                                 }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-xs text-slate-400",
-                                    children: "or"
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex-1 h-px theme-bg-secondary"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
                                     lineNumber: 192,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 h-px bg-slate-200 dark:bg-slate-700"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 193,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 190,
+                            lineNumber: 189,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(InputField, {
@@ -1253,7 +1250,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                             error: errors.name
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 196,
+                            lineNumber: 195,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(InputField, {
@@ -1267,7 +1264,7 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                             error: errors.email
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 206,
+                            lineNumber: 205,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1285,20 +1282,20 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                     error: errors.password
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 218,
+                                    lineNumber: 217,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(PasswordStrength, {
                                     password: form.password
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 230,
+                                    lineNumber: 229,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 217,
+                            lineNumber: 216,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(InputField, {
@@ -1314,14 +1311,14 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                             error: errors.confirm
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 233,
+                            lineNumber: 232,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
                             type: "submit",
                             disabled: loading,
                             className: `w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 mt-2 transition-all
-                        ${loading ? 'bg-blue-500/60 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/20'}`,
+                        ${loading ? 'theme-button opacity-60 cursor-not-allowed' : 'theme-button theme-shadow'}`,
                             whileHover: !loading ? {
                                 scale: 1.01
                             } : {},
@@ -1335,87 +1332,87 @@ function SignupModal({ onClose, onSwitchToLogin }) {
                                         className: "animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/components/auth/SignupModal.jsx",
-                                        lineNumber: 260,
+                                        lineNumber: 259,
                                         columnNumber: 17
                                     }, this),
                                     "Creating Account..."
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/auth/SignupModal.jsx",
-                                lineNumber: 259,
+                                lineNumber: 258,
                                 columnNumber: 15
                             }, this) : 'Create Account'
                         }, void 0, false, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 247,
+                            lineNumber: 246,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-center text-xs text-slate-500 dark:text-slate-400",
+                            className: "text-center text-xs theme-text-secondary",
                             children: [
                                 "Already have an account?",
                                 ' ',
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     type: "button",
                                     onClick: onSwitchToLogin,
-                                    className: "text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-semibold transition-colors",
+                                    className: "theme-text-accent theme-accent-hover font-semibold transition-colors",
                                     children: "Sign In"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 268,
+                                    lineNumber: 267,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 266,
+                            lineNumber: 265,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-center text-xs text-slate-400 dark:text-slate-500",
+                            className: "text-center text-xs theme-text-muted",
                             children: [
                                 "By creating an account, you agree to our",
                                 ' ',
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     type: "button",
-                                    className: "underline hover:text-slate-600 dark:hover:text-slate-300 transition-colors",
+                                    className: "underline theme-accent-hover transition-colors",
                                     children: "Terms of Service"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 279,
+                                    lineNumber: 278,
                                     columnNumber: 13
                                 }, this),
                                 ' & ',
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     type: "button",
-                                    className: "underline hover:text-slate-600 dark:hover:text-slate-300 transition-colors",
+                                    className: "underline theme-accent-hover transition-colors",
                                     children: "Privacy Policy"
                                 }, void 0, false, {
                                     fileName: "[project]/components/auth/SignupModal.jsx",
-                                    lineNumber: 283,
+                                    lineNumber: 282,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/auth/SignupModal.jsx",
-                            lineNumber: 277,
+                            lineNumber: 276,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/auth/SignupModal.jsx",
-                    lineNumber: 175,
+                    lineNumber: 174,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/auth/SignupModal.jsx",
-            lineNumber: 155,
+            lineNumber: 154,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/auth/SignupModal.jsx",
-        lineNumber: 154,
+        lineNumber: 153,
         columnNumber: 5
     }, this);
 }
@@ -1428,185 +1425,80 @@ __turbopack_context__.s([
     ()=>Footer
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mail.mjs [app-ssr] (ecmascript) <export default as Mail>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/external-link.mjs [app-ssr] (ecmascript) <export default as ExternalLink>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/globe.mjs [app-ssr] (ecmascript) <export default as Globe>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square-text.mjs [app-ssr] (ecmascript) <export default as MessageSquareText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Logo$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/common/Logo.jsx [app-ssr] (ecmascript)");
 'use client';
 ;
 ;
 ;
-function GithubIcon({ size = 18 }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-        width: size,
-        height: size,
-        viewBox: "0 0 24 24",
-        fill: "none",
-        stroke: "currentColor",
-        strokeWidth: "2",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 9,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M9 18c-4.51 2-5-2-7-2"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 10,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/common/Footer.jsx",
-        lineNumber: 8,
-        columnNumber: 5
-    }, this);
-}
-function LinkedinIcon({ size = 18 }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-        width: size,
-        height: size,
-        viewBox: "0 0 24 24",
-        fill: "none",
-        stroke: "currentColor",
-        strokeWidth: "2",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 18,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                x: "2",
-                y: "9",
-                width: "4",
-                height: "12"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 19,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                cx: "4",
-                cy: "4",
-                r: "2"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 20,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/common/Footer.jsx",
-        lineNumber: 17,
-        columnNumber: 5
-    }, this);
-}
-function YoutubeIcon({ size = 18 }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-        width: size,
-        height: size,
-        viewBox: "0 0 24 24",
-        fill: "none",
-        stroke: "currentColor",
-        strokeWidth: "2",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 28,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                d: "m10 15 5-3-5-3z"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 29,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/common/Footer.jsx",
-        lineNumber: 27,
-        columnNumber: 5
-    }, this);
-}
-const footerLinks = {
-    'Quick Links': [
-        {
-            label: 'Home',
-            href: '#home'
-        },
-        {
-            label: 'Features',
-            href: '#features'
-        },
-        {
-            label: 'How It Works',
-            href: '#how-it-works'
-        },
-        {
-            label: 'AI Demo',
-            href: '#ai-demo'
-        },
-        {
-            label: 'FAQ',
-            href: '#faq'
-        }
-    ],
-    'Support': [
-        {
-            label: 'Contact Us',
-            href: '#contact'
-        },
-        {
-            label: 'Help Center',
-            href: '#'
-        },
-        {
-            label: 'Privacy Policy',
-            href: '#'
-        },
-        {
-            label: 'Terms of Service',
-            href: '#'
-        }
-    ]
-};
-const socials = [
+const quickLinks = [
     {
-        icon: GithubIcon,
-        href: 'https://github.com',
-        label: 'GitHub'
+        label: 'Home',
+        href: '#home'
     },
     {
-        icon: LinkedinIcon,
-        href: 'https://linkedin.com',
-        label: 'LinkedIn'
+        label: 'Features',
+        href: '#features'
     },
     {
-        icon: YoutubeIcon,
-        href: 'https://youtube.com',
-        label: 'YouTube'
+        label: 'How It Works',
+        href: '#how-it-works'
+    },
+    {
+        label: 'AI Demo',
+        href: '#ai-demo'
+    },
+    {
+        label: 'FAQ',
+        href: '#faq'
     }
 ];
-function Footer({ onOpenSignup }) {
+const supportLinks = [
+    {
+        label: 'Contact',
+        href: '#contact'
+    },
+    {
+        label: 'Help center',
+        href: '#faq'
+    },
+    {
+        label: 'Privacy policy',
+        href: '#home'
+    },
+    {
+        label: 'Terms of service',
+        href: '#home'
+    }
+];
+const socials = [
+    {
+        label: 'Web',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"],
+        href: 'https://dubflow.ai'
+    },
+    {
+        label: 'Community',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__["MessageSquareText"],
+        href: 'https://example.com/community'
+    },
+    {
+        label: 'Updates',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"],
+        href: 'https://example.com/updates'
+    }
+];
+function Footer() {
     const handleScroll = (href)=>{
+        if (!href.startsWith('#')) return;
         const id = href.replace('#', '');
-        const el = document.getElementById(id);
-        if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        const node = document.getElementById(id);
+        if (node) {
+            const top = node.getBoundingClientRect().top + window.scrollY - 90;
             window.scrollTo({
                 top,
                 behavior: 'smooth'
@@ -1615,188 +1507,256 @@ function Footer({ onOpenSignup }) {
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
         id: "contact",
-        className: "relative border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-navy-900",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
-            }, void 0, false, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 72,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "lg:col-span-2",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Logo$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                        size: "md",
-                                        className: "mb-4"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/common/Footer.jsx",
-                                        lineNumber: 78,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-sm mb-6",
-                                        children: "DubFlow AI is an intelligent multilingual video dubbing platform. Transform your videos into natural, multilingual experiences with AI-powered dubbing, voice generation, and precise segment editing."
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/common/Footer.jsx",
-                                        lineNumber: 79,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-center gap-3",
-                                        children: socials.map(({ icon: Icon, href, label })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                href: href,
-                                                target: "_blank",
-                                                rel: "noopener noreferrer",
-                                                "aria-label": label,
-                                                className: "flex items-center justify-center w-10 h-10 rounded-xl\n                             bg-slate-200 dark:bg-slate-800 \n                             text-slate-600 dark:text-slate-400\n                             hover:bg-blue-500 dark:hover:bg-blue-600\n                             hover:text-white\n                             border border-slate-300 dark:border-slate-700\n                             hover:border-blue-500 dark:hover:border-blue-600\n                             transition-all duration-200",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                                    size: 18
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/common/Footer.jsx",
-                                                    lineNumber: 101,
-                                                    columnNumber: 19
-                                                }, this)
-                                            }, label, false, {
-                                                fileName: "[project]/components/common/Footer.jsx",
-                                                lineNumber: 86,
-                                                columnNumber: 17
-                                            }, this))
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/common/Footer.jsx",
-                                        lineNumber: 84,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/common/Footer.jsx",
-                                lineNumber: 77,
-                                columnNumber: 11
-                            }, this),
-                            Object.entries(footerLinks).map(([title, links])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "border-t theme-border theme-footer  ",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid gap-10 md:grid-cols-2 lg:grid-cols-4",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "lg:col-span-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Logo$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                    size: "md",
+                                    className: "mb-5"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 43,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "max-w-md text-[0.98rem] leading-relaxed theme-text-secondary ",
+                                    children: "DubFlow AI helps creators and brands localize video content with expressive voices, precise edits, and modern multilingual workflows."
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 44,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "mt-6 flex items-center gap-3",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                            className: "text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider",
-                                            children: title
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex h-11 w-11 items-center justify-center rounded-full border theme-border theme-card theme-text-primary   ",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
+                                                size: 16
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/common/Footer.jsx",
+                                                lineNumber: 46,
+                                                columnNumber: 141
+                                            }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Footer.jsx",
-                                            lineNumber: 110,
+                                            lineNumber: 46,
                                             columnNumber: 15
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                            className: "space-y-3",
-                                            children: links.map(({ label, href })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                    children: href.startsWith('#') ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        onClick: ()=>handleScroll(href),
-                                                        className: "text-sm text-slate-600 dark:text-slate-400 \n                                   hover:text-blue-500 dark:hover:text-blue-400 \n                                   transition-colors duration-200",
-                                                        children: label
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/common/Footer.jsx",
-                                                        lineNumber: 117,
-                                                        columnNumber: 23
-                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                        href: href,
-                                                        className: "text-sm text-slate-600 dark:text-slate-400 \n                                   hover:text-blue-500 dark:hover:text-blue-400 \n                                   transition-colors duration-200 inline-flex items-center gap-1 group",
-                                                        children: [
-                                                            label,
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
-                                                                size: 12,
-                                                                className: "opacity-0 group-hover:opacity-100 transition-opacity"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/common/Footer.jsx",
-                                                                lineNumber: 133,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/common/Footer.jsx",
-                                                        lineNumber: 126,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                }, label, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                    children: "Reach us"
+                                                }, void 0, false, {
                                                     fileName: "[project]/components/common/Footer.jsx",
-                                                    lineNumber: 115,
-                                                    columnNumber: 19
-                                                }, this))
-                                        }, void 0, false, {
+                                                    lineNumber: 48,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-sm font-medium theme-text-primary ",
+                                                    children: "hello@dubflow.ai"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/common/Footer.jsx",
+                                                    lineNumber: 49,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/components/common/Footer.jsx",
-                                            lineNumber: 113,
+                                            lineNumber: 47,
                                             columnNumber: 15
                                         }, this)
                                     ]
-                                }, title, true, {
-                                    fileName: "[project]/components/common/Footer.jsx",
-                                    lineNumber: 109,
-                                    columnNumber: 13
-                                }, this))
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/common/Footer.jsx",
-                        lineNumber: 75,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-sm text-slate-500 dark:text-slate-500",
-                                children: [
-                                    "© ",
-                                    new Date().getFullYear(),
-                                    " DubFlow AI. All rights reserved. Built as an FYP Project."
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/common/Footer.jsx",
-                                lineNumber: 145,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-4",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "inline-flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "w-2 h-2 bg-green-500 rounded-full inline-block animate-pulse"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Footer.jsx",
-                                            lineNumber: 150,
-                                            columnNumber: 15
-                                        }, this),
-                                        "All systems operational"
-                                    ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/common/Footer.jsx",
-                                    lineNumber: 149,
+                                    lineNumber: 45,
                                     columnNumber: 13
                                 }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/components/common/Footer.jsx",
-                                lineNumber: 148,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/common/Footer.jsx",
-                        lineNumber: 144,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/common/Footer.jsx",
-                lineNumber: 74,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/common/Footer.jsx",
+                            lineNumber: 42,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                    className: "text-[10px] font-semibold uppercase tracking-[0.18em] theme-text-muted ",
+                                    children: "Quick links"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 55,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                    className: "mt-4 space-y-3 text-sm theme-text-secondary ",
+                                    children: quickLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>handleScroll(link.href),
+                                                className: "inline-flex items-center gap-1 transition-colors duration-200 theme-accent-hover",
+                                                children: [
+                                                    link.label,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
+                                                        size: 12
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/common/Footer.jsx",
+                                                        lineNumber: 58,
+                                                        columnNumber: 191
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/common/Footer.jsx",
+                                                lineNumber: 58,
+                                                columnNumber: 38
+                                            }, this)
+                                        }, link.label, false, {
+                                            fileName: "[project]/components/common/Footer.jsx",
+                                            lineNumber: 58,
+                                            columnNumber: 17
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 56,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/common/Footer.jsx",
+                            lineNumber: 54,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                    className: "text-[10px] font-semibold uppercase tracking-[0.18em] theme-text-muted ",
+                                    children: "Support"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 64,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                    className: "mt-4 space-y-3 text-sm theme-text-secondary ",
+                                    children: supportLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>handleScroll(link.href),
+                                                className: "inline-flex items-center gap-1 transition-colors duration-200 theme-accent-hover",
+                                                children: [
+                                                    link.label,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
+                                                        size: 12
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/common/Footer.jsx",
+                                                        lineNumber: 67,
+                                                        columnNumber: 191
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/common/Footer.jsx",
+                                                lineNumber: 67,
+                                                columnNumber: 38
+                                            }, this)
+                                        }, link.label, false, {
+                                            fileName: "[project]/components/common/Footer.jsx",
+                                            lineNumber: 67,
+                                            columnNumber: 17
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 65,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "mt-6 flex items-center gap-3",
+                                    children: socials.map(({ label, icon: Icon, href })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                            href: href,
+                                            target: "_blank",
+                                            rel: "noreferrer",
+                                            "aria-label": label,
+                                            className: "flex h-10 w-10 items-center justify-center rounded-full border theme-border theme-card theme-text-primary transition-all duration-200 theme-border-hover theme-accent-hover   ",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                size: 15
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/common/Footer.jsx",
+                                                lineNumber: 73,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, label, false, {
+                                            fileName: "[project]/components/common/Footer.jsx",
+                                            lineNumber: 72,
+                                            columnNumber: 17
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 70,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/common/Footer.jsx",
+                            lineNumber: 63,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/common/Footer.jsx",
+                    lineNumber: 41,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mt-12 flex flex-col items-center justify-between gap-4 border-t theme-border pt-6 text-sm theme-text-muted   sm:flex-row",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                "© ",
+                                new Date().getFullYear(),
+                                " DubFlow AI. All rights reserved."
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/common/Footer.jsx",
+                            lineNumber: 81,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "inline-flex h-2 w-2 rounded-full theme-button"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/common/Footer.jsx",
+                                    lineNumber: 82,
+                                    columnNumber: 52
+                                }, this),
+                                " Built for premium localization"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/common/Footer.jsx",
+                            lineNumber: 82,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/common/Footer.jsx",
+                    lineNumber: 80,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/components/common/Footer.jsx",
+            lineNumber: 40,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
         fileName: "[project]/components/common/Footer.jsx",
-        lineNumber: 67,
+        lineNumber: 39,
         columnNumber: 5
     }, this);
 }
@@ -1810,7 +1770,6 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/menu.mjs [app-ssr] (ecmascript) <export default as Menu>");
@@ -1819,7 +1778,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Logo$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/common/Logo.jsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$ThemeToggle$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/common/ThemeToggle.jsx [app-ssr] (ecmascript)");
 'use client';
-;
 ;
 ;
 ;
@@ -1846,10 +1804,6 @@ const navLinks = [
     {
         label: 'FAQ',
         href: '#faq'
-    },
-    {
-        label: 'Contact',
-        href: '#contact'
     }
 ];
 function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
@@ -1859,19 +1813,19 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const handleScroll = ()=>{
             setIsScrolled(window.scrollY > 20);
-            // Update active section
-            const sections = navLinks.map((l)=>l.href.replace('#', ''));
-            for(let i = sections.length - 1; i >= 0; i--){
+            const sections = navLinks.map((link)=>link.href.replace('#', ''));
+            for(let i = sections.length - 1; i >= 0; i -= 1){
                 const el = document.getElementById(sections[i]);
                 if (el) {
                     const rect = el.getBoundingClientRect();
-                    if (rect.top <= 100) {
+                    if (rect.top <= 120) {
                         setActiveSection(sections[i]);
                         break;
                     }
                 }
             }
         };
+        handleScroll();
         window.addEventListener('scroll', handleScroll, {
             passive: true
         });
@@ -1882,8 +1836,7 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
         const id = href.replace('#', '');
         const el = document.getElementById(id);
         if (el) {
-            const offset = 80;
-            const top = el.getBoundingClientRect().top + window.scrollY - offset;
+            const top = el.getBoundingClientRect().top + window.scrollY - 90;
             window.scrollTo({
                 top,
                 behavior: 'smooth'
@@ -1893,17 +1846,17 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 dark:bg-navy-950/90 backdrop-blur-xl shadow-sm dark:shadow-slate-900/50 border-b border-slate-200/50 dark:border-slate-800/50' : 'bg-transparent'}`,
+                className: `fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'border-b theme-border theme-nav theme-shadow-nav backdrop-blur-xl  ' : 'bg-transparent'}`,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                    className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center justify-between h-16 lg:h-18",
+                        className: "flex h-20 items-center justify-between gap-4",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
                                 onClick: ()=>handleNavClick('#home'),
                                 className: "flex-shrink-0",
                                 whileHover: {
-                                    scale: 1.02
+                                    scale: 1.01
                                 },
                                 whileTap: {
                                     scale: 0.98
@@ -1912,60 +1865,60 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
                                     size: "md"
                                 }, void 0, false, {
                                     fileName: "[project]/components/common/Header.jsx",
-                                    lineNumber: 75,
+                                    lineNumber: 59,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/common/Header.jsx",
-                                lineNumber: 69,
+                                lineNumber: 58,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                                className: "hidden lg:flex items-center gap-1",
+                                className: "hidden items-center gap-2 lg:flex",
                                 "aria-label": "Main navigation",
                                 children: navLinks.map((link)=>{
                                     const isActive = activeSection === link.href.replace('#', '');
                                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
                                         onClick: ()=>handleNavClick(link.href),
-                                        className: `relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${isActive ? 'text-blue-500 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`,
+                                        className: `relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${isActive ? 'theme-text-primary ' : 'theme-text-secondary theme-accent-hover  '}`,
                                         whileHover: {
-                                            scale: 1.02
+                                            y: -1
                                         },
                                         whileTap: {
                                             scale: 0.98
                                         },
                                         children: [
-                                            isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                                layoutId: "activeNav",
-                                                className: "absolute inset-0 bg-blue-500/10 dark:bg-blue-500/15 rounded-lg",
+                                            isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].span, {
+                                                layoutId: "active-nav-pill",
+                                                className: "absolute inset-0 rounded-full theme-card theme-shadow",
                                                 transition: {
                                                     type: 'spring',
-                                                    bounce: 0.3,
-                                                    duration: 0.4
+                                                    stiffness: 380,
+                                                    damping: 28
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/components/common/Header.jsx",
-                                                lineNumber: 95,
-                                                columnNumber: 23
+                                                lineNumber: 67,
+                                                columnNumber: 34
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 className: "relative",
                                                 children: link.label
                                             }, void 0, false, {
                                                 fileName: "[project]/components/common/Header.jsx",
-                                                lineNumber: 101,
+                                                lineNumber: 68,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, link.href, true, {
                                         fileName: "[project]/components/common/Header.jsx",
-                                        lineNumber: 83,
+                                        lineNumber: 66,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/components/common/Header.jsx",
-                                lineNumber: 79,
+                                lineNumber: 62,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1976,85 +1929,84 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
                                         onToggle: onToggleTheme
                                     }, void 0, false, {
                                         fileName: "[project]/components/common/Header.jsx",
-                                        lineNumber: 109,
+                                        lineNumber: 75,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: onOpenLogin,
-                                        className: "hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium\n                           text-slate-700 dark:text-slate-300\n                           hover:text-slate-900 dark:hover:text-white\n                           hover:bg-slate-100 dark:hover:bg-slate-800\n                           transition-all duration-200",
+                                        className: "hidden rounded-full border theme-border theme-card-soft px-4 py-2 text-sm font-medium theme-text-primary transition-all duration-200 theme-border-hover theme-accent-hover sm:flex",
                                         children: "Sign In"
                                     }, void 0, false, {
                                         fileName: "[project]/components/common/Header.jsx",
-                                        lineNumber: 111,
+                                        lineNumber: 76,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
                                         onClick: onOpenSignup,
-                                        className: "flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-sm font-semibold text-white\n                           bg-gradient-to-r from-blue-600 to-purple-600\n                           hover:from-blue-500 hover:to-purple-500\n                           shadow-lg shadow-blue-500/20 dark:shadow-blue-500/30\n                           transition-all duration-200",
+                                        className: "inline-flex items-center gap-2 rounded-full theme-button px-4 py-2.5 text-sm font-semibold text-[#fffaf4] theme-shadow-accent transition-all duration-200  sm:px-5",
                                         whileHover: {
-                                            scale: 1.03
+                                            y: -1
                                         },
                                         whileTap: {
-                                            scale: 0.97
+                                            scale: 0.98
                                         },
                                         children: [
                                             "Get Started",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
-                                                size: 15,
-                                                className: "hidden sm:block"
+                                                size: 15
                                             }, void 0, false, {
                                                 fileName: "[project]/components/common/Header.jsx",
-                                                lineNumber: 133,
+                                                lineNumber: 79,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/common/Header.jsx",
-                                        lineNumber: 122,
+                                        lineNumber: 77,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>setIsMobileOpen(!isMobileOpen),
-                                        className: "lg:hidden flex items-center justify-center w-10 h-10 rounded-xl\n                           text-slate-600 dark:text-slate-400\n                           hover:bg-slate-100 dark:hover:bg-slate-800\n                           transition-colors duration-200",
+                                        onClick: ()=>setIsMobileOpen((value)=>!value),
+                                        className: "flex h-10 w-10 items-center justify-center rounded-full border theme-border theme-card theme-text-primary lg:hidden",
                                         "aria-label": isMobileOpen ? 'Close menu' : 'Open menu',
                                         children: isMobileOpen ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
-                                            size: 20
+                                            size: 18
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 145,
+                                            lineNumber: 82,
                                             columnNumber: 33
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__["Menu"], {
-                                            size: 20
+                                            size: 18
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 145,
+                                            lineNumber: 82,
                                             columnNumber: 51
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/common/Header.jsx",
-                                        lineNumber: 137,
+                                        lineNumber: 81,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/common/Header.jsx",
-                                lineNumber: 108,
+                                lineNumber: 74,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/common/Header.jsx",
-                        lineNumber: 67,
+                        lineNumber: 57,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/common/Header.jsx",
-                    lineNumber: 66,
+                    lineNumber: 56,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/common/Header.jsx",
-                lineNumber: 59,
+                lineNumber: 55,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -2070,11 +2022,11 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
                             exit: {
                                 opacity: 0
                             },
-                            className: "fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden",
+                            className: "fixed inset-0 z-40 bg-black/35 backdrop-blur-sm lg:hidden",
                             onClick: ()=>setIsMobileOpen(false)
                         }, void 0, false, {
                             fileName: "[project]/components/common/Header.jsx",
-                            lineNumber: 156,
+                            lineNumber: 92,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -2089,128 +2041,110 @@ function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignup }) {
                             },
                             transition: {
                                 type: 'spring',
-                                damping: 30,
-                                stiffness: 300
+                                damping: 28,
+                                stiffness: 260
                             },
-                            className: "fixed top-0 right-0 bottom-0 z-50 w-72 \n                         bg-white dark:bg-navy-900 \n                         border-l border-slate-200 dark:border-slate-800\n                         shadow-2xl lg:hidden overflow-y-auto",
+                            className: "fixed right-0 top-0 z-50 h-full w-72 border-l theme-border theme-bg-main p-4 theme-shadow-float   lg:hidden",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800",
+                                    className: "mb-6 flex items-center justify-between",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$common$2f$Logo$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             size: "sm"
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 174,
+                                            lineNumber: 95,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>setIsMobileOpen(false),
-                                            className: "flex items-center justify-center w-8 h-8 rounded-lg\n                             text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200\n                             hover:bg-slate-100 dark:hover:bg-slate-800\n                             transition-colors",
+                                            className: "flex h-9 w-9 items-center justify-center rounded-full border theme-border theme-text-primary  ",
                                             "aria-label": "Close menu",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/components/common/Header.jsx",
-                                                lineNumber: 183,
+                                                lineNumber: 97,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 175,
+                                            lineNumber: 96,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/common/Header.jsx",
-                                    lineNumber: 173,
+                                    lineNumber: 94,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                                    className: "p-4 space-y-1",
-                                    children: navLinks.map((link, i)=>{
+                                    className: "space-y-1",
+                                    children: navLinks.map((link)=>{
                                         const isActive = activeSection === link.href.replace('#', '');
-                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>handleNavClick(link.href),
-                                            initial: {
-                                                opacity: 0,
-                                                x: 20
-                                            },
-                                            animate: {
-                                                opacity: 1,
-                                                x: 0
-                                            },
-                                            transition: {
-                                                delay: i * 0.05
-                                            },
-                                            className: `w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                  transition-colors duration-200 ${isActive ? 'bg-blue-500/10 dark:bg-blue-500/15 text-blue-500 dark:text-blue-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'}`,
+                                            className: `flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-all duration-200 ${isActive ? 'theme-accent-soft theme-text-primary' : 'theme-text-secondary theme-hover'}`,
                                             children: link.label
                                         }, link.href, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 191,
+                                            lineNumber: 105,
                                             columnNumber: 21
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/components/common/Header.jsx",
-                                    lineNumber: 187,
+                                    lineNumber: 101,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "p-4 space-y-3 border-t border-slate-200 dark:border-slate-800",
+                                    className: "mt-6 space-y-2",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>{
-                                                setIsMobileOpen(false);
-                                                onOpenLogin();
-                                            },
-                                            className: "w-full px-4 py-3 rounded-xl text-sm font-medium\n                             text-slate-700 dark:text-slate-300\n                             border border-slate-200 dark:border-slate-700\n                             hover:bg-slate-50 dark:hover:bg-slate-800\n                             transition-colors duration-200",
+                                            onClick: onOpenLogin,
+                                            className: "w-full rounded-full border theme-border px-4 py-2.5 text-sm font-medium theme-text-primary  ",
                                             children: "Sign In"
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 211,
+                                            lineNumber: 113,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>{
-                                                setIsMobileOpen(false);
-                                                onOpenSignup();
-                                            },
-                                            className: "w-full px-4 py-3 rounded-xl text-sm font-semibold text-white\n                             bg-gradient-to-r from-blue-600 to-purple-600\n                             hover:from-blue-500 hover:to-purple-500\n                             transition-colors duration-200",
-                                            children: "Get Started Free"
+                                            onClick: onOpenSignup,
+                                            className: "w-full rounded-full theme-button px-4 py-2.5 text-sm font-semibold text-white",
+                                            children: "Get Started"
                                         }, void 0, false, {
                                             fileName: "[project]/components/common/Header.jsx",
-                                            lineNumber: 221,
+                                            lineNumber: 114,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/common/Header.jsx",
-                                    lineNumber: 210,
+                                    lineNumber: 112,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/common/Header.jsx",
-                            lineNumber: 163,
+                            lineNumber: 93,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/common/Header.jsx",
-                    lineNumber: 155,
+                    lineNumber: 91,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/common/Header.jsx",
-                lineNumber: 153,
+                lineNumber: 89,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/common/Header.jsx",
-        lineNumber: 58,
+        lineNumber: 54,
         columnNumber: 5
     }, this);
 }
@@ -2225,226 +2159,116 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 'use client';
 ;
-;
 function Logo({ size = 'md', className = '' }) {
     const sizes = {
         sm: {
             container: 'h-8',
-            icon: 32,
+            icon: 30,
             text: 'text-lg',
-            ai: 'text-xs'
+            ai: 'text-[10px]'
         },
         md: {
             container: 'h-10',
-            icon: 40,
+            icon: 38,
             text: 'text-xl',
-            ai: 'text-sm'
+            ai: 'text-[11px]'
         },
         lg: {
             container: 'h-14',
-            icon: 56,
+            icon: 52,
             text: 'text-2xl',
-            ai: 'text-base'
+            ai: 'text-sm'
         }
     };
     const s = sizes[size] || sizes.md;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: `flex items-center gap-3 ${className}`,
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative flex items-center justify-center",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                    width: s.icon,
-                    height: s.icon,
-                    viewBox: "0 0 40 40",
-                    fill: "none",
-                    xmlns: "http://www.w3.org/2000/svg",
-                    "aria-hidden": "true",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("linearGradient", {
-                                    id: "logoGrad",
-                                    x1: "0%",
-                                    y1: "0%",
-                                    x2: "100%",
-                                    y2: "100%",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                            offset: "0%",
-                                            stopColor: "#3b82f6"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Logo.jsx",
-                                            lineNumber: 29,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                            offset: "50%",
-                                            stopColor: "#7c3aed"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Logo.jsx",
-                                            lineNumber: 30,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                            offset: "100%",
-                                            stopColor: "#06b6d4"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Logo.jsx",
-                                            lineNumber: 31,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/components/common/Logo.jsx",
-                                    lineNumber: 28,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("linearGradient", {
-                                    id: "logoGrad2",
-                                    x1: "0%",
-                                    y1: "100%",
-                                    x2: "100%",
-                                    y2: "0%",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                            offset: "0%",
-                                            stopColor: "#8b5cf6"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Logo.jsx",
-                                            lineNumber: 34,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                            offset: "100%",
-                                            stopColor: "#3b82f6"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/common/Logo.jsx",
-                                            lineNumber: 35,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/components/common/Logo.jsx",
-                                    lineNumber: 33,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 27,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                            cx: "20",
-                            cy: "20",
-                            r: "19",
-                            fill: "url(#logoGrad)",
-                            opacity: "0.15"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 40,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                            cx: "20",
-                            cy: "20",
-                            r: "19",
-                            stroke: "url(#logoGrad)",
-                            strokeWidth: "1.5",
-                            fill: "none"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 47,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                            d: "M16 13.5L28 20L16 26.5V13.5Z",
-                            fill: "url(#logoGrad)"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 57,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                            x: "8",
-                            y: "17",
-                            width: "2.5",
-                            height: "6",
-                            rx: "1.25",
-                            fill: "url(#logoGrad2)",
-                            opacity: "0.9"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 63,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                            x: "11.5",
-                            y: "14",
-                            width: "2.5",
-                            height: "12",
-                            rx: "1.25",
-                            fill: "url(#logoGrad2)",
-                            opacity: "0.7"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 64,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                            x: "4.5",
-                            y: "18.5",
-                            width: "2.5",
-                            height: "3",
-                            rx: "1.25",
-                            fill: "url(#logoGrad2)",
-                            opacity: "0.5"
-                        }, void 0, false, {
-                            fileName: "[project]/components/common/Logo.jsx",
-                            lineNumber: 65,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/common/Logo.jsx",
-                    lineNumber: 18,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/components/common/Logo.jsx",
-                lineNumber: 17,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex items-baseline gap-0.5",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                width: s.icon,
+                height: s.icon,
+                viewBox: "0 0 48 48",
+                fill: "none",
+                xmlns: "http://www.w3.org/2000/svg",
+                "aria-hidden": "true",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: `font-bold ${s.text} bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500`,
-                        children: "DubFlow"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: "1.5",
+                        y: "1.5",
+                        width: "45",
+                        height: "45",
+                        rx: "14",
+                        fill: "var(--accent-soft)"
                     }, void 0, false, {
                         fileName: "[project]/components/common/Logo.jsx",
-                        lineNumber: 71,
+                        lineNumber: 10,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: `font-bold ${s.ai} bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 dark:from-cyan-400 dark:to-blue-400`,
-                        children: "AI"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                        x: "1.5",
+                        y: "1.5",
+                        width: "45",
+                        height: "45",
+                        rx: "14",
+                        stroke: "var(--primary-accent)",
+                        strokeOpacity: "0.45"
                     }, void 0, false, {
                         fileName: "[project]/components/common/Logo.jsx",
-                        lineNumber: 74,
+                        lineNumber: 11,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                        d: "M19 15.2L32.5 24L19 32.8V15.2Z",
+                        fill: "var(--primary-accent)"
+                    }, void 0, false, {
+                        fileName: "[project]/components/common/Logo.jsx",
+                        lineNumber: 12,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                        d: "M10.5 21.5H14.5V26.5H10.5V21.5ZM16.5 19.5H19.5V28.5H16.5V19.5ZM22.5 18H25.5V30H22.5V18ZM28.5 16.5H31.5V31.5H28.5V16.5Z",
+                        fill: "var(--primary-text)",
+                        fillOpacity: "0.82"
+                    }, void 0, false, {
+                        fileName: "[project]/components/common/Logo.jsx",
+                        lineNumber: 13,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/common/Logo.jsx",
-                lineNumber: 70,
+                lineNumber: 9,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-baseline gap-1.5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: `font-semibold ${s.text} theme-text-primary `,
+                        children: "DubFlow"
+                    }, void 0, false, {
+                        fileName: "[project]/components/common/Logo.jsx",
+                        lineNumber: 16,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: `font-semibold ${s.ai} theme-text-accent`,
+                        children: "AI"
+                    }, void 0, false, {
+                        fileName: "[project]/components/common/Logo.jsx",
+                        lineNumber: 17,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/common/Logo.jsx",
+                lineNumber: 15,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/common/Logo.jsx",
-        lineNumber: 15,
+        lineNumber: 8,
         columnNumber: 5
     }, this);
 }
@@ -2551,49 +2375,51 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$mo
 function ThemeToggle({ isDark, onToggle }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
         onClick: onToggle,
-        className: "relative flex items-center justify-center w-10 h-10 rounded-xl\n                 bg-slate-100 dark:bg-slate-800 \n                 border border-slate-200 dark:border-slate-700\n                 hover:border-blue-400 dark:hover:border-blue-500\n                 text-slate-600 dark:text-slate-300\n                 hover:text-blue-500 dark:hover:text-blue-400\n                 transition-all duration-200",
+        type: "button",
+        className: "theme-card theme-text-primary theme-border theme-border-hover theme-accent-hover theme-focus relative flex h-10 w-10 items-center justify-center rounded-full border transition-colors duration-200",
         whileTap: {
-            scale: 0.9
+            scale: 0.92
         },
         whileHover: {
-            scale: 1.05
+            scale: 1.04
         },
         "aria-label": isDark ? 'Switch to light mode' : 'Switch to dark mode',
+        title: isDark ? 'Switch to light mode' : 'Switch to dark mode',
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
             initial: {
-                opacity: 0,
-                rotate: -90,
-                scale: 0.5
+                opacity: 0.7,
+                scale: 0.9
             },
             animate: {
                 opacity: 1,
-                rotate: 0,
                 scale: 1
             },
-            exit: {
-                opacity: 0,
-                rotate: 90,
-                scale: 0.5
-            },
             transition: {
-                duration: 0.2
+                duration: 0.18
             },
-            children: isDark ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sun$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sun$3e$__["Sun"], {
-                size: 18
-            }, void 0, false, {
-                fileName: "[project]/components/common/ThemeToggle.jsx",
-                lineNumber: 28,
-                columnNumber: 19
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__["Moon"], {
-                size: 18
-            }, void 0, false, {
-                fileName: "[project]/components/common/ThemeToggle.jsx",
-                lineNumber: 28,
-                columnNumber: 39
-            }, this)
-        }, isDark ? 'moon' : 'sun', false, {
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sun$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sun$3e$__["Sun"], {
+                    size: 18,
+                    className: "theme-icon-dark",
+                    "aria-hidden": "true"
+                }, void 0, false, {
+                    fileName: "[project]/components/common/ThemeToggle.jsx",
+                    lineNumber: 18,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__["Moon"], {
+                    size: 18,
+                    className: "theme-icon-light",
+                    "aria-hidden": "true"
+                }, void 0, false, {
+                    fileName: "[project]/components/common/ThemeToggle.jsx",
+                    lineNumber: 19,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
             fileName: "[project]/components/common/ThemeToggle.jsx",
-            lineNumber: 21,
+            lineNumber: 17,
             columnNumber: 7
         }, this)
     }, void 0, false, {
@@ -2613,20 +2439,14 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/play.mjs [app-ssr] (ecmascript) <export default as Play>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pause.mjs [app-ssr] (ecmascript) <export default as Pause>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-check-big.mjs [app-ssr] (ecmascript) <export default as CheckCircle>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/loader-circle.mjs [app-ssr] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mic.mjs [app-ssr] (ecmascript) <export default as Mic>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/volume-2.mjs [app-ssr] (ecmascript) <export default as Volume2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/globe.mjs [app-ssr] (ecmascript) <export default as Globe>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-text.mjs [app-ssr] (ecmascript) <export default as FileText>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$languages$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Languages$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/languages.mjs [app-ssr] (ecmascript) <export default as Languages>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.mjs [app-ssr] (ecmascript) <export default as Download>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs [app-ssr] (ecmascript) <export default as RefreshCw>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/volume-2.mjs [app-ssr] (ecmascript) <export default as Volume2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.mjs [app-ssr] (ecmascript) <export default as ArrowRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-check.mjs [app-ssr] (ecmascript) <export default as CheckCircle2>");
 'use client';
 ;
 ;
@@ -2634,132 +2454,96 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 const sampleScenes = [
     {
-        id: 'john-wick',
-        title: 'John Wick (Action Scene)',
-        duration: '00:46',
-        totalDuration: '01:45',
-        originalLang: 'English',
-        originalFlag: '🇺🇸',
-        originalText: 'You have no idea what you\'re dealing with. There are rules in this world.',
-        urduText: 'آپ کو بالکل نہیں پتہ کہ آپ کس سے پالا ڈال رہے ہیں۔ اس دنیا کے کچھ اصول ہیں۔',
-        hindiText: 'तुम्हें बिल्कुल अंदाज़ा नहीं है कि तुम्हारा सामना किससे है। इस दुनिया के कुछ नियम हैं।',
-        emotion: 'Angry / Serious',
-        sceneTone: 'Cinematic / Intense'
+        id: 'scene-1',
+        title: 'Action Sequence',
+        originalText: "You have no idea what you're dealing with.",
+        dubText: 'آپ اس کے بارے میں پوری طرح تیار نہیں ہیں۔',
+        tone: 'Cinematic / Intense'
     },
     {
-        id: 'inception',
-        title: 'Inception (Dialogue Scene)',
-        duration: '00:38',
-        totalDuration: '02:10',
-        originalLang: 'English',
-        originalFlag: '🇺🇸',
+        id: 'scene-2',
+        title: 'Dialogue Scene',
         originalText: 'An idea is like a virus. Resilient, highly contagious.',
-        urduText: 'ایک خیال وائرس کی طرح ہوتا ہے۔ لچکدار اور انتہائی متعدی۔',
-        hindiText: 'एक विचार एक वायरस की तरह होता है। लचीला और अत्यधिक संक्रामक।',
-        emotion: 'Mysterious / Calm',
-        sceneTone: 'Philosophical'
-    },
-    {
-        id: 'martian',
-        title: 'The Martian (Sci-Fi Clip)',
-        duration: '00:52',
-        totalDuration: '01:30',
-        originalLang: 'English',
-        originalFlag: '🇺🇸',
-        originalText: 'I\'m not going to die here. I\'m going to science the shit out of this.',
-        urduText: 'میں یہاں مرنے والا نہیں ہوں۔ میں اپنی پوری سائنس لگا کر اس کا حل نکالوں گا۔',
-        hindiText: 'मैं यहाँ मरने वाला नहीं हूँ। मैं अपनी पूरी साइंस का इस्तेमाल करके रास्ता निकालूँगा।',
-        emotion: 'Determined / Confident',
-        sceneTone: 'Dramatic'
+        dubText: 'ایک خیال وائرس کی طرح ہوتا ہے—مضبوط اور بہت متعدی۔',
+        tone: 'Philosophical / Calm'
     }
 ];
 const processingSteps = [
     {
-        id: 'transcribe',
-        label: 'Speech Recognition',
-        desc: 'Whisper AI extracting dialogue...',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"],
-        color: 'blue'
+        id: 'speech',
+        label: 'Speech recognition',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"]
     },
     {
         id: 'translate',
-        label: 'Neural Translation',
-        desc: 'Translating with context preservation...',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"],
-        color: 'purple'
+        label: 'Translation',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"]
     },
     {
-        id: 'generate',
-        label: 'AI Voice Generation',
-        desc: 'Synthesizing Urdu voice model...',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"],
-        color: 'cyan'
+        id: 'voice',
+        label: 'Voice generation',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"]
     },
     {
         id: 'sync',
-        label: 'Audio Synchronization',
-        desc: 'Aligning cadence and scene timing...',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"],
-        color: 'green'
+        label: 'Sync & export',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"]
     }
 ];
-function WaveformBars({ active, color = '#3b82f6', bars = 26 }) {
+function WaveBars({ active, color = 'var(--primary-accent)', bars = 26 }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex items-center gap-[2px] h-10 overflow-hidden",
+        className: "flex items-center gap-[3px] overflow-hidden",
         "aria-hidden": "true",
         children: Array.from({
             length: bars
-        }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "rounded-full transition-all duration-300",
+        }).map((_, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "block rounded-full transition-all duration-300",
                 style: {
-                    width: '3px',
+                    width: '4px',
+                    height: active ? `${Math.max(8, Math.sin(idx / bars * Math.PI) * 26 + idx % 3 * 5)}px` : '8px',
                     backgroundColor: color,
-                    height: active ? `${Math.max(6, Math.sin(i / bars * Math.PI) * 28 + i % 3 * 4)}px` : '4px',
-                    animation: active ? `waveform ${0.6 + i % 5 * 0.15}s ease-in-out infinite` : 'none',
-                    animationDelay: `${i * 0.05}s`,
-                    opacity: active ? 0.75 + i % 4 * 0.08 : 0.25
+                    animation: active ? `waveform ${0.8 + idx % 4 * 0.12}s ease-in-out infinite` : 'none',
+                    animationDelay: `${idx * 0.04}s`,
+                    opacity: active ? 0.75 + idx % 3 * 0.08 : 0.35
                 }
-            }, i, false, {
+            }, idx, false, {
                 fileName: "[project]/components/sections/AiDemo.jsx",
-                lineNumber: 63,
+                lineNumber: 35,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/components/sections/AiDemo.jsx",
-        lineNumber: 61,
+        lineNumber: 33,
         columnNumber: 5
     }, this);
 }
 function AiDemo() {
     const [selectedScene, setSelectedScene] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(sampleScenes[0]);
-    const [targetLang, setTargetLang] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('urdu'); // 'urdu' | 'hindi'
-    const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('idle'); // idle | processing | done
+    const [lang, setLang] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('urdu');
+    const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('idle');
     const [currentStep, setCurrentStep] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(-1);
     const [completedSteps, setCompletedSteps] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [progress, setProgress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [isPlayingOrig, setIsPlayingOrig] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isPlayingOriginal, setIsPlayingOriginal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isPlayingDub, setIsPlayingDub] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [downloadSuccess, setDownloadSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const runDemo = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(()=>{
         if (status === 'processing') return;
         setStatus('processing');
         setCurrentStep(0);
         setCompletedSteps([]);
-        setProgress(15);
-        setIsPlayingOrig(false);
+        setProgress(10);
+        setIsPlayingOriginal(false);
         setIsPlayingDub(false);
-        const stepDurations = [
-            1400,
-            1600,
-            1800,
-            1200
+        const durations = [
+            1200,
+            1500,
+            1700,
+            1300
         ];
         let elapsed = 0;
-        stepDurations.forEach((dur, index)=>{
-            setTimeout(()=>{
-                setCurrentStep(index);
-            }, elapsed);
-            elapsed += dur;
+        durations.forEach((duration, index)=>{
+            setTimeout(()=>setCurrentStep(index), elapsed);
+            elapsed += duration;
             setTimeout(()=>{
                 setCompletedSteps((prev)=>[
                         ...prev,
@@ -2781,85 +2565,28 @@ function AiDemo() {
         setCurrentStep(-1);
         setCompletedSteps([]);
         setProgress(0);
-        setIsPlayingOrig(false);
+        setIsPlayingOriginal(false);
         setIsPlayingDub(false);
-        setDownloadSuccess(false);
     };
-    const handleDownload = ()=>{
-        setDownloadSuccess(true);
-        setTimeout(()=>setDownloadSuccess(false), 3000);
-    };
-    const activeDubbedText = targetLang === 'urdu' ? selectedScene.urduText : selectedScene.hindiText;
-    const targetLabel = targetLang === 'urdu' ? 'Urdu (اردو)' : 'Hindi (हिन्दी)';
-    const targetFlag = targetLang === 'urdu' ? '🇵🇰' : '🇮🇳';
+    const activeText = lang === 'urdu' ? selectedScene.dubText : 'यह दृश्य हिन्दी में भी उपलब्ध है।';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "ai-demo",
-        className: "relative py-24 bg-slate-50 dark:bg-navy-900 transition-colors duration-300 overflow-hidden",
+        className: "relative overflow-hidden py-24",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 pointer-events-none",
-                "aria-hidden": "true",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "hidden dark:block",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute top-1/4 left-10 w-96 h-96 rounded-full bg-blue-600/10 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 150,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-1/4 right-10 w-96 h-96 rounded-full bg-purple-600/10 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 151,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 149,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "dark:hidden",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute top-1/4 left-10 w-96 h-96 rounded-full bg-blue-100/60 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 154,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-1/4 right-10 w-96 h-96 rounded-full bg-purple-100/50 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 155,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 153,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                className: "absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(184,95,61,0.09),_transparent_24%),radial-gradient(circle_at_bottom_right,_rgba(167,161,143,0.12),_transparent_30%)] "
+            }, void 0, false, {
                 fileName: "[project]/components/sections/AiDemo.jsx",
-                lineNumber: 148,
+                lineNumber: 104,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                className: "relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "text-center mb-12",
                         initial: {
                             opacity: 0,
-                            y: 20
+                            y: 18
                         },
                         whileInView: {
                             opacity: 1,
@@ -2871,1135 +2598,533 @@ function AiDemo() {
                         transition: {
                             duration: 0.5
                         },
+                        className: "mx-auto mb-12 max-w-3xl text-center",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-purple-50 dark:bg-purple-500/10 \n                          border border-purple-200 dark:border-purple-500/20\n                          text-purple-600 dark:text-purple-400 text-sm font-medium",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                        size: 14
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 172,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Live Generating Environment"
-                                ]
-                            }, void 0, true, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "section-kicker",
+                                children: "Live Generating Environment"
+                            }, void 0, false, {
                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 168,
+                                lineNumber: 107,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                                children: [
-                                    "Experience the",
-                                    ' ',
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600",
-                                        children: "Power of AI Dubbing"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 177,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                className: "editorial-title mt-5 text-[2.6rem] leading-none theme-text-primary  sm:text-[3.6rem]",
+                                children: "Experience the emotion of AI dubbing."
+                            }, void 0, false, {
                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 175,
+                                lineNumber: 108,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                                children: "Test how DubFlow AI transforms dialogue from English into natural, emotional Urdu voices. Choose a sample scene and generate your dub below."
+                                className: "mt-4 text-lg theme-text-secondary ",
+                                children: "Watch DubFlow AI turn dialogue into a new language with natural pacing, expressive voices, and frame-aware timing."
                             }, void 0, false, {
                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 181,
+                                lineNumber: 109,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 161,
+                        lineNumber: 106,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "mb-8 flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-navy-800 border border-slate-200 dark:border-slate-700/60 shadow-sm",
+                        className: "surface-panel overflow-hidden rounded-[2rem] p-4 sm:p-6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex flex-wrap items-center gap-2 w-full md:w-auto",
+                                className: "mb-6 flex flex-col gap-4 rounded-[1.5rem] border theme-border theme-card p-4   md:flex-row md:items-center md:justify-between",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mr-1",
-                                        children: "Select Sample:"
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex flex-wrap items-center gap-2",
+                                        children: sampleScenes.map((scene)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>{
+                                                    setSelectedScene(scene);
+                                                    if (status !== 'processing') resetDemo();
+                                                },
+                                                className: `rounded-full border px-3 py-2 text-sm font-medium transition-all duration-200 ${selectedScene.id === scene.id ? 'theme-accent-border theme-accent-soft theme-text-accent  ' : 'theme-border theme-card theme-text-primary   '}`,
+                                                children: scene.title
+                                            }, scene.id, false, {
+                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                lineNumber: 116,
+                                                columnNumber: 17
+                                            }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 190,
+                                        lineNumber: 114,
                                         columnNumber: 13
                                     }, this),
-                                    sampleScenes.map((scene)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>{
-                                                setSelectedScene(scene);
-                                                if (status === 'done') resetDemo();
-                                            },
-                                            className: `px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${selectedScene.id === scene.id ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30' : 'bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}`,
-                                            children: scene.title
-                                        }, scene.id, false, {
-                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                            lineNumber: 194,
-                                            columnNumber: 15
-                                        }, this))
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 189,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-2 w-full md:w-auto justify-end",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mr-1",
-                                        children: "Target:"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 213,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>setTargetLang('urdu'),
-                                        className: `flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${targetLang === 'urdu' ? 'bg-purple-600 text-white shadow-sm shadow-purple-500/30' : 'bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}`,
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "🇵🇰"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 224,
-                                                columnNumber: 15
-                                            }, this),
-                                            " Urdu (اردو)"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 216,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>setTargetLang('hindi'),
-                                        className: `flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${targetLang === 'hindi' ? 'bg-purple-600 text-white shadow-sm shadow-purple-500/30' : 'bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}`,
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "🇮🇳"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 234,
-                                                columnNumber: 15
-                                            }, this),
-                                            " Hindi (हिन्दी)"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 226,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 212,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 187,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "bg-white dark:bg-navy-800 rounded-3xl border border-slate-200 dark:border-slate-700/60 shadow-2xl dark:shadow-slate-900/50 overflow-hidden",
-                        initial: {
-                            opacity: 0,
-                            y: 30
-                        },
-                        whileInView: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        viewport: {
-                            once: true
-                        },
-                        transition: {
-                            duration: 0.6
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700/60 bg-slate-50/75 dark:bg-slate-900/40",
-                                children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex items-center gap-2",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-3 h-3 rounded-full bg-red-400"
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>setLang('urdu'),
+                                                className: `rounded-full border px-3 py-2 text-sm font-medium ${lang === 'urdu' ? 'theme-accent-border theme-accent-soft theme-text-accent  ' : 'theme-border theme-card theme-text-primary   '}`,
+                                                children: "Urdu"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 250,
+                                                lineNumber: 130,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-3 h-3 rounded-full bg-yellow-400"
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>setLang('hindi'),
+                                                className: `rounded-full border px-3 py-2 text-sm font-medium ${lang === 'hindi' ? 'theme-accent-border theme-accent-soft theme-text-accent  ' : 'theme-border theme-card theme-text-primary   '}`,
+                                                children: "Hindi"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 251,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-3 h-3 rounded-full bg-green-400"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 252,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "ml-3 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300",
-                                                children: [
-                                                    "DubFlow AI Video Dubbing Studio — ",
-                                                    selectedScene.title
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 253,
+                                                lineNumber: 131,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 249,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-center gap-3",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-mono",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: "w-2 h-2 rounded-full bg-green-500 animate-pulse"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                    lineNumber: 259,
-                                                    columnNumber: 17
-                                                }, this),
-                                                "Pipeline Ready"
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                            lineNumber: 258,
-                                            columnNumber: 15
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 257,
+                                        lineNumber: 129,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 248,
+                                lineNumber: 113,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "grid grid-cols-1 lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-700/60",
+                                className: "grid gap-6 lg:grid-cols-[1.2fr_0.8fr]",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "lg:col-span-5 p-6 flex flex-col justify-between",
+                                        className: "rounded-[1.5rem] border theme-border theme-card p-4  ",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "relative overflow-hidden rounded-[1.2rem]",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between mb-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center gap-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "w-2.5 h-2.5 bg-blue-500 rounded-full"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 272,
-                                                                        columnNumber: 21
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-sm font-bold text-slate-900 dark:text-white",
-                                                                        children: "Source Footage"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 273,
-                                                                        columnNumber: 21
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 271,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 font-medium",
-                                                                children: [
-                                                                    selectedScene.originalFlag,
-                                                                    " ",
-                                                                    selectedScene.originalLang
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 277,
-                                                                columnNumber: 19
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                        src: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+                                                        alt: "Film still preview",
+                                                        className: "h-[320px] w-full object-cover sm:h-[380px]"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 270,
+                                                        lineNumber: 138,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "relative rounded-2xl overflow-hidden aspect-video bg-gradient-to-br from-slate-900 via-slate-800 to-black mb-4 flex items-center justify-center border border-slate-300 dark:border-slate-700 shadow-inner group",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "absolute inset-0 bg-gradient-to-tr from-blue-900/30 via-slate-900/60 to-purple-900/20"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 285,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "absolute bottom-3 inset-x-4 text-center",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "px-3 py-1 rounded bg-black/75 text-white text-xs sm:text-sm font-medium backdrop-blur-sm shadow",
-                                                                    children: [
-                                                                        "“",
-                                                                        selectedScene.originalText,
-                                                                        "”"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                    lineNumber: 289,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 288,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                                                onClick: ()=>setIsPlayingOrig(!isPlayingOrig),
-                                                                className: "relative z-10 w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 backdrop-blur-md flex items-center justify-center transition-transform",
-                                                                whileHover: {
-                                                                    scale: 1.08
-                                                                },
-                                                                whileTap: {
-                                                                    scale: 0.95
-                                                                },
-                                                                "aria-label": "Play original preview",
-                                                                children: isPlayingOrig ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
-                                                                    size: 22,
-                                                                    className: "text-white",
-                                                                    fill: "white"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                    lineNumber: 303,
-                                                                    columnNumber: 23
-                                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                                                                    size: 22,
-                                                                    className: "text-white ml-0.5",
-                                                                    fill: "white"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                    lineNumber: 305,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 295,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "absolute top-3 left-3 text-[11px] font-mono text-white/80 bg-black/50 px-2 py-0.5 rounded",
-                                                                children: [
-                                                                    selectedScene.duration,
-                                                                    " / ",
-                                                                    selectedScene.totalDuration
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 309,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "absolute top-3 right-3 text-[10px] uppercase font-bold text-blue-300 bg-blue-900/60 border border-blue-500/30 px-2 py-0.5 rounded",
-                                                                children: "Original Audio"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 312,
-                                                                columnNumber: 19
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                        className: "absolute inset-0 bg-gradient-to-t from-[#171917]/70 via-transparent to-transparent"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 283,
+                                                        lineNumber: 139,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 mb-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center justify-between mb-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
-                                                                                size: 14,
-                                                                                className: "text-blue-500"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 321,
-                                                                                columnNumber: 23
-                                                                            }, this),
-                                                                            "Extracted Dialogue"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 320,
-                                                                        columnNumber: 21
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-[11px] text-slate-500 dark:text-slate-400",
-                                                                        children: [
-                                                                            "Tone: ",
-                                                                            selectedScene.emotion
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 324,
-                                                                        columnNumber: 21
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 319,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                className: "text-sm text-slate-800 dark:text-slate-200 leading-relaxed italic",
-                                                                children: [
-                                                                    "“",
-                                                                    selectedScene.originalText,
-                                                                    "”"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 328,
-                                                                columnNumber: 19
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                        className: "absolute left-4 top-4 rounded-full border border-white/25 bg-black/35 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm",
+                                                        children: "English • Source"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 318,
+                                                        lineNumber: 140,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "absolute right-4 top-4 rounded-full border border-white/25 bg-black/35 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm",
+                                                        children: "00:46 / 01:45"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 141,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        onClick: ()=>setIsPlayingOriginal((value)=>!value),
+                                                        className: "absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 theme-card-glass text-white backdrop-blur-md",
+                                                        children: isPlayingOriginal ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
+                                                            size: 22
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/AiDemo.jsx",
+                                                            lineNumber: 143,
+                                                            columnNumber: 40
+                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
+                                                            size: 22,
+                                                            className: "ml-1 fill-current"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/AiDemo.jsx",
+                                                            lineNumber: 143,
+                                                            columnNumber: 62
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 142,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 269,
+                                                lineNumber: 137,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60",
+                                                className: "mt-5 rounded-[1.1rem] border theme-border theme-card p-4  ",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2",
+                                                        className: "mb-3 flex items-center justify-between gap-3",
                                                         children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "flex items-center gap-1.5",
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex items-center gap-2 text-sm font-semibold theme-text-primary ",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
-                                                                        size: 13,
-                                                                        className: "text-blue-500"
+                                                                        size: 14,
+                                                                        className: "theme-text-accent"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 338,
-                                                                        columnNumber: 21
+                                                                        lineNumber: 149,
+                                                                        columnNumber: 102
                                                                     }, this),
-                                                                    "Original Audio Track"
+                                                                    " Original dialogue"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 337,
+                                                                lineNumber: 149,
                                                                 columnNumber: 19
                                                             }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "font-mono text-[11px]",
-                                                                children: "44.1 kHz • Stereo"
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                                children: "Whisper / spoken"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 341,
+                                                                lineNumber: 150,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 336,
+                                                        lineNumber: 148,
                                                         columnNumber: 17
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveformBars, {
-                                                        active: isPlayingOrig || status === 'processing',
-                                                        color: "#3b82f6",
-                                                        bars: 34
-                                                    }, void 0, false, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-base leading-relaxed theme-text-primary ",
+                                                        children: [
+                                                            "“",
+                                                            selectedScene.originalText,
+                                                            "”"
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 343,
+                                                        lineNumber: 152,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mt-4 flex items-center justify-between border-t theme-border pt-3 ",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-[11px] uppercase tracking-[0.12em] theme-text-muted ",
+                                                                children: "Scene 02"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 154,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveBars, {
+                                                                active: isPlayingOriginal,
+                                                                bars: 18
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 155,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 153,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 335,
+                                                lineNumber: 147,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 268,
+                                        lineNumber: 136,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "lg:col-span-2 p-5 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col justify-between items-center text-center",
+                                        className: "rounded-[1.5rem] border theme-border theme-card p-4  ",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-full",
+                                                className: "mb-4 flex items-center justify-between gap-3",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-4",
-                                                        children: "AI Transformation"
-                                                    }, void 0, false, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                                children: "Output"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 163,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "mt-1 text-xl font-semibold theme-text-primary ",
+                                                                children: "Preview dub"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 164,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 350,
+                                                        lineNumber: 162,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        onClick: runDemo,
+                                                        className: "inline-flex items-center gap-2 rounded-full theme-button px-3.5 py-2 text-sm font-semibold text-white transition-all duration-200 ",
+                                                        children: [
+                                                            status === 'processing' ? 'Processing' : 'Generate Dub',
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                                                size: 14
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 168,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 166,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                lineNumber: 161,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "rounded-[1.1rem] border theme-border theme-card p-3  ",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mb-2 flex items-center justify-between text-xs uppercase tracking-[0.12em] theme-text-muted ",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: lang === 'urdu' ? 'Urdu (اردو)' : 'Hindi (हिन्दी)'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 174,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: status === 'done' ? 'ready' : 'queued'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 175,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 173,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "font-medium leading-relaxed theme-text-primary ",
+                                                        children: [
+                                                            "“",
+                                                            activeText,
+                                                            "”"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 177,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2.5 mb-6 text-left",
-                                                        children: processingSteps.map((step, idx)=>{
-                                                            const isDone = completedSteps.includes(step.id);
-                                                            const isActive = currentStep === idx;
+                                                        className: "mt-4 flex items-center justify-between border-t theme-border pt-3 ",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-[11px] uppercase tracking-[0.12em] theme-text-muted ",
+                                                                children: "Voice"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 179,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveBars, {
+                                                                active: isPlayingDub,
+                                                                bars: 16
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 180,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 178,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                lineNumber: 172,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-5 rounded-[1.1rem] border theme-border theme-card p-3  ",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mb-3 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: "Pipeline"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 186,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: [
+                                                                    progress,
+                                                                    "%"
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 187,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 185,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "h-2 w-full overflow-hidden rounded-full theme-accent-soft ",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "h-full rounded-full theme-button transition-all duration-300",
+                                                            style: {
+                                                                width: `${progress}%`
+                                                            }
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/AiDemo.jsx",
+                                                            lineNumber: 190,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                        lineNumber: 189,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mt-4 space-y-3",
+                                                        children: processingSteps.map((step, index)=>{
                                                             const Icon = step.icon;
+                                                            const isCurrent = currentStep === index;
+                                                            const isDone = completedSteps.includes(step.id);
                                                             return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: `p-2.5 rounded-xl border text-xs transition-all ${isDone ? 'bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-400' : isActive ? 'bg-blue-500/10 border-blue-500/40 text-blue-600 dark:text-blue-400 shadow-sm' : 'bg-white dark:bg-navy-800/70 border-slate-200 dark:border-slate-700/60 text-slate-500 dark:text-slate-400'}`,
+                                                                className: `flex items-center gap-3 rounded-2xl border px-3 py-2 transition-all duration-200 ${isDone ? 'theme-border theme-card theme-text-primary   ' : isCurrent ? 'theme-accent-border theme-accent-soft theme-text-accent  ' : 'border-transparent bg-transparent theme-text-secondary '}`,
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "flex items-center gap-2 font-semibold",
-                                                                        children: [
-                                                                            isDone ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__["CheckCircle"], {
-                                                                                size: 14,
-                                                                                className: "text-green-500 flex-shrink-0"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 374,
-                                                                                columnNumber: 29
-                                                                            }, this) : isActive ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                                size: 14,
-                                                                                className: "text-blue-500 animate-spin flex-shrink-0"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 376,
-                                                                                columnNumber: 29
-                                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                                                                size: 14,
-                                                                                className: "text-slate-400 flex-shrink-0"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 378,
-                                                                                columnNumber: 29
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "truncate",
-                                                                                children: step.label
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 380,
-                                                                                columnNumber: 27
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 372,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "text-[10px] text-blue-500/80 mt-1 pl-5",
-                                                                        children: step.desc
+                                                                        className: `flex h-9 w-9 items-center justify-center rounded-full ${isDone ? 'theme-card theme-text-primary  ' : 'theme-accent-soft theme-text-accent  '}`,
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                                            size: 14
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                            lineNumber: 200,
+                                                                            columnNumber: 186
+                                                                        }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 383,
-                                                                        columnNumber: 27
+                                                                        lineNumber: 200,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex-1 text-sm font-medium",
+                                                                        children: step.label
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                        lineNumber: 201,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    isDone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__["CheckCircle2"], {
+                                                                        size: 15,
+                                                                        className: "theme-text-accent"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                        lineNumber: 202,
+                                                                        columnNumber: 36
                                                                     }, this)
                                                                 ]
                                                             }, step.id, true, {
                                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 362,
+                                                                lineNumber: 199,
                                                                 columnNumber: 23
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 355,
+                                                        lineNumber: 193,
                                                         columnNumber: 17
                                                     }, this),
-                                                    status === 'processing' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "w-full mb-4",
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mt-4 flex gap-2",
                                                         children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex justify-between text-[11px] font-semibold text-blue-600 dark:text-blue-400 mb-1",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        children: "Synthesizing"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 396,
-                                                                        columnNumber: 23
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        children: [
-                                                                            progress,
-                                                                            "%"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 397,
-                                                                        columnNumber: 23
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 395,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                                                    className: "h-full bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 rounded-full",
-                                                                    style: {
-                                                                        width: `${progress}%`
-                                                                    },
-                                                                    transition: {
-                                                                        duration: 0.3
-                                                                    }
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                    lineNumber: 400,
-                                                                    columnNumber: 23
-                                                                }, this)
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: runDemo,
+                                                                className: "theme-button-quiet flex-1 rounded-full px-3 py-2 text-sm font-semibold transition-colors duration-200",
+                                                                children: status === 'processing' ? 'Generating...' : 'Generate dub'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 399,
-                                                                columnNumber: 21
+                                                                lineNumber: 209,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: resetDemo,
+                                                                className: "rounded-full border theme-border px-3 py-2 text-sm font-medium theme-text-primary  ",
+                                                                children: "Reset"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/AiDemo.jsx",
+                                                                lineNumber: 210,
+                                                                columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 394,
-                                                        columnNumber: 19
+                                                        lineNumber: 208,
+                                                        columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 349,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-full mt-4",
-                                                children: [
-                                                    status === 'idle' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                                        onClick: runDemo,
-                                                        className: "w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold text-white\n                               bg-gradient-to-r from-blue-600 to-purple-600\n                               hover:from-blue-500 hover:to-purple-500\n                               shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-1.5",
-                                                        whileHover: {
-                                                            scale: 1.02
-                                                        },
-                                                        whileTap: {
-                                                            scale: 0.98
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                                                size: 15
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 422,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            "Generate Dub"
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 413,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    status === 'processing' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white\n                                  bg-blue-600/70 cursor-not-allowed flex items-center justify-center gap-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                size: 15,
-                                                                className: "animate-spin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 430,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            "Processing..."
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 428,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    status === 'done' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                                        onClick: resetDemo,
-                                                        className: "w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold text-white\n                               bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600\n                               transition-all flex items-center justify-center gap-1.5",
-                                                        whileHover: {
-                                                            scale: 1.02
-                                                        },
-                                                        whileTap: {
-                                                            scale: 0.98
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__["RefreshCw"], {
-                                                                size: 14
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 444,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            "Reset Demo"
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 436,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 411,
+                                                lineNumber: 184,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 348,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "lg:col-span-5 p-6 flex flex-col justify-between",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between mb-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center gap-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "w-2.5 h-2.5 bg-purple-500 rounded-full"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 456,
-                                                                        columnNumber: 21
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-sm font-bold text-slate-900 dark:text-white",
-                                                                        children: "Dubbed Output"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 457,
-                                                                        columnNumber: 21
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 455,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 font-medium",
-                                                                children: [
-                                                                    targetFlag,
-                                                                    " ",
-                                                                    targetLabel
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 461,
-                                                                columnNumber: 19
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 454,
-                                                        columnNumber: 17
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: `relative rounded-2xl overflow-hidden aspect-video mb-4 flex items-center justify-center border transition-all duration-500 ${status === 'done' ? 'border-purple-500/40 bg-gradient-to-br from-purple-950/70 via-slate-900 to-black shadow-xl shadow-purple-500/10' : 'border-dashed border-slate-300 dark:border-slate-700 bg-slate-100/50 dark:bg-slate-800/20'}`,
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
-                                                            mode: "wait",
-                                                            children: status === 'done' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                                                initial: {
-                                                                    opacity: 0,
-                                                                    scale: 0.95
-                                                                },
-                                                                animate: {
-                                                                    opacity: 1,
-                                                                    scale: 1
-                                                                },
-                                                                exit: {
-                                                                    opacity: 0
-                                                                },
-                                                                className: "relative w-full h-full flex flex-col items-center justify-center",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "absolute bottom-3 inset-x-4 text-center",
-                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                            className: "px-3 py-1.5 rounded bg-black/80 text-white text-xs sm:text-base font-semibold backdrop-blur-sm shadow border border-purple-500/30",
-                                                                            dir: targetLang === 'urdu' ? 'rtl' : 'ltr',
-                                                                            lang: targetLang === 'urdu' ? 'ur' : 'hi',
-                                                                            children: [
-                                                                                "“",
-                                                                                activeDubbedText,
-                                                                                "”"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                            lineNumber: 483,
-                                                                            columnNumber: 27
-                                                                        }, this)
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 482,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                                                        onClick: ()=>setIsPlayingDub(!isPlayingDub),
-                                                                        className: "relative z-10 w-14 h-14 rounded-full bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/50 backdrop-blur-md flex items-center justify-center transition-transform",
-                                                                        whileHover: {
-                                                                            scale: 1.08
-                                                                        },
-                                                                        whileTap: {
-                                                                            scale: 0.95
-                                                                        },
-                                                                        "aria-label": "Play dubbed audio",
-                                                                        children: isPlayingDub ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
-                                                                            size: 22,
-                                                                            className: "text-purple-200",
-                                                                            fill: "currentColor"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                            lineNumber: 501,
-                                                                            columnNumber: 29
-                                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                                                                            size: 22,
-                                                                            className: "text-purple-200 ml-0.5",
-                                                                            fill: "currentColor"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                            lineNumber: 503,
-                                                                            columnNumber: 29
-                                                                        }, this)
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 493,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "absolute top-3 left-3 text-[11px] font-mono text-purple-200 bg-black/60 px-2 py-0.5 rounded",
-                                                                        children: [
-                                                                            selectedScene.duration,
-                                                                            " / ",
-                                                                            selectedScene.totalDuration
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 507,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "absolute top-3 right-3 flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-950/70 border border-green-500/30 px-2 py-0.5 rounded",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__["CheckCircle"], {
-                                                                                size: 11
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 511,
-                                                                                columnNumber: 27
-                                                                            }, this),
-                                                                            "AI Synced"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 510,
-                                                                        columnNumber: 25
-                                                                    }, this)
-                                                                ]
-                                                            }, "ready", true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 474,
-                                                                columnNumber: 23
-                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-center p-6 text-slate-400 dark:text-slate-500",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
-                                                                        size: 36,
-                                                                        className: "mx-auto mb-2 opacity-30 animate-pulse"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 517,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                        className: "text-xs font-medium",
-                                                                        children: status === 'processing' ? 'Dubbing in progress...' : 'Click "Generate Dub" to preview output'
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 518,
-                                                                        columnNumber: 25
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 516,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                                            lineNumber: 472,
-                                                            columnNumber: 19
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 467,
-                                                        columnNumber: 17
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: `p-4 rounded-xl border mb-4 transition-all duration-500 ${status === 'done' ? 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-500/30' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/60'}`,
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center justify-between mb-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "flex items-center gap-1.5 text-xs font-semibold text-purple-600 dark:text-purple-400",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$languages$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Languages$3e$__["Languages"], {
-                                                                                size: 14
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 536,
-                                                                                columnNumber: 23
-                                                                            }, this),
-                                                                            "AI Dubbed Script (",
-                                                                            targetLabel,
-                                                                            ")"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 535,
-                                                                        columnNumber: 21
-                                                                    }, this),
-                                                                    status === 'done' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-[11px] text-green-600 dark:text-green-400 font-medium",
-                                                                        children: "100% Match"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 540,
-                                                                        columnNumber: 23
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 534,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            status === 'done' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                className: "text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100 leading-relaxed",
-                                                                dir: targetLang === 'urdu' ? 'rtl' : 'ltr',
-                                                                lang: targetLang === 'urdu' ? 'ur' : 'hi',
-                                                                children: [
-                                                                    "“",
-                                                                    activeDubbedText,
-                                                                    "”"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 546,
-                                                                columnNumber: 21
-                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                className: "text-xs text-slate-400 italic",
-                                                                children: "Translated dialogue will render here once processed..."
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 554,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 529,
-                                                        columnNumber: 17
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 453,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: `p-3.5 rounded-xl border mb-3 transition-all duration-500 ${status === 'done' ? 'bg-purple-50/70 dark:bg-purple-950/20 border-purple-200 dark:border-purple-500/20' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/60'}`,
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "flex items-center gap-1.5",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
-                                                                                size: 13,
-                                                                                className: "text-purple-500"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                                lineNumber: 570,
-                                                                                columnNumber: 23
-                                                                            }, this),
-                                                                            "Generated Voice Audio"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 569,
-                                                                        columnNumber: 21
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "font-mono text-[11px]",
-                                                                        children: "Neural Voice Model"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                        lineNumber: 573,
-                                                                        columnNumber: 21
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 568,
-                                                                columnNumber: 19
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveformBars, {
-                                                                active: isPlayingDub,
-                                                                color: "#a855f7",
-                                                                bars: 34
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                lineNumber: 575,
-                                                                columnNumber: 19
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 563,
-                                                        columnNumber: 17
-                                                    }, this),
-                                                    status === 'done' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                                        initial: {
-                                                            opacity: 0,
-                                                            y: 10
-                                                        },
-                                                        animate: {
-                                                            opacity: 1,
-                                                            y: 0
-                                                        },
-                                                        className: "flex items-center gap-2",
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                            onClick: handleDownload,
-                                                            className: "flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-white\n                                 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500\n                                 shadow-md shadow-purple-500/20 transition-all flex items-center justify-center gap-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
-                                                                    size: 14
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/AiDemo.jsx",
-                                                                    lineNumber: 591,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                downloadSuccess ? 'Downloaded Demo Video!' : 'Download Dubbed Video (HD)'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/components/sections/AiDemo.jsx",
-                                                            lineNumber: 585,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                                        lineNumber: 580,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                                lineNumber: 562,
-                                                columnNumber: 15
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/AiDemo.jsx",
-                                        lineNumber: 452,
+                                        lineNumber: 160,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 266,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 240,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "mt-6 flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400 text-center",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
-                                size: 13,
-                                className: "text-purple-500"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 603,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "Interactive simulation using authentic dialogue data. Demonstrates the planned workflow of the DubFlow AI pipeline."
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/AiDemo.jsx",
-                                lineNumber: 604,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/AiDemo.jsx",
-                        lineNumber: 602,
+                        lineNumber: 112,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/sections/AiDemo.jsx",
-                lineNumber: 159,
+                lineNumber: 105,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/sections/AiDemo.jsx",
-        lineNumber: 143,
+        lineNumber: 103,
         columnNumber: 5
     }, this);
 }
@@ -4016,7 +3141,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.mjs [app-ssr] (ecmascript) <export default as ChevronDown>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$circle$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-circle.mjs [app-ssr] (ecmascript) <export default as MessageCircle>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square-text.mjs [app-ssr] (ecmascript) <export default as MessageSquareText>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/star.mjs [app-ssr] (ecmascript) <export default as Star>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/send.mjs [app-ssr] (ecmascript) <export default as Send>");
 'use client';
@@ -4026,44 +3151,36 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 const faqs = [
     {
-        q: 'What is DubFlow AI?',
-        a: 'DubFlow AI is an intelligent multilingual video dubbing platform built as a Final Year Project. It allows you to upload a video and transform its dialogue into another language using AI-powered speech recognition, translation, voice generation, and audio synchronization. The platform emphasizes segment-based editing for precise control over individual dialogue sections.'
+        question: 'What is DubFlow AI?',
+        answer: 'DubFlow AI is an intelligent multilingual video dubbing platform that helps creators localize dialogue into natural, expressive, and culturally aware speech.'
     },
     {
-        q: 'How does AI video dubbing work?',
-        a: 'DubFlow AI follows a 4-step pipeline: (1) The video is segmented and speech is extracted using OpenAI Whisper for transcription. (2) The transcript is translated to your target language using neural translation models. (3) AI voice generation creates natural-sounding speech in the target language. (4) The generated audio is synchronized with the video timeline, replacing original dialogue while preserving background audio.'
+        question: 'How does the dubbing workflow work?',
+        answer: 'The workflow begins with speech recognition, then translation, then voice generation, and finally audio synchronization with the original video timeline.'
     },
     {
-        q: 'Which languages are supported?',
-        a: 'Currently, DubFlow AI supports Urdu (primary focus), Hindi, English, and Arabic. We are actively developing support for Spanish, French, Chinese, Turkish, Korean, German, and Punjabi. The platform will continue to expand language coverage based on demand and development progress.'
+        question: 'Which languages are supported?',
+        answer: 'DubFlow AI currently supports Urdu, Hindi, English, and Arabic, with additional languages being expanded as the platform continues to grow.'
     },
     {
-        q: 'Can I dub videos into Urdu?',
-        a: 'Yes! Urdu dubbing is the core feature of DubFlow AI. The platform is specifically optimized for Urdu language generation, including proper pronunciation, natural-sounding Urdu voices, and accurate translation from English and other source languages into Urdu.'
+        question: 'Can I edit each segment individually?',
+        answer: 'Yes. Each dialogue line can be reviewed and refined separately, making it easier to fix tone, wording, pacing, and emotional delivery without touching the full video.'
     },
     {
-        q: 'Can I edit individual dialogue segments?',
-        a: 'Absolutely. This is one of DubFlow AI\'s most important features. After processing, you can view each dialogue segment individually, listen to the original and dubbed versions, make corrections to the translation, and regenerate only the segments you want to change — without re-processing the entire video.'
+        question: 'Can I change the voice tone or emotion?',
+        answer: 'Absolutely. The platform is designed for tone, pacing, and emotional control so each segment feels aligned with the original scene and speaker.'
     },
     {
-        q: 'Can I modify the emotion and tone of AI voices?',
-        a: 'Yes. For each dialogue segment, you can adjust the emotion (e.g., serious, angry, calm, happy), voice tone (deep, high, neutral), and speaking speed. You can also provide AI prompt instructions to guide the voice generation, such as "Make this voice sound more urgent and intense."'
-    },
-    {
-        q: 'Can I upload my own videos?',
-        a: 'Yes. You can upload video files directly to the platform (supported formats: MP4, MOV, MKV, AVI — up to 2GB). You can also paste a URL from supported video platforms. All uploaded content is processed securely for the purpose of dubbing.'
-    },
-    {
-        q: 'How can I download my dubbed video?',
-        a: 'Once the dubbing process is complete, you can preview the full dubbed video and each individual segment. When you are satisfied with the result, you can download the final video in HD quality. The download includes the AI-generated dubbed audio synchronized with your original video footage.'
+        question: 'Can I preview before export?',
+        answer: 'Yes. You can review the dubbed version and make final adjustments before exporting a polished final result for distribution.'
     }
 ];
-function FAQItem({ faq, index }) {
-    const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+function FAQItem({ item, index }) {
+    const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(index === 0);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
         initial: {
             opacity: 0,
-            y: 15
+            y: 18
         },
         whileInView: {
             opacity: 1,
@@ -4074,47 +3191,47 @@ function FAQItem({ faq, index }) {
         },
         transition: {
             duration: 0.35,
-            delay: index * 0.05
+            delay: index * 0.04
         },
-        className: `rounded-xl border overflow-hidden transition-all duration-200 ${open ? 'border-blue-200 dark:border-blue-500/30 shadow-sm' : 'border-slate-200 dark:border-slate-700/50'} bg-white dark:bg-navy-800`,
+        className: "overflow-hidden rounded-[1.4rem] border theme-border theme-card  ",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 onClick: ()=>setOpen(!open),
-                className: "w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors",
+                className: "flex w-full items-center justify-between gap-4 px-5 py-4 text-left",
                 "aria-expanded": open,
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: `text-sm font-semibold transition-colors ${open ? 'text-blue-600 dark:text-blue-400' : 'text-slate-800 dark:text-slate-200'}`,
-                        children: faq.q
+                        className: "text-base font-semibold theme-text-primary ",
+                        children: item.question
                     }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 62,
+                        lineNumber: 22,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].span, {
                         animate: {
                             rotate: open ? 180 : 0
                         },
                         transition: {
                             duration: 0.2
                         },
-                        className: `flex-shrink-0 transition-colors ${open ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500'}`,
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
-                            size: 18
+                            size: 18,
+                            className: "theme-text-muted "
                         }, void 0, false, {
                             fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 74,
-                            columnNumber: 11
+                            lineNumber: 23,
+                            columnNumber: 90
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 67,
+                        lineNumber: 23,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/sections/FAQ.jsx",
-                lineNumber: 57,
+                lineNumber: 21,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -4138,252 +3255,195 @@ function FAQItem({ faq, index }) {
                     },
                     className: "overflow-hidden",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "px-5 pb-5 pt-1 text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-700/50",
-                        children: faq.a
+                        className: "border-t theme-border px-5 py-4 text-[0.98rem] leading-relaxed theme-text-secondary  ",
+                        children: item.answer
                     }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 87,
+                        lineNumber: 28,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 80,
+                    lineNumber: 27,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/sections/FAQ.jsx",
-                lineNumber: 78,
+                lineNumber: 25,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/sections/FAQ.jsx",
-        lineNumber: 46,
+        lineNumber: 20,
         columnNumber: 5
     }, this);
 }
-function FeedbackWidget() {
+function FeedbackCard() {
     const [rating, setRating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [hoveredRating, setHoveredRating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [feedback, setFeedback] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [submitted, setSubmitted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const handleSubmit = (e)=>{
-        e.preventDefault();
+    const handleSubmit = (event)=>{
+        event.preventDefault();
         if (rating === 0) return;
         setSubmitted(true);
     };
     if (submitted) {
-        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-            initial: {
-                opacity: 0,
-                scale: 0.95
-            },
-            animate: {
-                opacity: 1,
-                scale: 1
-            },
-            className: "text-center py-8",
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "rounded-[1.6rem] border theme-border theme-card p-6 text-center  ",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "w-14 h-14 rounded-full bg-green-100 dark:bg-green-500/15 flex items-center justify-center mx-auto mb-4",
+                    className: "mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full theme-success theme-success-text  ",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__["Send"], {
-                        size: 24,
-                        className: "text-green-500"
+                        size: 22
                     }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 117,
-                        columnNumber: 11
+                        lineNumber: 50,
+                        columnNumber: 130
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 116,
+                    lineNumber: 50,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                    className: "text-lg font-bold text-slate-900 dark:text-white mb-1",
-                    children: "Thank you for your feedback!"
+                    className: "text-xl font-semibold theme-text-primary ",
+                    children: "Thank you for your feedback."
                 }, void 0, false, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 119,
+                    lineNumber: 51,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "text-sm text-slate-500 dark:text-slate-400",
-                    children: "Your response has been recorded (frontend only for now)."
+                    className: "mt-2 text-sm theme-text-secondary ",
+                    children: "Your submission was captured for the demo experience."
                 }, void 0, false, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 122,
+                    lineNumber: 52,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/sections/FAQ.jsx",
-            lineNumber: 111,
+            lineNumber: 49,
             columnNumber: 7
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
         onSubmit: handleSubmit,
-        className: "space-y-5",
+        className: "rounded-[1.6rem] border theme-border theme-card p-5  ",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mb-5 flex items-center gap-2 theme-text-primary ",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3",
-                        children: "Your Rating"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__["MessageSquareText"], {
+                        size: 18,
+                        className: "theme-text-accent"
                     }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 132,
+                        lineNumber: 59,
+                        columnNumber: 73
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "text-lg font-semibold",
+                        children: "Share your feedback"
+                    }, void 0, false, {
+                        fileName: "[project]/components/sections/FAQ.jsx",
+                        lineNumber: 59,
+                        columnNumber: 134
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/sections/FAQ.jsx",
+                lineNumber: 59,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mb-5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mb-2 text-sm font-medium theme-text-secondary ",
+                        children: "Your rating"
+                    }, void 0, false, {
+                        fileName: "[project]/components/sections/FAQ.jsx",
+                        lineNumber: 61,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex items-center gap-2",
                         children: [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ].map((star)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    type: "button",
-                                    onClick: ()=>setRating(star),
-                                    onMouseEnter: ()=>setHoveredRating(star),
-                                    onMouseLeave: ()=>setHoveredRating(0),
-                                    className: "transition-transform hover:scale-110 active:scale-95",
-                                    "aria-label": `Rate ${star} star${star > 1 ? 's' : ''}`,
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {
-                                        size: 28,
-                                        className: `transition-colors ${star <= (hoveredRating || rating) ? 'text-yellow-400 fill-yellow-400' : 'text-slate-300 dark:text-slate-600'}`
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/FAQ.jsx",
-                                        lineNumber: 146,
-                                        columnNumber: 15
-                                    }, this)
-                                }, star, false, {
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ].map((star)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                onClick: ()=>setRating(star),
+                                "aria-label": `Rate ${star} star${star > 1 ? 's' : ''}`,
+                                className: "transition-transform duration-150 hover:scale-110",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {
+                                    size: 26,
+                                    className: star <= rating ? 'fill-[var(--primary-accent)] text-[var(--primary-accent)]' : 'text-[var(--border-color)]'
+                                }, void 0, false, {
                                     fileName: "[project]/components/sections/FAQ.jsx",
-                                    lineNumber: 137,
-                                    columnNumber: 13
-                                }, this)),
-                            rating > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "ml-2 text-sm text-slate-500 dark:text-slate-400",
-                                children: [
-                                    '',
-                                    'Poor',
-                                    'Fair',
-                                    'Good',
-                                    'Great',
-                                    'Excellent'
-                                ][rating]
-                            }, void 0, false, {
+                                    lineNumber: 65,
+                                    columnNumber: 15
+                                }, this)
+                            }, star, false, {
                                 fileName: "[project]/components/sections/FAQ.jsx",
-                                lineNumber: 157,
+                                lineNumber: 64,
                                 columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                            }, this))
+                    }, void 0, false, {
                         fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 135,
+                        lineNumber: 62,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/sections/FAQ.jsx",
-                lineNumber: 131,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        htmlFor: "feedback-text",
-                        className: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2",
-                        children: "Your Thoughts (optional)"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 165,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                        id: "feedback-text",
-                        value: feedback,
-                        onChange: (e)=>setFeedback(e.target.value),
-                        rows: 3,
-                        placeholder: "Tell us what you think about DubFlow AI...",
-                        className: "w-full px-4 py-3 rounded-xl text-sm\n                     bg-slate-50 dark:bg-slate-800/60 \n                     border border-slate-200 dark:border-slate-700\n                     text-slate-900 dark:text-slate-100\n                     placeholder:text-slate-400 dark:placeholder:text-slate-500\n                     focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500\n                     resize-none transition-colors"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 168,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-end mt-1",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                            className: "text-xs text-slate-400",
-                            children: [
-                                feedback.length,
-                                "/300"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 183,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 182,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                value: message,
+                onChange: (event)=>setMessage(event.target.value),
+                rows: 4,
+                placeholder: "Tell us what stood out to you...",
+                className: "theme-input theme-focus w-full rounded-[1rem] border px-4 py-3 text-sm focus:outline-none"
+            }, void 0, false, {
                 fileName: "[project]/components/sections/FAQ.jsx",
-                lineNumber: 164,
+                lineNumber: 70,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 type: "submit",
-                disabled: rating === 0,
-                className: `w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all
-                    ${rating > 0 ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/20 cursor-pointer' : 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed opacity-60'}`,
-                whileHover: rating > 0 ? {
-                    scale: 1.02
-                } : {},
-                whileTap: rating > 0 ? {
-                    scale: 0.98
-                } : {},
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__["Send"], {
-                        size: 15
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FAQ.jsx",
-                        lineNumber: 198,
-                        columnNumber: 9
-                    }, this),
-                    "Submit Feedback"
-                ]
-            }, void 0, true, {
+                className: "theme-button-quiet mt-4 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200",
+                children: "Submit feedback"
+            }, void 0, false, {
                 fileName: "[project]/components/sections/FAQ.jsx",
-                lineNumber: 187,
+                lineNumber: 71,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/sections/FAQ.jsx",
-        lineNumber: 130,
+        lineNumber: 58,
         columnNumber: 5
     }, this);
 }
 function FAQ() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "faq",
-        className: "relative py-24 bg-white dark:bg-navy-950 overflow-hidden",
+        className: "relative py-24",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+            className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                    className: "text-center mb-14",
                     initial: {
                         opacity: 0,
-                        y: 20
+                        y: 18
                     },
                     whileInView: {
                         opacity: 1,
@@ -4395,166 +3455,75 @@ function FAQ() {
                     transition: {
                         duration: 0.5
                     },
+                    className: "mx-auto mb-12 max-w-3xl text-center",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-indigo-50 dark:bg-indigo-500/10 \n                          border border-indigo-200 dark:border-indigo-500/20\n                          text-indigo-600 dark:text-indigo-400 text-sm font-medium",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$circle$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageCircle$3e$__["MessageCircle"], {
-                                    size: 14
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/FAQ.jsx",
-                                    lineNumber: 224,
-                                    columnNumber: 13
-                                }, this),
-                                "FAQ"
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "FAQ"
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 220,
+                            lineNumber: 81,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                            children: [
-                                "Frequently Asked",
-                                ' ',
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-blue-600",
-                                    children: "Questions"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/FAQ.jsx",
-                                    lineNumber: 229,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 227,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                            children: "Everything you need to know about DubFlow AI."
+                            className: "editorial-title mt-5 text-[2.7rem] theme-text-primary  sm:text-[4rem]",
+                            children: "Questions answered clearly."
                         }, void 0, false, {
                             fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 233,
+                            lineNumber: 82,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 213,
+                    lineNumber: 80,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 lg:grid-cols-3 gap-8 items-start",
+                    className: "grid gap-6 lg:grid-cols-[1.15fr_0.85fr]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:col-span-2 space-y-3",
-                            children: faqs.map((faq, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FAQItem, {
-                                    faq: faq,
-                                    index: i
-                                }, i, false, {
+                            className: "space-y-3",
+                            children: faqs.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FAQItem, {
+                                    item: item,
+                                    index: index
+                                }, item.question, false, {
                                     fileName: "[project]/components/sections/FAQ.jsx",
-                                    lineNumber: 242,
-                                    columnNumber: 15
+                                    lineNumber: 87,
+                                    columnNumber: 40
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 240,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:col-span-1",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                initial: {
-                                    opacity: 0,
-                                    x: 20
-                                },
-                                whileInView: {
-                                    opacity: 1,
-                                    x: 0
-                                },
-                                viewport: {
-                                    once: true
-                                },
-                                transition: {
-                                    duration: 0.5,
-                                    delay: 0.2
-                                },
-                                className: "sticky top-24 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-navy-800 shadow-sm dark:shadow-slate-900/30",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-center gap-2 mb-1",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__["Star"], {
-                                                    size: 16,
-                                                    className: "text-white"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/FAQ.jsx",
-                                                    lineNumber: 257,
-                                                    columnNumber: 19
-                                                }, this)
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/FAQ.jsx",
-                                                lineNumber: 256,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                className: "font-bold text-slate-900 dark:text-white",
-                                                children: "Share Your Feedback"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/FAQ.jsx",
-                                                lineNumber: 259,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/FAQ.jsx",
-                                        lineNumber: 255,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-xs text-slate-500 dark:text-slate-400 mb-5",
-                                        children: "What do you think about DubFlow AI?"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/FAQ.jsx",
-                                        lineNumber: 261,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FeedbackWidget, {}, void 0, false, {
-                                        fileName: "[project]/components/sections/FAQ.jsx",
-                                        lineNumber: 264,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                            className: "lg:pt-2",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(FeedbackCard, {}, void 0, false, {
                                 fileName: "[project]/components/sections/FAQ.jsx",
-                                lineNumber: 248,
-                                columnNumber: 13
+                                lineNumber: 89,
+                                columnNumber: 36
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/sections/FAQ.jsx",
-                            lineNumber: 247,
+                            lineNumber: 89,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/FAQ.jsx",
-                    lineNumber: 238,
+                    lineNumber: 85,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/sections/FAQ.jsx",
-            lineNumber: 211,
+            lineNumber: 79,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/sections/FAQ.jsx",
-        lineNumber: 207,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 }
@@ -4572,11 +3541,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mic.mjs [app-ssr] (ecmascript) <export default as Mic>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$film$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Film$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/film.mjs [app-ssr] (ecmascript) <export default as Film>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scissors$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Scissors$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/scissors.mjs [app-ssr] (ecmascript) <export default as Scissors>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square.mjs [app-ssr] (ecmascript) <export default as MessageSquare>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$vertical$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sliders$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sliders-vertical.mjs [app-ssr] (ecmascript) <export default as Sliders>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eighth$2d$notes$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Music$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/eighth-notes.mjs [app-ssr] (ecmascript) <export default as Music>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square-text.mjs [app-ssr] (ecmascript) <export default as MessageSquareText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$horizontal$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__SlidersHorizontal$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sliders-horizontal.mjs [app-ssr] (ecmascript) <export default as SlidersHorizontal>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sixteenth$2d$notes$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Music4$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sixteenth-notes.mjs [app-ssr] (ecmascript) <export default as Music4>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.mjs [app-ssr] (ecmascript) <export default as Download>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
 'use client';
 ;
 ;
@@ -4584,166 +3552,223 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 const features = [
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"],
-        title: 'Multilingual Dubbing',
-        description: 'Seamlessly dub your videos into multiple languages including Urdu, Hindi, Arabic, Spanish, and more.',
-        gradient: 'from-blue-500 to-cyan-500',
-        bg: 'bg-blue-50 dark:bg-blue-500/10',
-        border: 'border-blue-100 dark:border-blue-500/20',
-        iconColor: 'text-blue-500'
+        title: 'Multilingual dubbing',
+        description: 'Translate and localize dialogue into natural, culturally aware speech across markets.',
+        accent: 'from-[#d8cbb8] to-[#b85f3d]',
+        span: 'md:col-span-2'
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"],
-        title: 'AI Voice Generation',
-        description: 'Generate natural, expressive AI voices that match the emotion and tone of the original speaker.',
-        gradient: 'from-purple-500 to-pink-500',
-        bg: 'bg-purple-50 dark:bg-purple-500/10',
-        border: 'border-purple-100 dark:border-purple-500/20',
-        iconColor: 'text-purple-500'
+        title: 'Expressive AI voices',
+        description: 'Create lifelike vocal performances with nuanced emotion, pacing, and clarity.',
+        accent: 'from-[#b85f3d] to-[#cc8368]'
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$film$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Film$3e$__["Film"],
-        title: 'Intelligent Speech Recognition',
-        description: 'Advanced speech-to-text powered by Whisper AI accurately transcribes dialogue across accents and speech patterns.',
-        gradient: 'from-cyan-500 to-blue-500',
-        bg: 'bg-cyan-50 dark:bg-cyan-500/10',
-        border: 'border-cyan-100 dark:border-cyan-500/20',
-        iconColor: 'text-cyan-500'
+        title: 'Speech recognition',
+        description: 'Accurate transcription from multilingual dialogue and dynamic soundscapes.',
+        accent: 'from-[#e7d8c7] to-[#a7a18f]'
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scissors$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Scissors$3e$__["Scissors"],
-        title: 'Segment-Based Editing',
-        description: 'Review and edit each individual dialogue segment. Regenerate specific segments without re-processing the entire video.',
-        gradient: 'from-orange-500 to-red-500',
-        bg: 'bg-orange-50 dark:bg-orange-500/10',
-        border: 'border-orange-100 dark:border-orange-500/20',
-        iconColor: 'text-orange-500',
-        featured: true
+        title: 'Segment-based editing',
+        description: 'Refine each line independently without reworking the whole project.',
+        accent: 'from-[#2b2d29] to-[#6a685f]',
+        iconTone: 'light'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"],
-        title: 'AI Prompt Editing',
-        description: 'Modify dialogue using natural language prompts. Adjust tone, style, and content through simple text instructions.',
-        gradient: 'from-green-500 to-emerald-500',
-        bg: 'bg-green-50 dark:bg-green-500/10',
-        border: 'border-green-100 dark:border-green-500/20',
-        iconColor: 'text-green-500'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__["MessageSquareText"],
+        title: 'Prompt-based revisions',
+        description: 'Guide the voice with natural prompts to adjust intensity, warmth, and mood.',
+        accent: 'from-[#c8b9a4] to-[#b85f3d]'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$vertical$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sliders$3e$__["Sliders"],
-        title: 'Emotion & Voice Control',
-        description: 'Fine-tune emotion, speaking speed, and voice tone for each segment to achieve the perfect cinematic feel.',
-        gradient: 'from-pink-500 to-purple-500',
-        bg: 'bg-pink-50 dark:bg-pink-500/10',
-        border: 'border-pink-100 dark:border-pink-500/20',
-        iconColor: 'text-pink-500'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$horizontal$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__SlidersHorizontal$3e$__["SlidersHorizontal"],
+        title: 'Tone control',
+        description: 'Tune pacing and delivery to match each scene, speaker, and emotional beat.',
+        accent: 'from-[#b85f3d] to-[#8c6353]'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eighth$2d$notes$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Music$3e$__["Music"],
-        title: 'Audio Synchronization',
-        description: 'Precise audio-video synchronization ensures dubbed audio aligns perfectly with lip movements and scene timing.',
-        gradient: 'from-indigo-500 to-blue-500',
-        bg: 'bg-indigo-50 dark:bg-indigo-500/10',
-        border: 'border-indigo-100 dark:border-indigo-500/20',
-        iconColor: 'text-indigo-500'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sixteenth$2d$notes$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Music4$3e$__["Music4"],
+        title: 'Audio sync',
+        description: 'Align dubbed audio with actor timing, background ambience, and cinematic rhythm.',
+        accent: 'from-[#d8cbb8] to-[#8f8a7f]'
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"],
-        title: 'High-Quality Video Export',
-        description: 'Export your dubbed video in HD quality while preserving background music, sound effects, and original ambiance.',
-        gradient: 'from-teal-500 to-cyan-500',
-        bg: 'bg-teal-50 dark:bg-teal-500/10',
-        border: 'border-teal-100 dark:border-teal-500/20',
-        iconColor: 'text-teal-500'
+        title: 'Studio-grade export',
+        description: 'Deliver a clean final mix with premium-quality output and polished finishing.',
+        accent: 'from-[#b85f3d] to-[#d6b7a5]'
     }
 ];
-const containerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.07
-        }
-    }
-};
-const cardVariants = {
-    hidden: {
-        opacity: 0,
-        y: 24
-    },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.45,
-            ease: 'easeOut'
-        }
-    }
-};
 function Features() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "features",
-        className: "relative py-24 bg-white dark:bg-navy-950 overflow-hidden",
+        className: "relative py-24",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                    initial: {
+                        opacity: 0,
+                        y: 18
+                    },
+                    whileInView: {
+                        opacity: 1,
+                        y: 0
+                    },
+                    viewport: {
+                        once: true
+                    },
+                    transition: {
+                        duration: 0.5
+                    },
+                    className: "mx-auto mb-14 max-w-3xl text-center",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "Platform Features"
+                        }, void 0, false, {
+                            fileName: "[project]/components/sections/Features.jsx",
+                            lineNumber: 22,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                            className: "editorial-title mt-5 text-[2.7rem] theme-text-primary  sm:text-[4rem]",
+                            children: "Built for premium storytelling."
+                        }, void 0, false, {
+                            fileName: "[project]/components/sections/Features.jsx",
+                            lineNumber: 23,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "mt-4 text-lg theme-text-secondary ",
+                            children: "A complete creative toolkit designed to localize video content with accuracy, clarity, and intention."
+                        }, void 0, false, {
+                            fileName: "[project]/components/sections/Features.jsx",
+                            lineNumber: 24,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/sections/Features.jsx",
+                    lineNumber: 21,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid gap-5 md:grid-cols-2 xl:grid-cols-4",
+                    children: features.map((feature, index)=>{
+                        const Icon = feature.icon;
+                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].article, {
+                            initial: {
+                                opacity: 0,
+                                y: 20
+                            },
+                            whileInView: {
+                                opacity: 1,
+                                y: 0
+                            },
+                            viewport: {
+                                once: true
+                            },
+                            transition: {
+                                duration: 0.45,
+                                delay: index * 0.06
+                            },
+                            className: `warm-card group rounded-[1.8rem] p-5 transition-all duration-300 hover:-translate-y-1 theme-shadow-hover ${feature.span || ''}`,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: `mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${feature.accent} ${feature.iconTone === 'light' ? 'text-white' : 'theme-feature-icon'} theme-shadow`,
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                        size: 22
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/sections/Features.jsx",
+                                        lineNumber: 33,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Features.jsx",
+                                    lineNumber: 32,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                    className: "text-[1.4rem] font-semibold theme-text-primary ",
+                                    children: feature.title
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Features.jsx",
+                                    lineNumber: 35,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "mt-3 text-[0.98rem] leading-relaxed theme-text-secondary ",
+                                    children: feature.description
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Features.jsx",
+                                    lineNumber: 36,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, feature.title, true, {
+                            fileName: "[project]/components/sections/Features.jsx",
+                            lineNumber: 31,
+                            columnNumber: 15
+                        }, this);
+                    })
+                }, void 0, false, {
+                    fileName: "[project]/components/sections/Features.jsx",
+                    lineNumber: 27,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/components/sections/Features.jsx",
+            lineNumber: 20,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/components/sections/Features.jsx",
+        lineNumber: 19,
+        columnNumber: 5
+    }, this);
+}
+}),
+"[project]/components/sections/FinalCTA.jsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>FinalCTA
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.mjs [app-ssr] (ecmascript) <export default as ArrowRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
+'use client';
+;
+;
+;
+function FinalCTA({ onOpenSignup }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+        className: "relative overflow-hidden py-24",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 pointer-events-none",
-                "aria-hidden": "true",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "hidden dark:block",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute top-0 right-1/4 w-72 h-72 rounded-full bg-blue-600/4 blur-[80px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 108,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-purple-600/4 blur-[80px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 109,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Features.jsx",
-                        lineNumber: 107,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "dark:hidden",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute top-0 right-1/4 w-72 h-72 rounded-full bg-blue-100/80 blur-[80px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 112,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-purple-100/60 blur-[80px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 113,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Features.jsx",
-                        lineNumber: 111,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/sections/Features.jsx",
-                lineNumber: 106,
+                className: "absolute inset-0 bg-theme-ink"
+            }, void 0, false, {
+                fileName: "[project]/components/sections/FinalCTA.jsx",
+                lineNumber: 9,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                className: "absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(184,95,61,0.24),_transparent_22%),radial-gradient(circle_at_bottom_right,_rgba(216,203,184,0.22),_transparent_25%)]"
+            }, void 0, false, {
+                fileName: "[project]/components/sections/FinalCTA.jsx",
+                lineNumber: 10,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "text-center mb-14",
                         initial: {
                             opacity: 0,
                             y: 20
@@ -4758,259 +3783,27 @@ function Features() {
                         transition: {
                             duration: 0.5
                         },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-blue-50 dark:bg-blue-500/10 \n                          border border-blue-200 dark:border-blue-500/20\n                          text-blue-600 dark:text-blue-400 text-sm font-medium",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                        size: 14
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 130,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Platform Features"
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 126,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                                children: [
-                                    "Everything You Need for",
-                                    ' ',
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600",
-                                        children: "Professional AI Dubbing"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 135,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 133,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                                children: "A complete suite of AI-powered tools to create authentic, natural-sounding multilingual video content."
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 139,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Features.jsx",
-                        lineNumber: 119,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5",
-                        variants: containerVariants,
-                        initial: "hidden",
-                        whileInView: "visible",
-                        viewport: {
-                            once: true,
-                            margin: '-50px'
-                        },
-                        children: features.map((feature, i)=>{
-                            const Icon = feature.icon;
-                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                variants: cardVariants,
-                                className: `group relative p-6 rounded-2xl border transition-all duration-300 cursor-default
-                            ${feature.bg} ${feature.border}
-                            hover:shadow-lg dark:hover:shadow-slate-900/50
-                            hover:-translate-y-1
-                            ${feature.featured ? 'ring-2 ring-orange-400/30 dark:ring-orange-500/20' : ''}
-                `,
-                                children: [
-                                    feature.featured && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-semibold text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-500/15 border border-orange-200 dark:border-orange-500/20",
-                                        children: "Key Feature"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 166,
-                                        columnNumber: 19
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: `inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4
-                                 bg-gradient-to-br ${feature.gradient} shadow-sm`,
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                            size: 22,
-                                            className: "text-white"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Features.jsx",
-                                            lineNumber: 174,
-                                            columnNumber: 19
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 172,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                        className: "text-base font-semibold text-slate-900 dark:text-white mb-2",
-                                        children: feature.title
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 177,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-sm text-slate-600 dark:text-slate-400 leading-relaxed",
-                                        children: feature.description
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 180,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: `absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Features.jsx",
-                                        lineNumber: 185,
-                                        columnNumber: 17
-                                    }, this)
-                                ]
-                            }, i, true, {
-                                fileName: "[project]/components/sections/Features.jsx",
-                                lineNumber: 155,
-                                columnNumber: 15
-                            }, this);
-                        })
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Features.jsx",
-                        lineNumber: 145,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/sections/Features.jsx",
-                lineNumber: 117,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/sections/Features.jsx",
-        lineNumber: 101,
-        columnNumber: 5
-    }, this);
-}
-}),
-"[project]/components/sections/FinalCTA.jsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
-
-__turbopack_context__.s([
-    "default",
-    ()=>FinalCTA
-]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/play.mjs [app-ssr] (ecmascript) <export default as Play>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
-'use client';
-;
-;
-;
-function FinalCTA({ onOpenSignup }) {
-    const scrollToFeatures = ()=>{
-        const el = document.getElementById('features');
-        if (el) window.scrollTo({
-            top: el.getBoundingClientRect().top + window.scrollY - 80,
-            behavior: 'smooth'
-        });
-    };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-        className: "relative py-28 overflow-hidden",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-700 to-blue-800 dark:from-blue-700 dark:via-purple-800 dark:to-navy-900"
-            }, void 0, false, {
-                fileName: "[project]/components/sections/FinalCTA.jsx",
-                lineNumber: 17,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 opacity-10",
-                style: {
-                    backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-                    backgroundSize: '48px 48px'
-                }
-            }, void 0, false, {
-                fileName: "[project]/components/sections/FinalCTA.jsx",
-                lineNumber: 20,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 overflow-hidden pointer-events-none",
-                "aria-hidden": "true",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute -top-20 left-1/4 w-96 h-96 rounded-full bg-white/5 blur-[80px]"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 30,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute -bottom-20 right-1/4 w-96 h-96 rounded-full bg-white/5 blur-[80px]"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 31,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/sections/FinalCTA.jsx",
-                lineNumber: 29,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        initial: {
-                            opacity: 0,
-                            y: 15
-                        },
-                        whileInView: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        viewport: {
-                            once: true
-                        },
-                        transition: {
-                            duration: 0.5
-                        },
-                        className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6\n                     bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm font-medium",
+                        className: "inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-[#f2e7db]",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
                                 size: 14,
-                                className: "text-yellow-300"
+                                className: "text-[#f0b189]"
                             }, void 0, false, {
                                 fileName: "[project]/components/sections/FinalCTA.jsx",
-                                lineNumber: 44,
+                                lineNumber: 13,
                                 columnNumber: 11
                             }, this),
-                            "Start Your Multilingual Journey Today"
+                            " start now"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 36,
+                        lineNumber: 12,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].h2, {
-                        className: "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-5 leading-tight",
                         initial: {
                             opacity: 0,
-                            y: 25
+                            y: 20
                         },
                         whileInView: {
                             opacity: 1,
@@ -5023,25 +3816,37 @@ function FinalCTA({ onOpenSignup }) {
                             duration: 0.5,
                             delay: 0.1
                         },
-                        children: [
-                            "Ready to Make Your Videos",
-                            ' ',
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300",
-                                children: "Speak Every Language?"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/FinalCTA.jsx",
-                                lineNumber: 57,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                        className: "editorial-title mt-7 text-[2.7rem] leading-none text-[#f6f2eb] sm:text-[4rem]",
+                        children: "Ready to make every scene speak louder?"
+                    }, void 0, false, {
                         fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 49,
+                        lineNumber: 15,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].p, {
-                        className: "text-lg sm:text-xl text-white/75 max-w-2xl mx-auto mb-10 leading-relaxed",
+                        initial: {
+                            opacity: 0,
+                            y: 20
+                        },
+                        whileInView: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        viewport: {
+                            once: true
+                        },
+                        transition: {
+                            duration: 0.5,
+                            delay: 0.15
+                        },
+                        className: "mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[#d8d1c7]",
+                        children: "Bring your content to new audiences with dubbing that feels intentional, polished, and unmistakably human."
+                    }, void 0, false, {
+                        fileName: "[project]/components/sections/FinalCTA.jsx",
+                        lineNumber: 16,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                         initial: {
                             opacity: 0,
                             y: 20
@@ -5057,130 +3862,54 @@ function FinalCTA({ onOpenSignup }) {
                             duration: 0.5,
                             delay: 0.2
                         },
-                        children: "Start your multilingual dubbing journey with DubFlow AI. Transform your content and reach audiences in every language."
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 63,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "flex flex-col sm:flex-row items-center justify-center gap-4",
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        whileInView: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        viewport: {
-                            once: true
-                        },
-                        transition: {
-                            duration: 0.5,
-                            delay: 0.3
-                        },
+                        className: "mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: onOpenSignup,
-                                className: "inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base\n                       bg-white text-blue-700 \n                       hover:bg-blue-50\n                       shadow-xl shadow-black/20 hover:shadow-2xl\n                       transition-all duration-200 w-full sm:w-auto justify-center",
-                                whileHover: {
-                                    scale: 1.03,
-                                    y: -2
-                                },
-                                whileTap: {
-                                    scale: 0.97
-                                },
+                                className: "inline-flex items-center justify-center gap-2 rounded-full theme-button px-6 py-3.5 text-base font-semibold text-[#fffaf5] theme-shadow-accent transition-all duration-200 ",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                        size: 18,
-                                        className: "text-blue-600"
+                                    "Get Started ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                        size: 17
                                     }, void 0, false, {
                                         fileName: "[project]/components/sections/FinalCTA.jsx",
-                                        lineNumber: 92,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Get Started Free"
+                                        lineNumber: 18,
+                                        columnNumber: 238
+                                    }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/sections/FinalCTA.jsx",
-                                lineNumber: 82,
+                                lineNumber: 18,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                onClick: scrollToFeatures,
-                                className: "inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-base\n                       text-white bg-white/10 hover:bg-white/20\n                       border border-white/25 hover:border-white/40\n                       backdrop-blur-sm\n                       transition-all duration-200 w-full sm:w-auto justify-center",
-                                whileHover: {
-                                    scale: 1.03
-                                },
-                                whileTap: {
-                                    scale: 0.97
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                                        size: 18,
-                                        fill: "currentColor"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/FinalCTA.jsx",
-                                        lineNumber: 106,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Explore Features"
-                                ]
-                            }, void 0, true, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>document.getElementById('features')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    }),
+                                className: "inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-base font-semibold text-[#f4efe8] transition-all duration-200 theme-border-hover hover:bg-white/8",
+                                children: "Explore features"
+                            }, void 0, false, {
                                 fileName: "[project]/components/sections/FinalCTA.jsx",
-                                lineNumber: 96,
+                                lineNumber: 19,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 75,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "mt-10 flex flex-wrap items-center justify-center gap-6",
-                        initial: {
-                            opacity: 0
-                        },
-                        whileInView: {
-                            opacity: 1
-                        },
-                        viewport: {
-                            once: true
-                        },
-                        transition: {
-                            duration: 0.5,
-                            delay: 0.4
-                        },
-                        children: [
-                            '🔒 Secure Processing',
-                            '🚀 FYP Project',
-                            '🧠 AI-Powered',
-                            '🌍 Multilingual'
-                        ].map((badge, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-sm text-white/60 font-medium",
-                                children: badge
-                            }, i, false, {
-                                fileName: "[project]/components/sections/FinalCTA.jsx",
-                                lineNumber: 125,
-                                columnNumber: 13
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/FinalCTA.jsx",
-                        lineNumber: 112,
+                        lineNumber: 17,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/sections/FinalCTA.jsx",
-                lineNumber: 34,
+                lineNumber: 11,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/sections/FinalCTA.jsx",
-        lineNumber: 13,
+        lineNumber: 8,
         columnNumber: 5
     }, this);
 }
@@ -5193,968 +3922,366 @@ __turbopack_context__.s([
     ()=>Hero
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.mjs [app-ssr] (ecmascript) <export default as ArrowRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/play.mjs [app-ssr] (ecmascript) <export default as Play>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pause.mjs [app-ssr] (ecmascript) <export default as Pause>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.mjs [app-ssr] (ecmascript) <export default as ChevronDown>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mic.mjs [app-ssr] (ecmascript) <export default as Mic>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/volume-2.mjs [app-ssr] (ecmascript) <export default as Volume2>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$wand$2d$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Wand2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs [app-ssr] (ecmascript) <export default as Wand2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/check.mjs [app-ssr] (ecmascript) <export default as Check>");
 'use client';
 ;
 ;
 ;
-;
-const languages = [
-    {
-        from: 'English',
-        to: 'Urdu',
-        flag: '🇺🇸',
-        toFlag: '🇵🇰'
-    },
-    {
-        from: 'Spanish',
-        to: 'Urdu',
-        flag: '🇪🇸',
-        toFlag: '🇵🇰'
-    },
-    {
-        from: 'Arabic',
-        to: 'Urdu',
-        flag: '🇸🇦',
-        toFlag: '🇵🇰'
-    },
-    {
-        from: 'Chinese',
-        to: 'Urdu',
-        flag: '🇨🇳',
-        toFlag: '🇵🇰'
-    }
-];
 const stats = [
     {
-        label: 'Languages Supported',
-        value: '11+'
+        value: '11+',
+        label: 'Languages'
     },
     {
-        label: 'AI Voice Fidelity',
-        value: '99.4%'
+        value: '99.4%',
+        label: 'Voice fidelity'
     },
     {
-        label: 'Segment Granularity',
-        value: 'Frame-Accurate'
+        value: '4-step',
+        label: 'Studio flow'
     }
 ];
-function WaveformAnimation({ active = true, color = '#3b82f6', bars = 24 }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex items-center gap-[2.5px] h-8",
-        "aria-hidden": "true",
-        children: Array.from({
-            length: bars
-        }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "rounded-full transition-all duration-300",
-                style: {
-                    width: '3px',
-                    height: active ? `${Math.max(4, Math.sin(i / bars * Math.PI) * 22 + i % 3 * 3)}px` : '4px',
-                    backgroundColor: color,
-                    animation: active ? `waveform ${0.7 + i % 4 * 0.15}s ease-in-out infinite` : 'none',
-                    animationDelay: `${i * 0.05}s`,
-                    opacity: active ? 0.75 + i % 3 * 0.1 : 0.3
-                }
-            }, i, false, {
-                fileName: "[project]/components/sections/Hero.jsx",
-                lineNumber: 24,
-                columnNumber: 9
-            }, this))
-    }, void 0, false, {
-        fileName: "[project]/components/sections/Hero.jsx",
-        lineNumber: 22,
-        columnNumber: 5
-    }, this);
-}
-function HeroVideoCard({ side = 'left' }) {
-    const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    if (side === 'left') {
-        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl bg-white dark:bg-navy-900 transition-all duration-300",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "relative aspect-video bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950/80 flex items-center justify-center overflow-hidden",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 50,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute bottom-3 inset-x-4 text-center",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "px-3 py-1 rounded bg-black/70 text-white text-xs sm:text-sm font-medium backdrop-blur-sm border border-white/10 shadow",
-                                children: "“You don't understand what's at stake.”"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 54,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 53,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                            onClick: ()=>setIsPlaying(!isPlaying),
-                            className: "relative z-10 w-13 h-13 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 backdrop-blur-md flex items-center justify-center transition-all shadow-lg",
-                            whileHover: {
-                                scale: 1.08
-                            },
-                            whileTap: {
-                                scale: 0.95
-                            },
-                            "aria-label": "Play original preview",
-                            children: isPlaying ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
-                                size: 20,
-                                className: "text-white",
-                                fill: "white"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 68,
-                                columnNumber: 15
-                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                                size: 20,
-                                className: "text-white ml-0.5",
-                                fill: "white"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 70,
-                                columnNumber: 15
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 60,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/25 border border-blue-500/40 text-blue-200 text-xs font-semibold backdrop-blur-sm",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    children: "🇺🇸"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 75,
-                                    columnNumber: 13
-                                }, this),
-                                " English (Source)"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 74,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute top-3 right-3 text-[11px] font-mono text-white/70 bg-black/50 px-2 py-0.5 rounded",
-                            children: "00:46 / 01:45"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 78,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Hero.jsx",
-                    lineNumber: 48,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "p-5 bg-white dark:bg-navy-900 border-t border-slate-100 dark:border-slate-800",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center justify-between mb-2",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
-                                            size: 13,
-                                            className: "text-blue-500"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Hero.jsx",
-                                            lineNumber: 87,
-                                            columnNumber: 15
-                                        }, this),
-                                        "Original Dialogue Track"
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 86,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-[11px] text-slate-400 font-mono",
-                                    children: "Whisper AI Extracted"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 90,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 85,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-sm font-medium text-slate-800 dark:text-slate-200 italic mb-3",
-                            children: "“You don't understand what's at stake.”"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 92,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-[11px] text-slate-400",
-                                    children: "Speaker 1 • Scene 2"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 96,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveformAnimation, {
-                                    active: isPlaying,
-                                    color: "#3b82f6",
-                                    bars: 22
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 97,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 95,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Hero.jsx",
-                    lineNumber: 84,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/components/sections/Hero.jsx",
-            lineNumber: 46,
-            columnNumber: 7
-        }, this);
-    }
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "relative rounded-3xl overflow-hidden border border-purple-300/60 dark:border-purple-500/30 shadow-xl bg-white dark:bg-navy-900 transition-all duration-300",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative aspect-video bg-gradient-to-br from-slate-950 via-purple-950/60 to-black flex items-center justify-center overflow-hidden",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 108,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute bottom-3 inset-x-4 text-center",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                            className: "px-3 py-1 rounded bg-black/75 text-white text-xs sm:text-base font-semibold backdrop-blur-sm border border-purple-500/30 shadow",
-                            dir: "rtl",
-                            lang: "ur",
-                            children: "“آپ نہیں سمجھتے کہ کیا داؤ پر لگا ہے۔”"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 112,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 111,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                        onClick: ()=>setIsPlaying(!isPlaying),
-                        className: "relative z-10 w-13 h-13 rounded-full bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 backdrop-blur-md flex items-center justify-center transition-all shadow-lg",
-                        whileHover: {
-                            scale: 1.08
-                        },
-                        whileTap: {
-                            scale: 0.95
-                        },
-                        "aria-label": "Play dubbed preview",
-                        children: isPlaying ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
-                            size: 20,
-                            className: "text-purple-200",
-                            fill: "currentColor"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 126,
-                            columnNumber: 13
-                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                            size: 20,
-                            className: "text-purple-200 ml-0.5",
-                            fill: "currentColor"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 128,
-                            columnNumber: 13
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 118,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/25 border border-purple-500/40 text-purple-200 text-xs font-semibold backdrop-blur-sm",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "🇵🇰"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 133,
-                                columnNumber: 11
-                            }, this),
-                            " Urdu (Dubbed)"
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 132,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute top-3 right-3 flex items-center gap-1 text-[11px] font-bold text-green-400 bg-green-950/70 border border-green-500/30 px-2 py-0.5 rounded backdrop-blur-sm",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                size: 10
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 137,
-                                columnNumber: 11
-                            }, this),
-                            "AI Dubbed"
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 136,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/sections/Hero.jsx",
-                lineNumber: 107,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "p-5 bg-white dark:bg-navy-900 border-t border-slate-100 dark:border-slate-800",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center justify-between mb-2",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
-                                        size: 13,
-                                        className: "text-purple-500"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 146,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Synchronized Urdu Speech"
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 145,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-[11px] text-green-600 dark:text-green-400 font-medium",
-                                children: "Lip-Sync Match"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 149,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 144,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3",
-                        dir: "rtl",
-                        lang: "ur",
-                        children: "“آپ نہیں سمجھتے کہ کیا داؤ پر لگا ہے۔”"
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 151,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-[11px] text-slate-400",
-                                children: "Neural Voice • Serious Tone"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 155,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WaveformAnimation, {
-                                active: isPlaying,
-                                color: "#a855f7",
-                                bars: 22
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 156,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 154,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/components/sections/Hero.jsx",
-                lineNumber: 143,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/sections/Hero.jsx",
-        lineNumber: 105,
-        columnNumber: 5
-    }, this);
-}
 function Hero({ onOpenSignup }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "home",
-        className: "relative min-h-screen flex flex-col justify-center overflow-hidden\n                 bg-white dark:bg-navy-950 pt-24 pb-16 transition-colors duration-300",
+        className: "relative overflow-hidden pb-20 pt-28 md:pt-32",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "absolute inset-0 overflow-hidden pointer-events-none",
-                "aria-hidden": "true",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "hidden dark:block",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[130px] animate-orb-pulse"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 173,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute -top-20 right-0 w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[130px] animate-orb-pulse",
-                                style: {
-                                    animationDelay: '-2s'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 174,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-cyan-600/8 blur-[110px] animate-orb-pulse",
-                                style: {
-                                    animationDelay: '-4s'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 175,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute inset-0 opacity-[0.03]",
-                                style: {
-                                    backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-                                    backgroundSize: '48px 48px'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 178,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 172,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "dark:hidden",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-blue-100/70 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 187,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-purple-100/60 blur-[120px]"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 188,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute inset-0 opacity-[0.02]",
-                                style: {
-                                    backgroundImage: 'linear-gradient(rgba(0,0,0,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.4) 1px, transparent 1px)',
-                                    backgroundSize: '48px 48px'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 189,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 186,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                className: "absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(184,95,61,0.12),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(167,161,143,0.16),_transparent_28%)] "
+            }, void 0, false, {
                 fileName: "[project]/components/sections/Hero.jsx",
-                lineNumber: 171,
+                lineNumber: 15,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        transition: {
-                            duration: 0.5
-                        },
-                        className: "flex justify-center mb-6",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "inline-flex items-center gap-2 px-4 py-2 rounded-full border\n                          border-blue-500/30 dark:border-blue-500/20\n                          bg-blue-50 dark:bg-blue-500/10\n                          text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold shadow-sm",
+                className: "relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
-                                    size: 14,
-                                    className: "text-blue-500"
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "mb-6 flex items-center gap-3",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "section-kicker",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$wand$2d$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Wand2$3e$__["Wand2"], {
+                                                size: 12
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/Hero.jsx",
+                                                lineNumber: 19,
+                                                columnNumber: 92
+                                            }, this),
+                                            " Creative Localization Studio"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/components/sections/Hero.jsx",
+                                        lineNumber: 19,
+                                        columnNumber: 59
+                                    }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 210,
+                                    lineNumber: 19,
                                     columnNumber: 13
                                 }, this),
-                                "AI-Powered Multilingual Video Dubbing Platform"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 206,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 200,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-center mb-8",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].h1, {
-                                className: "text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]",
-                                initial: {
-                                    opacity: 0,
-                                    y: 25
-                                },
-                                animate: {
-                                    opacity: 1,
-                                    y: 0
-                                },
-                                transition: {
-                                    duration: 0.6,
-                                    delay: 0.1
-                                },
-                                children: [
-                                    "Your Videos.",
-                                    ' ',
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600",
-                                        children: "Every Language."
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 224,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 227,
-                                        columnNumber: 13
-                                    }, this),
-                                    "One AI Platform."
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 217,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].p, {
-                                className: "mt-6 text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed",
-                                initial: {
-                                    opacity: 0,
-                                    y: 20
-                                },
-                                animate: {
-                                    opacity: 1,
-                                    y: 0
-                                },
-                                transition: {
-                                    duration: 0.6,
-                                    delay: 0.2
-                                },
-                                children: "Transform your videos into natural, multilingual experiences with AI-powered dubbing, intelligent voice generation, and precise segment editing."
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 231,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 216,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "flex flex-col sm:flex-row items-center justify-center gap-4 mb-10",
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        transition: {
-                            duration: 0.6,
-                            delay: 0.3
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                onClick: onOpenSignup,
-                                className: "inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white text-base\n                       bg-gradient-to-r from-blue-600 to-purple-600\n                       hover:from-blue-500 hover:to-purple-500\n                       shadow-xl shadow-blue-500/25 dark:shadow-blue-500/35\n                       transition-all duration-200 w-full sm:w-auto justify-center",
-                                whileHover: {
-                                    scale: 1.03
-                                },
-                                whileTap: {
-                                    scale: 0.97
-                                },
-                                children: [
-                                    "Start Dubbing Free",
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                        size: 18
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 260,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 249,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].a, {
-                                href: "#ai-demo",
-                                onClick: (e)=>{
-                                    e.preventDefault();
-                                    const el = document.getElementById('ai-demo');
-                                    if (el) window.scrollTo({
-                                        top: el.getBoundingClientRect().top + window.scrollY - 80,
-                                        behavior: 'smooth'
-                                    });
-                                },
-                                className: "inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base\n                       text-slate-700 dark:text-slate-200\n                       bg-slate-100 dark:bg-slate-800/80\n                       border border-slate-200 dark:border-slate-700\n                       hover:bg-slate-200 dark:hover:bg-slate-700\n                       transition-all duration-200 w-full sm:w-auto justify-center shadow-sm",
-                                whileHover: {
-                                    scale: 1.03
-                                },
-                                whileTap: {
-                                    scale: 0.97
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
-                                        size: 18,
-                                        className: "text-blue-500",
-                                        fill: "currentColor"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 279,
-                                        columnNumber: 13
-                                    }, this),
-                                    "Explore How It Works"
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 263,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 243,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "flex items-center justify-center gap-6 sm:gap-12 mb-12",
-                        initial: {
-                            opacity: 0
-                        },
-                        animate: {
-                            opacity: 1
-                        },
-                        transition: {
-                            duration: 0.6,
-                            delay: 0.4
-                        },
-                        children: stats.map(({ label, value }, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "text-center",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-xl sm:text-2xl font-black text-slate-900 dark:text-white",
-                                        children: value
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 293,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-xs text-slate-500 dark:text-slate-400 mt-0.5",
-                                        children: label
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 294,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, i, true, {
-                                fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 292,
-                                columnNumber: 13
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 285,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "relative max-w-5xl mx-auto",
-                        initial: {
-                            opacity: 0,
-                            y: 40
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        transition: {
-                            duration: 0.7,
-                            delay: 0.4
-                        },
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HeroVideoCard, {
-                                    side: "left"
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].h1, {
+                                    initial: {
+                                        opacity: 0,
+                                        y: 24
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        y: 0
+                                    },
+                                    transition: {
+                                        duration: 0.6
+                                    },
+                                    className: "editorial-title max-w-xl text-[3.4rem] leading-[0.9] theme-text-primary  sm:text-[4.2rem] lg:text-[5.4rem]",
+                                    children: "Every Story Deserves to Be Heard."
                                 }, void 0, false, {
                                     fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 307,
+                                    lineNumber: 20,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].p, {
+                                    initial: {
+                                        opacity: 0,
+                                        y: 20
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        y: 0
+                                    },
+                                    transition: {
+                                        duration: 0.6,
+                                        delay: 0.08
+                                    },
+                                    className: "mt-6 max-w-xl text-lg leading-relaxed theme-text-secondary ",
+                                    children: "Transform your videos into new languages with intelligent dubbing, expressive voices, and complete creative control."
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Hero.jsx",
+                                    lineNumber: 21,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                                    initial: {
+                                        opacity: 0,
+                                        y: 20
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        y: 0
+                                    },
+                                    transition: {
+                                        duration: 0.6,
+                                        delay: 0.12
+                                    },
+                                    className: "mt-8 flex flex-col gap-3 sm:flex-row",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: onOpenSignup,
+                                            className: "inline-flex items-center justify-center gap-2 rounded-full theme-button px-6 py-3.5 text-base font-semibold text-[#fffaf5] theme-shadow-accent transition-all duration-200 ",
+                                            children: [
+                                                "Start Dubbing ",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                                    size: 17
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 23,
+                                                    columnNumber: 244
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/sections/Hero.jsx",
+                                            lineNumber: 23,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>document.getElementById('ai-demo')?.scrollIntoView({
+                                                    behavior: 'smooth',
+                                                    block: 'start'
+                                                }),
+                                            className: "inline-flex items-center justify-center gap-2 rounded-full border theme-border theme-card-soft px-6 py-3.5 text-base font-semibold theme-text-primary transition-all duration-200 theme-border-hover theme-accent-hover",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
+                                                    size: 15,
+                                                    className: "fill-current"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 24,
+                                                    columnNumber: 358
+                                                }, this),
+                                                "Explore the Platform"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/sections/Hero.jsx",
+                                            lineNumber: 24,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/components/sections/Hero.jsx",
+                                    lineNumber: 22,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center justify-center pointer-events-none",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center shadow-xl shadow-blue-500/40 text-white border-2 border-white dark:border-navy-950",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                            size: 20,
-                                            strokeWidth: 2.5
+                                    className: "mt-10 flex flex-wrap items-center gap-6",
+                                    children: stats.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "font-display text-3xl theme-text-primary ",
+                                                    children: item.value
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 29,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-sm theme-text-secondary ",
+                                                    children: item.label
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 30,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, item.label, true, {
+                                            fileName: "[project]/components/sections/Hero.jsx",
+                                            lineNumber: 28,
+                                            columnNumber: 17
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Hero.jsx",
+                                    lineNumber: 26,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/sections/Hero.jsx",
+                            lineNumber: 18,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                            initial: {
+                                opacity: 0,
+                                scale: 0.97
+                            },
+                            animate: {
+                                opacity: 1,
+                                scale: 1
+                            },
+                            transition: {
+                                duration: 0.7
+                            },
+                            className: "relative",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "surface-panel relative overflow-hidden rounded-[2rem] p-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "overflow-hidden rounded-[1.4rem] border theme-border theme-bg-secondary  ",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                            src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
+                                            alt: "Cinematic video scene",
+                                            className: "h-[540px] w-full object-cover object-center"
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/Hero.jsx",
-                                            lineNumber: 312,
+                                            lineNumber: 38,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 311,
-                                        columnNumber: 15
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 310,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HeroVideoCard, {
-                                    side: "right"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 316,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 306,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 300,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                        className: "mt-8 flex flex-wrap items-center justify-center gap-2.5",
-                        initial: {
-                            opacity: 0,
-                            y: 20
-                        },
-                        animate: {
-                            opacity: 1,
-                            y: 0
-                        },
-                        transition: {
-                            duration: 0.6,
-                            delay: 0.6
-                        },
-                        children: languages.map(({ from, to, flag, toFlag }, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold\n                         bg-slate-100 dark:bg-slate-800/80\n                         border border-slate-200 dark:border-slate-700/60\n                         text-slate-700 dark:text-slate-300 shadow-sm",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: flag
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 335,
+                                        lineNumber: 37,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: from
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "absolute -left-4 top-12 rounded-2xl border theme-border theme-card px-4 py-3 theme-shadow-float backdrop-blur-md  ",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] theme-text-secondary ",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "inline-flex h-2.5 w-2.5 rounded-full theme-button"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/Hero.jsx",
+                                                        lineNumber: 41,
+                                                        columnNumber: 130
+                                                    }, this),
+                                                    " English ? Urdu"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/sections/Hero.jsx",
+                                                lineNumber: 41,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-2 flex items-center gap-2 text-sm theme-text-primary ",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
+                                                        size: 16,
+                                                        className: "theme-text-accent"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/Hero.jsx",
+                                                        lineNumber: 42,
+                                                        columnNumber: 91
+                                                    }, this),
+                                                    " Voice sync active"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/sections/Hero.jsx",
+                                                lineNumber: 42,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 336,
+                                        lineNumber: 40,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                        size: 11,
-                                        className: "text-blue-500"
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "absolute -bottom-6 right-2 rounded-2xl border theme-border theme-card p-4 theme-shadow-float backdrop-blur-md  ",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex h-11 w-11 items-center justify-center rounded-full theme-accent-soft theme-text-accent  ",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                                        size: 18
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/Hero.jsx",
+                                                        lineNumber: 46,
+                                                        columnNumber: 130
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 46,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-[10px] uppercase tracking-[0.12em] theme-text-muted ",
+                                                            children: "Dubbed Output"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/Hero.jsx",
+                                                            lineNumber: 48,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-base font-semibold theme-text-primary ",
+                                                            children: "Audio aligned"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/Hero.jsx",
+                                                            lineNumber: 49,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/components/sections/Hero.jsx",
+                                                    lineNumber: 47,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/sections/Hero.jsx",
+                                            lineNumber: 45,
+                                            columnNumber: 17
+                                        }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 337,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: toFlag
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 338,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-purple-600 dark:text-purple-400",
-                                        children: to
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.jsx",
-                                        lineNumber: 339,
+                                        lineNumber: 44,
                                         columnNumber: 15
                                     }, this)
                                 ]
-                            }, i, true, {
+                            }, void 0, true, {
                                 fileName: "[project]/components/sections/Hero.jsx",
-                                lineNumber: 328,
+                                lineNumber: 36,
                                 columnNumber: 13
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 321,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-center mt-12",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                            onClick: ()=>{
-                                const el = document.getElementById('ai-demo');
-                                if (el) window.scrollTo({
-                                    top: el.getBoundingClientRect().top + window.scrollY - 80,
-                                    behavior: 'smooth'
-                                });
-                            },
-                            className: "flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors",
-                            animate: {
-                                y: [
-                                    0,
-                                    6,
-                                    0
-                                ]
-                            },
-                            transition: {
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: 'easeInOut'
-                            },
-                            "aria-label": "Scroll down",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-[11px] font-semibold uppercase tracking-wider",
-                                    children: "Scroll to explore"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 356,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
-                                    size: 18
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Hero.jsx",
-                                    lineNumber: 357,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            }, this)
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/Hero.jsx",
-                            lineNumber: 346,
+                            lineNumber: 35,
                             columnNumber: 11
                         }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/sections/Hero.jsx",
-                        lineNumber: 345,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/sections/Hero.jsx",
+                    lineNumber: 17,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/components/sections/Hero.jsx",
-                lineNumber: 198,
+                lineNumber: 16,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/sections/Hero.jsx",
-        lineNumber: 165,
+        lineNumber: 14,
         columnNumber: 5
     }, this);
 }
@@ -6169,116 +4296,51 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/upload.mjs [app-ssr] (ecmascript) <export default as Upload>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/globe.mjs [app-ssr] (ecmascript) <export default as Globe>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$earth$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/earth.mjs [app-ssr] (ecmascript) <export default as Globe2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/cpu.mjs [app-ssr] (ecmascript) <export default as Cpu>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.mjs [app-ssr] (ecmascript) <export default as Download>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.mjs [app-ssr] (ecmascript) <export default as ArrowRight>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
 'use client';
 ;
 ;
 ;
 const steps = [
     {
-        num: '01',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__["Upload"],
-        title: 'Upload Your Video',
-        desc: 'Upload a video file (MP4, MOV, MKV, AVI up to 2GB) or paste a supported video URL to get started.',
-        color: 'blue',
-        details: [
-            'Supports MP4, MOV, MKV, AVI',
-            'Up to 2GB file size',
-            'YouTube & Vimeo URLs supported'
-        ]
+        title: 'Upload your video',
+        description: 'Bring in a scene or full video and begin the localization workflow instantly.',
+        number: '01',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__["Upload"]
     },
     {
-        num: '02',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"],
-        title: 'Select Languages',
-        desc: 'Choose your video\'s source language and the target language for dubbing. Currently optimized for Urdu dubbing.',
-        color: 'purple',
-        details: [
-            'Auto-detect source language',
-            'Multiple target languages',
-            'Urdu dubbing optimized'
-        ]
+        title: 'Choose the language',
+        description: 'Select the source and target voice to match your audience, tone, and production style.',
+        number: '02',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$earth$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe2$3e$__["Globe2"]
     },
     {
-        num: '03',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__["Cpu"],
-        title: 'AI Dubbing',
-        desc: 'DubFlow AI detects speakers, recognizes speech, translates dialogue, generates voices, and synchronizes audio automatically.',
-        color: 'cyan',
-        details: [
-            'Whisper AI transcription',
-            'Neural machine translation',
-            'AI voice generation'
-        ],
-        featured: true
+        title: 'AI dubbing in motion',
+        description: 'Transcribe, translate, generate voices, and align every line with precision.',
+        number: '03',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__["Cpu"]
     },
     {
-        num: '04',
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"],
-        title: 'Preview & Export',
-        desc: 'Review each dubbed segment, make adjustments using AI prompts, and download your completed multilingual video.',
-        color: 'green',
-        details: [
-            'Segment-by-segment preview',
-            'AI prompt corrections',
-            'HD quality export'
-        ]
+        title: 'Review and export',
+        description: 'Preview the final dub, tweak segments, and export a polished result.',
+        number: '04',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"]
     }
 ];
-const colorMap = {
-    blue: {
-        num: 'text-blue-500 dark:text-blue-400',
-        iconBg: 'bg-gradient-to-br from-blue-500 to-blue-600',
-        glow: 'shadow-blue-500/20',
-        dot: 'bg-blue-500',
-        badge: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/20',
-        line: 'from-blue-500 to-purple-500',
-        detailDot: 'bg-blue-400'
-    },
-    purple: {
-        num: 'text-purple-500 dark:text-purple-400',
-        iconBg: 'bg-gradient-to-br from-purple-500 to-purple-600',
-        glow: 'shadow-purple-500/20',
-        dot: 'bg-purple-500',
-        badge: 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-500/20',
-        line: 'from-purple-500 to-cyan-500',
-        detailDot: 'bg-purple-400'
-    },
-    cyan: {
-        num: 'text-cyan-500 dark:text-cyan-400',
-        iconBg: 'bg-gradient-to-br from-cyan-500 to-blue-500',
-        glow: 'shadow-cyan-500/20',
-        dot: 'bg-cyan-500',
-        badge: 'bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-200 dark:border-cyan-500/20',
-        line: 'from-cyan-500 to-green-500',
-        detailDot: 'bg-cyan-400'
-    },
-    green: {
-        num: 'text-green-500 dark:text-green-400',
-        iconBg: 'bg-gradient-to-br from-green-500 to-emerald-600',
-        glow: 'shadow-green-500/20',
-        dot: 'bg-green-500',
-        badge: 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20',
-        line: '',
-        detailDot: 'bg-green-400'
-    }
-};
 function HowItWorks() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "how-it-works",
-        className: "relative py-24 bg-slate-50 dark:bg-navy-900 overflow-hidden",
+        className: "relative py-24",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+            className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                    className: "text-center mb-16",
                     initial: {
                         opacity: 0,
-                        y: 20
+                        y: 18
                     },
                     whileInView: {
                         opacity: 1,
@@ -6290,227 +4352,159 @@ function HowItWorks() {
                     transition: {
                         duration: 0.5
                     },
+                    className: "mx-auto mb-16 max-w-3xl text-center",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-cyan-50 dark:bg-cyan-500/10 \n                          border border-cyan-200 dark:border-cyan-500/20\n                          text-cyan-600 dark:text-cyan-400 text-sm font-medium",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                    size: 14
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/HowItWorks.jsx",
-                                    lineNumber: 100,
-                                    columnNumber: 13
-                                }, this),
-                                "Simple Workflow"
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "Simple Workflow"
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                            lineNumber: 96,
+                            lineNumber: 18,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                            children: [
-                                "From Original Video to",
-                                ' ',
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-600",
-                                    children: "Multilingual Content"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/HowItWorks.jsx",
-                                    lineNumber: 105,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                    fileName: "[project]/components/sections/HowItWorks.jsx",
-                                    lineNumber: 108,
-                                    columnNumber: 13
-                                }, this),
-                                "in Four Simple Steps"
-                            ]
-                        }, void 0, true, {
+                            className: "editorial-title mt-5 text-[2.7rem] theme-text-primary  sm:text-[4rem]",
+                            children: "From script to screen in four steps."
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                            lineNumber: 103,
+                            lineNumber: 19,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                            children: "Our streamlined workflow makes professional AI dubbing accessible to everyone."
+                            className: "mt-4 text-lg theme-text-secondary ",
+                            children: "A streamlined process that makes high-end dubbing feel effortless and creatively controlled."
                         }, void 0, false, {
                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                            lineNumber: 110,
+                            lineNumber: 20,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/HowItWorks.jsx",
-                    lineNumber: 89,
+                    lineNumber: 17,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "relative",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hidden lg:block absolute top-14 left-[12.5%] right-[12.5%] h-0.5",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "w-full h-full bg-gradient-to-r from-blue-400 via-purple-400 via-cyan-400 to-green-400 opacity-30 rounded-full"
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/HowItWorks.jsx",
-                                lineNumber: 119,
-                                columnNumber: 13
-                            }, this)
+                            className: "absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-[#d8cbb8] to-transparent lg:block"
                         }, void 0, false, {
                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                            lineNumber: 118,
+                            lineNumber: 24,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6",
-                            children: steps.map((step, i)=>{
+                            className: "grid gap-6 lg:grid-cols-4",
+                            children: steps.map((step, index)=>{
                                 const Icon = step.icon;
-                                const c = colorMap[step.color];
                                 return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                                     initial: {
                                         opacity: 0,
-                                        y: 30
+                                        y: 18
                                     },
                                     whileInView: {
                                         opacity: 1,
                                         y: 0
                                     },
                                     viewport: {
-                                        once: true,
-                                        margin: '-30px'
+                                        once: true
                                     },
                                     transition: {
-                                        duration: 0.5,
-                                        delay: i * 0.1
+                                        duration: 0.45,
+                                        delay: index * 0.08
                                     },
-                                    className: "relative flex flex-col items-center text-center",
+                                    className: "relative rounded-[2rem] border theme-border theme-card-soft p-5 theme-shadow",
                                     children: [
-                                        i < steps.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "hidden sm:flex lg:hidden absolute -right-4 top-14 z-10",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                                size: 20,
-                                                className: "text-slate-300 dark:text-slate-600"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                lineNumber: 138,
-                                                columnNumber: 23
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 137,
-                                            columnNumber: 21
-                                        }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: `text-4xl font-black mb-4 ${c.num} opacity-20 select-none`,
-                                            children: step.num
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 143,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: `relative mb-5 w-16 h-16 rounded-2xl ${c.iconBg} flex items-center justify-center shadow-xl ${c.glow}
-                                   ${step.featured ? 'ring-2 ring-offset-2 ring-cyan-400/50 dark:ring-offset-navy-900' : ''}`,
+                                            className: "mb-5 flex items-center justify-between",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                                    size: 28,
-                                                    className: "text-white"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-[2.4rem] font-display theme-text-accent opacity-35",
+                                                    children: step.number
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                    lineNumber: 150,
+                                                    lineNumber: 31,
                                                     columnNumber: 21
                                                 }, this),
-                                                step.featured && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "absolute -top-2 -right-2 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                                        size: 10,
-                                                        className: "text-white"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex h-12 w-12 items-center justify-center rounded-2xl theme-accent-soft theme-text-accent  ",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                        size: 20
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                        lineNumber: 153,
-                                                        columnNumber: 25
+                                                        lineNumber: 32,
+                                                        columnNumber: 131
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                    lineNumber: 152,
-                                                    columnNumber: 23
+                                                    lineNumber: 32,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 148,
+                                            lineNumber: 30,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                            className: "text-lg font-bold text-slate-900 dark:text-white mb-2",
+                                            className: "text-[1.35rem] font-semibold theme-text-primary ",
                                             children: step.title
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 158,
+                                            lineNumber: 34,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4 max-w-xs",
-                                            children: step.desc
+                                            className: "mt-3 text-[0.98rem] leading-relaxed theme-text-secondary ",
+                                            children: step.description
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 161,
+                                            lineNumber: 35,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                            className: "space-y-1.5",
-                                            children: step.details.map((d, j)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                    className: "flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: `w-1.5 h-1.5 rounded-full flex-shrink-0 ${c.detailDot}`
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                            lineNumber: 172,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        d
-                                                    ]
-                                                }, j, true, {
-                                                    fileName: "[project]/components/sections/HowItWorks.jsx",
-                                                    lineNumber: 168,
-                                                    columnNumber: 23
-                                                }, this))
+                                        index < steps.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "mt-5 hidden lg:flex lg:justify-end",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                                size: 18,
+                                                className: "theme-text-muted"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/HowItWorks.jsx",
+                                                lineNumber: 36,
+                                                columnNumber: 100
+                                            }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                                            lineNumber: 166,
-                                            columnNumber: 19
+                                            lineNumber: 36,
+                                            columnNumber: 48
                                         }, this)
                                     ]
-                                }, i, true, {
+                                }, step.number, true, {
                                     fileName: "[project]/components/sections/HowItWorks.jsx",
-                                    lineNumber: 127,
+                                    lineNumber: 29,
                                     columnNumber: 17
                                 }, this);
                             })
                         }, void 0, false, {
                             fileName: "[project]/components/sections/HowItWorks.jsx",
-                            lineNumber: 122,
+                            lineNumber: 25,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/HowItWorks.jsx",
-                    lineNumber: 116,
+                    lineNumber: 23,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/sections/HowItWorks.jsx",
-            lineNumber: 87,
+            lineNumber: 16,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/sections/HowItWorks.jsx",
-        lineNumber: 83,
+        lineNumber: 15,
         columnNumber: 5
     }, this);
 }
@@ -6524,9 +4518,8 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/globe.mjs [app-ssr] (ecmascript) <export default as Globe>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock.mjs [app-ssr] (ecmascript) <export default as Clock>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2d$3$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock3$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock-3.mjs [app-ssr] (ecmascript) <export default as Clock3>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
 'use client';
 ;
 ;
@@ -6536,102 +4529,86 @@ const languages = [
         name: 'Urdu',
         native: 'اردو',
         flag: '🇵🇰',
-        status: 'active',
-        color: 'green'
+        status: 'available'
     },
     {
         name: 'Hindi',
         native: 'हिन्दी',
         flag: '🇮🇳',
-        status: 'active',
-        color: 'green'
+        status: 'available'
     },
     {
         name: 'English',
         native: 'English',
-        flag: '🇺🇸',
-        status: 'active',
-        color: 'green'
+        flag: '🇬🇧',
+        status: 'available'
     },
     {
         name: 'Arabic',
         native: 'العربية',
         flag: '🇸🇦',
-        status: 'active',
-        color: 'green'
+        status: 'available'
     },
     {
         name: 'Spanish',
         native: 'Español',
         flag: '🇪🇸',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'French',
         native: 'Français',
         flag: '🇫🇷',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'Chinese',
         native: '中文',
         flag: '🇨🇳',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'Turkish',
         native: 'Türkçe',
         flag: '🇹🇷',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'Korean',
         native: '한국어',
         flag: '🇰🇷',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'German',
         native: 'Deutsch',
         flag: '🇩🇪',
-        status: 'coming',
-        color: 'yellow'
+        status: 'soon'
     },
     {
         name: 'Punjabi',
         native: 'ਪੰਜਾਬੀ',
         flag: '🇵🇰',
-        status: 'coming',
-        color: 'yellow'
+        status: 'planned'
     },
     {
         name: 'Persian',
         native: 'فارسی',
         flag: '🇮🇷',
-        status: 'planned',
-        color: 'slate'
+        status: 'planned'
     }
 ];
 function Languages() {
-    const active = languages.filter((l)=>l.status === 'active');
-    const coming = languages.filter((l)=>l.status === 'coming');
-    const planned = languages.filter((l)=>l.status === 'planned');
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "languages",
-        className: "relative py-24 bg-slate-50 dark:bg-navy-900 overflow-hidden",
+        className: "relative py-24",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+            className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                    className: "text-center mb-14",
                     initial: {
                         opacity: 0,
-                        y: 20
+                        y: 18
                     },
                     whileInView: {
                         opacity: 1,
@@ -6643,456 +4620,196 @@ function Languages() {
                     transition: {
                         duration: 0.5
                     },
+                    className: "mx-auto mb-12 max-w-3xl text-center",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-green-50 dark:bg-green-500/10 \n                          border border-green-200 dark:border-green-500/20\n                          text-green-600 dark:text-green-400 text-sm font-medium",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$globe$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Globe$3e$__["Globe"], {
-                                    size: 14
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 44,
-                                    columnNumber: 13
-                                }, this),
-                                "Language Support"
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "Language support"
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 40,
+                            lineNumber: 26,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                            children: [
-                                "One Platform.",
-                                ' ',
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-600",
-                                    children: "Multiple Languages."
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 49,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            className: "editorial-title mt-5 text-[2.7rem] theme-text-primary  sm:text-[4rem]",
+                            children: "One platform, many voices."
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 47,
+                            lineNumber: 27,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                            children: "Starting with Urdu and expanding to cover the world's most spoken languages."
+                            className: "mt-4 text-lg theme-text-secondary ",
+                            children: "Built for global storytelling, starting with the languages that need premium localization most."
                         }, void 0, false, {
                             fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 53,
+                            lineNumber: 28,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 33,
+                    lineNumber: 25,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                    className: "flex flex-wrap items-center justify-center gap-6 mb-10",
-                    initial: {
-                        opacity: 0
-                    },
-                    whileInView: {
-                        opacity: 1
-                    },
-                    viewport: {
-                        once: true
-                    },
-                    transition: {
-                        duration: 0.5,
-                        delay: 0.1
-                    },
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mb-8 flex flex-wrap items-center justify-center gap-6 text-sm theme-text-secondary ",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400",
+                            className: "flex items-center gap-2",
                             children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "h-2.5 w-2.5 rounded-full theme-button"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Languages.jsx",
+                                    lineNumber: 32,
+                                    columnNumber: 52
+                                }, this),
+                                " Available"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/sections/Languages.jsx",
+                            lineNumber: 32,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
+                                    size: 14,
+                                    className: "theme-text-secondary-accent"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Languages.jsx",
+                                    lineNumber: 33,
+                                    columnNumber: 52
+                                }, this),
+                                " Coming soon"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/sections/Languages.jsx",
+                            lineNumber: 33,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2d$3$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock3$3e$__["Clock3"], {
+                                    size: 14,
+                                    className: "theme-text-muted"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Languages.jsx",
+                                    lineNumber: 34,
+                                    columnNumber: 52
+                                }, this),
+                                " Planned"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/sections/Languages.jsx",
+                            lineNumber: 34,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/sections/Languages.jsx",
+                    lineNumber: 31,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid gap-4 sm:grid-cols-2 lg:grid-cols-4",
+                    children: languages.map((language, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                            initial: {
+                                opacity: 0,
+                                y: 18
+                            },
+                            whileInView: {
+                                opacity: 1,
+                                y: 0
+                            },
+                            viewport: {
+                                once: true
+                            },
+                            transition: {
+                                duration: 0.35,
+                                delay: index * 0.04
+                            },
+                            className: `relative rounded-[1.5rem] border p-4 ${language.status === 'available' ? 'theme-border theme-card  ' : language.status === 'soon' ? 'theme-border theme-card opacity-85  ' : 'theme-border theme-card opacity-75  '}`,
+                            children: [
+                                language.status === 'available' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "absolute right-3 top-3 h-2.5 w-2.5 rounded-full theme-button"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Languages.jsx",
+                                    lineNumber: 40,
+                                    columnNumber: 51
+                                }, this),
+                                language.status === 'soon' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "absolute right-3 top-3 rounded-full border theme-border theme-accent-soft px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] theme-text-muted   ",
+                                    children: "soon"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Languages.jsx",
+                                    lineNumber: 41,
+                                    columnNumber: 46
+                                }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex items-center gap-1.5",
+                                    className: "flex items-center gap-3",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                            size: 12,
-                                            className: "text-green-500"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-2xl",
+                                            children: language.flag
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 68,
-                                            columnNumber: 15
+                                            lineNumber: 43,
+                                            columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "w-2 h-2 bg-green-500 rounded-full"
-                                        }, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-base font-semibold theme-text-primary ",
+                                                    children: language.name
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Languages.jsx",
+                                                    lineNumber: 45,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-sm theme-text-secondary ",
+                                                    children: language.native
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Languages.jsx",
+                                                    lineNumber: 46,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 69,
-                                            columnNumber: 15
+                                            lineNumber: 44,
+                                            columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 67,
-                                    columnNumber: 13
-                                }, this),
-                                "Currently Available"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 66,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
-                                    size: 12,
-                                    className: "text-yellow-500"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 74,
-                                    columnNumber: 13
-                                }, this),
-                                "Coming Soon"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 73,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
-                                    size: 12,
-                                    className: "text-slate-400"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 78,
-                                    columnNumber: 13
-                                }, this),
-                                "Planned"
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 77,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 59,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-8",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                            className: "text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 text-center",
-                            children: "Currently Available"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 85,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4",
-                            children: active.map((lang, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                    initial: {
-                                        opacity: 0,
-                                        scale: 0.9
-                                    },
-                                    whileInView: {
-                                        opacity: 1,
-                                        scale: 1
-                                    },
-                                    viewport: {
-                                        once: true
-                                    },
-                                    transition: {
-                                        duration: 0.3,
-                                        delay: i * 0.08
-                                    },
-                                    whileHover: {
-                                        y: -3
-                                    },
-                                    className: "relative flex items-center gap-3 p-4 rounded-xl\n                           bg-white dark:bg-navy-800\n                           border border-green-200 dark:border-green-500/25\n                           shadow-sm hover:shadow-md dark:hover:shadow-slate-900/50\n                           transition-all duration-200 cursor-default",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "absolute top-2.5 right-2.5 w-2 h-2 bg-green-500 rounded-full"
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 104,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "text-2xl",
-                                            children: lang.flag
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 106,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-sm font-semibold text-slate-900 dark:text-white",
-                                                    children: lang.name
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 108,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-xs text-slate-500 dark:text-slate-400",
-                                                    lang: lang.name === 'Arabic' || lang.name === 'Urdu' ? 'ur' : undefined,
-                                                    dir: lang.name === 'Arabic' || lang.name === 'Urdu' || lang.name === 'Persian' ? 'rtl' : 'ltr',
-                                                    children: lang.native
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 109,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 107,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, lang.name, true, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 90,
+                                    lineNumber: 42,
                                     columnNumber: 15
-                                }, this))
-                        }, void 0, false, {
+                                }, this)
+                            ]
+                        }, language.name, true, {
                             fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 88,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 84,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-8",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                            className: "text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 text-center",
-                            children: "Coming Soon"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 120,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4",
-                            children: coming.map((lang, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                    initial: {
-                                        opacity: 0,
-                                        scale: 0.9
-                                    },
-                                    whileInView: {
-                                        opacity: 1,
-                                        scale: 1
-                                    },
-                                    viewport: {
-                                        once: true
-                                    },
-                                    transition: {
-                                        duration: 0.3,
-                                        delay: 0.2 + i * 0.06
-                                    },
-                                    className: "relative flex items-center gap-3 p-4 rounded-xl\n                           bg-white dark:bg-navy-800/60\n                           border border-slate-200 dark:border-slate-700/40\n                           opacity-70 cursor-default",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "absolute top-2 right-2",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-200 dark:border-yellow-500/20",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
-                                                        size: 9,
-                                                        className: "text-yellow-500"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/Languages.jsx",
-                                                        lineNumber: 139,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-[9px] text-yellow-600 dark:text-yellow-400 font-medium",
-                                                        children: "Soon"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/Languages.jsx",
-                                                        lineNumber: 140,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/Languages.jsx",
-                                                lineNumber: 138,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 137,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "text-2xl grayscale opacity-70",
-                                            children: lang.flag
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 144,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-sm font-semibold text-slate-700 dark:text-slate-400",
-                                                    children: lang.name
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 146,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-xs text-slate-400",
-                                                    children: lang.native
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 147,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 145,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, lang.name, true, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 125,
-                                    columnNumber: 15
-                                }, this))
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 123,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 119,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                            className: "text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 text-center",
-                            children: "On the Roadmap"
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 156,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4",
-                            children: planned.map((lang, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                    initial: {
-                                        opacity: 0
-                                    },
-                                    whileInView: {
-                                        opacity: 1
-                                    },
-                                    viewport: {
-                                        once: true
-                                    },
-                                    transition: {
-                                        duration: 0.3,
-                                        delay: 0.4 + i * 0.06
-                                    },
-                                    className: "flex items-center gap-3 p-4 rounded-xl\n                           bg-white dark:bg-navy-800/40\n                           border border-slate-100 dark:border-slate-800/50\n                           opacity-50 cursor-default",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "text-2xl grayscale opacity-40",
-                                            children: lang.flag
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 172,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-sm font-semibold text-slate-600 dark:text-slate-500",
-                                                    children: lang.name
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 174,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-xs text-slate-400",
-                                                    children: lang.native
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/Languages.jsx",
-                                                    lineNumber: 175,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/components/sections/Languages.jsx",
-                                            lineNumber: 173,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, lang.name, true, {
-                                    fileName: "[project]/components/sections/Languages.jsx",
-                                    lineNumber: 161,
-                                    columnNumber: 15
-                                }, this))
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/Languages.jsx",
-                            lineNumber: 159,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 155,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].p, {
-                    className: "text-center text-xs text-slate-400 dark:text-slate-500 mt-8",
-                    initial: {
-                        opacity: 0
-                    },
-                    whileInView: {
-                        opacity: 1
-                    },
-                    viewport: {
-                        once: true
-                    },
-                    children: "* Language availability is based on current implementation status. Coming Soon languages are in active development."
+                            lineNumber: 39,
+                            columnNumber: 13
+                        }, this))
                 }, void 0, false, {
                     fileName: "[project]/components/sections/Languages.jsx",
-                    lineNumber: 183,
+                    lineNumber: 37,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/sections/Languages.jsx",
-            lineNumber: 31,
+            lineNumber: 24,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/sections/Languages.jsx",
-        lineNumber: 27,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 }
@@ -7107,166 +4824,78 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/check.mjs [app-ssr] (ecmascript) <export default as Check>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/x.mjs [app-ssr] (ecmascript) <export default as X>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scissors$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Scissors$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/scissors.mjs [app-ssr] (ecmascript) <export default as Scissors>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square.mjs [app-ssr] (ecmascript) <export default as MessageSquare>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/users.mjs [app-ssr] (ecmascript) <export default as Users>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$vertical$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sliders$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sliders-vertical.mjs [app-ssr] (ecmascript) <export default as Sliders>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs [app-ssr] (ecmascript) <export default as RefreshCw>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.mjs [app-ssr] (ecmascript) <export default as Zap>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square-text.mjs [app-ssr] (ecmascript) <export default as MessageSquareText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2d$round$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UsersRound$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/users-round.mjs [app-ssr] (ecmascript) <export default as UsersRound>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$horizontal$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__SlidersHorizontal$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sliders-horizontal.mjs [app-ssr] (ecmascript) <export default as SlidersHorizontal>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.mjs [app-ssr] (ecmascript) <export default as Sparkles>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$corner$2d$down$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CornerDownRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/corner-down-right.mjs [app-ssr] (ecmascript) <export default as CornerDownRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/play.mjs [app-ssr] (ecmascript) <export default as Play>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pause.mjs [app-ssr] (ecmascript) <export default as Pause>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-check.mjs [app-ssr] (ecmascript) <export default as CheckCircle2>");
 'use client';
 ;
 ;
 ;
 ;
-const segmentsData = [
+const segments = [
     {
-        id: 1,
+        label: 'Opening',
         time: '00:00 - 00:12',
-        name: 'Segment 1 (Opening)',
-        speaker: 'Speaker 1 (Protagonist)',
-        original: 'You have no idea what you\'re dealing with.',
-        urdu: 'آپ کو بالکل نہیں پتہ کہ آپ کس سے پالا ڈال رہے ہیں۔',
-        emotion: 'Angry',
-        tone: 'Serious',
-        speed: 'Fast',
-        keywords: [
-            'threat',
-            'confrontation',
-            'serious'
-        ]
+        original: "You have no idea what you're dealing with.",
+        dub: 'آپ اس کا مطلب پوری طرح سمجھ نہیں پاتے۔',
+        tone: 'Angry'
     },
     {
-        id: 2,
+        label: 'Climax',
         time: '00:12 - 00:28',
-        name: 'Segment 2 (Climax Dialogue)',
-        speaker: 'Speaker 2 (Antagonist)',
-        original: 'You don\'t understand what\'s at stake.',
-        urdu: 'آپ نہیں سمجھتے کہ کیا خطرہ ہے۔',
-        emotion: 'Serious',
-        tone: 'Calm / Emotional',
-        speed: 'Normal',
-        keywords: [
-            'serious',
-            'danger',
-            'talking'
-        ]
+        original: "You don't understand what's at stake.",
+        dub: 'آپ اس کے نتیجے کو سمجھ نہیں رہے۔',
+        tone: 'Serious'
     },
     {
-        id: 3,
+        label: 'Resolution',
         time: '00:28 - 00:46',
-        name: 'Segment 3 (Resolution)',
-        speaker: 'Speaker 1 (Protagonist)',
         original: 'There are rules in this world. And consequences.',
-        urdu: 'اس دنیا کے کچھ اصول ہیں۔ اور ان کے نتائج بھی۔',
-        emotion: 'Calm',
-        tone: 'Deep',
-        speed: 'Normal',
-        keywords: [
-            'rules',
-            'consequences',
-            'resolution'
-        ]
-    }
-];
-const comparisons = [
-    {
-        feature: 'Individual Dialogue Segment Editing',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'AI Prompt-Based Dialogue Modification',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'Speaker-Specific Voice Selection',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'Emotion & Voice Tone Customization',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'Single Segment Regeneration (Fast & Cheap)',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'Side-by-Side Original vs Dubbed Audio Playback',
-        dubflow: true,
-        others: false
-    },
-    {
-        feature: 'Basic Multilingual Dubbing',
-        dubflow: true,
-        others: true
-    },
-    {
-        feature: 'High-Definition Video Export',
-        dubflow: true,
-        others: true
+        dub: 'اس دنیا میں قوانین ہیں اور ان کے نتائج بھی۔',
+        tone: 'Calm'
     }
 ];
 const highlights = [
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scissors$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Scissors$3e$__["Scissors"],
-        title: 'Segment-Based Editing',
-        desc: 'Edit individual dialogue segments independently. Regenerate only what needs fixing without re-processing the entire video.',
-        color: 'orange'
+        title: 'Segment-based editing',
+        description: 'Refine each line individually with cinematic precision and zero rework overhead.'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"],
-        title: 'AI Prompt Editing',
-        desc: 'Write natural language instructions to modify voice style, tone, or phrasing. The AI regenerates audio precisely to your direction.',
-        color: 'blue'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2d$text$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquareText$3e$__["MessageSquareText"],
+        title: 'Prompt-driven fixes',
+        description: 'Guide tone, pace, and emotional intent using natural-language direction.'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"],
-        title: 'Speaker-Specific Voices',
-        desc: 'Assign distinct AI voices to each character in your video for a differentiated, cinematic experience.',
-        color: 'purple'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2d$round$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UsersRound$3e$__["UsersRound"],
+        title: 'Speaker-aware voices',
+        description: 'Assign distinct voices to each speaking role for a richer, more authentic dub.'
     },
     {
-        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$vertical$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sliders$3e$__["Sliders"],
-        title: 'Emotion & Tone Control',
-        desc: 'Fine-tune emotion (serious, angry, calm) and pitch/speed settings to match the actor’s performance.',
-        color: 'pink'
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sliders$2d$horizontal$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__SlidersHorizontal$3e$__["SlidersHorizontal"],
+        title: 'Emotion and pacing control',
+        description: 'Tune intensity, flow, and character nuance to fit the scene exactly.'
     }
 ];
 function WhyDubFlow() {
-    const [activeSegIndex, setActiveSegIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
-    const [selectedEmotion, setSelectedEmotion] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('Serious');
-    const [promptText, setPromptText] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('Make the voice more emotional, slower, add sadness...');
-    const [isRegenerating, setIsRegenerating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [regenerationCount, setRegenerationCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [isPlayingAudio, setIsPlayingAudio] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const activeSegment = segmentsData[activeSegIndex];
-    const handleRegenerate = ()=>{
-        setIsRegenerating(true);
-        setTimeout(()=>{
-            setIsRegenerating(false);
-            setRegenerationCount((c)=>c + 1);
-            setIsPlayingAudio(true);
-        }, 1200);
-    };
+    const [activeIndex, setActiveIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
+    const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const activeSegment = segments[activeIndex];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "why-dubflow",
-        className: "relative py-24 bg-white dark:bg-navy-950 transition-colors duration-300 overflow-hidden",
+        className: "relative py-24",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+            className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                    className: "text-center mb-16",
                     initial: {
                         opacity: 0,
-                        y: 20
+                        y: 18
                     },
                     whileInView: {
                         opacity: 1,
@@ -7278,859 +4907,378 @@ function WhyDubFlow() {
                     transition: {
                         duration: 0.5
                     },
+                    className: "mx-auto mb-16 max-w-3xl text-center",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4\n                          bg-orange-50 dark:bg-orange-500/10 \n                          border border-orange-200 dark:border-orange-500/20\n                          text-orange-600 dark:text-orange-400 text-sm font-medium",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                    size: 14
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                    lineNumber: 124,
-                                    columnNumber: 13
-                                }, this),
-                                "Key Differentiator"
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "Key Differentiator"
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                            lineNumber: 120,
+                            lineNumber: 47,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4",
-                            children: [
-                                "More Than Translation.",
-                                ' ',
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-purple-500 to-blue-600",
-                                    children: "It's Intelligent Dubbing."
-                                }, void 0, false, {
-                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                    lineNumber: 129,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            className: "editorial-title mt-5 text-[2.7rem] theme-text-primary  sm:text-[4rem]",
+                            children: "More than translation — it is controlled storytelling."
+                        }, void 0, false, {
                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                            lineNumber: 127,
+                            lineNumber: 48,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto",
-                            children: "Unlike generic translators that batch-render an entire video blindly, DubFlow AI divides your video into editable dialogue segments, giving you granular creative control."
+                            className: "mt-4 text-lg theme-text-secondary ",
+                            children: "DubFlow AI treats each dialogue line as a creative object, giving editors precision without sacrificing workflow speed."
                         }, void 0, false, {
                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                            lineNumber: 133,
+                            lineNumber: 49,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                    lineNumber: 113,
+                    lineNumber: 46,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-20",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "rounded-3xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-navy-900 shadow-2xl overflow-hidden",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex flex-col sm:flex-row items-start sm:items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-navy-800 gap-3",
+                    className: "surface-panel overflow-hidden rounded-[2rem]",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "border-b theme-border theme-card px-5 py-4  ",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex items-center gap-3",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-8 h-8 rounded-lg bg-orange-500/10 dark:bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold",
+                                                className: "flex h-11 w-11 items-center justify-center rounded-2xl theme-accent-soft theme-text-accent  ",
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scissors$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Scissors$3e$__["Scissors"], {
-                                                    size: 16
+                                                    size: 20
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                    lineNumber: 145,
-                                                    columnNumber: 19
+                                                    lineNumber: 56,
+                                                    columnNumber: 127
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 144,
+                                                lineNumber: 56,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2",
-                                                        children: [
-                                                            "Segment Editor",
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "text-xs px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 font-medium",
-                                                                children: "Live Simulation"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 150,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                        children: "Segment editor"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 148,
+                                                        lineNumber: 58,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-xs text-slate-500 dark:text-slate-400",
-                                                        children: [
-                                                            "Active: ",
-                                                            activeSegment.name,
-                                                            " (",
-                                                            activeSegment.time,
-                                                            ")"
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-lg font-semibold theme-text-primary ",
+                                                        children: "Timeline revision"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 154,
+                                                        lineNumber: 59,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 147,
+                                                lineNumber: 57,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 143,
+                                        lineNumber: 55,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0",
-                                        children: segmentsData.map((seg, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                onClick: ()=>{
-                                                    setActiveSegIndex(idx);
-                                                    setSelectedEmotion(seg.emotion);
-                                                },
-                                                className: `px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeSegIndex === idx ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'bg-slate-100 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}`,
-                                                children: [
-                                                    "Seg ",
-                                                    seg.id,
-                                                    " (",
-                                                    seg.time,
-                                                    ")"
-                                                ]
-                                            }, seg.id, true, {
+                                        className: "flex flex-wrap items-center gap-2",
+                                        children: segments.map((segment, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>setActiveIndex(index),
+                                                className: `rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 ${activeIndex === index ? 'theme-accent-border theme-accent-soft theme-text-accent  ' : 'theme-border theme-card theme-text-primary   '}`,
+                                                children: segment.label
+                                            }, segment.label, false, {
                                                 fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 163,
+                                                lineNumber: 65,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 161,
+                                        lineNumber: 63,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                lineNumber: 142,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "grid grid-cols-1 lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "lg:col-span-7 p-6",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "relative rounded-2xl overflow-hidden aspect-video bg-gradient-to-br from-slate-900 via-slate-800 to-black mb-4 flex items-center justify-center border border-slate-300 dark:border-slate-700 shadow-md",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 187,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center p-4",
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "text-xs uppercase font-mono tracking-wider text-slate-400 bg-black/60 px-2.5 py-1 rounded",
-                                                            children: activeSegment.speaker
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 191,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 190,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "absolute bottom-4 inset-x-6 text-center space-y-1.5",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-xs text-slate-300 font-mono italic",
-                                                                children: [
-                                                                    "Original: “",
-                                                                    activeSegment.original,
-                                                                    "”"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 198,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-base sm:text-lg font-bold text-white bg-black/70 py-1 px-3 rounded-lg backdrop-blur-sm",
-                                                                dir: "rtl",
-                                                                children: [
-                                                                    "“",
-                                                                    activeSegment.urdu,
-                                                                    "”"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 201,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 197,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "absolute top-3 left-3 text-xs font-mono text-white/70 bg-black/50 px-2 py-0.5 rounded",
-                                                        children: activeSegment.time
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 206,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 186,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "p-4 rounded-2xl bg-white dark:bg-navy-800 border border-slate-200 dark:border-slate-700/70 shadow-sm space-y-3",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-400",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "flex items-center gap-1.5",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "w-2 h-2 rounded-full bg-purple-500"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 215,
-                                                                        columnNumber: 23
-                                                                    }, this),
-                                                                    "Translated Urdu Dialogue"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 214,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "text-[11px] text-purple-600 dark:text-purple-400 font-normal",
-                                                                children: "Editable text"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 218,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 213,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                        type: "text",
-                                                        defaultValue: activeSegment.urdu,
-                                                        className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-navy-900 text-sm font-semibold text-slate-900 dark:text-slate-100 text-right focus:outline-none focus:ring-2 focus:ring-purple-500/30",
-                                                        dir: "rtl"
-                                                    }, activeSegment.id, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 222,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between text-[11px] text-slate-400",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                children: "Target Language: Urdu (🇵🇰)"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 230,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                children: "Confidence: 98.4%"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 231,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 229,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 212,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 184,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "lg:col-span-5 p-6 space-y-5 bg-white/50 dark:bg-navy-800/40",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "p-4 rounded-2xl bg-white dark:bg-navy-800 border border-slate-200 dark:border-slate-700/70 shadow-sm",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                        className: "text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 flex items-center justify-between",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                children: "AI Performance Analysis"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 241,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
-                                                                size: 13,
-                                                                className: "text-blue-500"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 242,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 240,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "grid grid-cols-2 gap-3 text-xs mb-3",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-slate-400 block text-[10px]",
-                                                                        children: "Detected Emotion"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 246,
-                                                                        columnNumber: 23
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "font-bold text-slate-800 dark:text-slate-200",
-                                                                        children: activeSegment.emotion
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 247,
-                                                                        columnNumber: 23
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 245,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-slate-400 block text-[10px]",
-                                                                        children: "Voice Tone"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 250,
-                                                                        columnNumber: 23
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "font-bold text-slate-800 dark:text-slate-200",
-                                                                        children: activeSegment.tone
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 251,
-                                                                        columnNumber: 23
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 249,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 244,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex flex-wrap items-center gap-1.5 text-[11px]",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "text-slate-400",
-                                                                children: "Keywords:"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 255,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            activeSegment.keywords.map((kw)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 font-mono",
-                                                                    children: [
-                                                                        "#",
-                                                                        kw
-                                                                    ]
-                                                                }, kw, true, {
-                                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 257,
-                                                                    columnNumber: 23
-                                                                }, this))
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 254,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 239,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "p-4 rounded-2xl bg-white dark:bg-navy-800 border border-slate-200 dark:border-slate-700/70 shadow-sm space-y-3",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                                className: "text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"], {
-                                                                        size: 13,
-                                                                        className: "text-purple-500"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                        lineNumber: 268,
-                                                                        columnNumber: 23
-                                                                    }, this),
-                                                                    "AI Voice Prompt Instructions"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 267,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "text-[10px] text-slate-400",
-                                                                children: "Prompt Powered"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 271,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 266,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                                                        rows: 2,
-                                                        value: promptText,
-                                                        onChange: (e)=>setPromptText(e.target.value),
-                                                        placeholder: "e.g. Make the voice more intense and emotional, slower pacing...",
-                                                        className: "w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-navy-900 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 resize-none"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 274,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex flex-wrap gap-1.5",
-                                                        children: [
-                                                            'More Emotional',
-                                                            'Deeper Tone',
-                                                            'Add Urgency',
-                                                            'Slower Pace'
-                                                        ].map((quick)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                onClick: ()=>setPromptText(`Make the voice ${quick.toLowerCase()} with natural cadence.`),
-                                                                className: "text-[10px] px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700/60 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-slate-600 dark:text-slate-300 transition-colors",
-                                                                children: [
-                                                                    "+ ",
-                                                                    quick
-                                                                ]
-                                                            }, quick, true, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 285,
-                                                                columnNumber: 23
-                                                            }, this))
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 283,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].button, {
-                                                        onClick: handleRegenerate,
-                                                        disabled: isRegenerating,
-                                                        className: "w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white\n                               bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500\n                               shadow-md shadow-purple-500/20 transition-all flex items-center justify-center gap-1.5",
-                                                        whileHover: {
-                                                            scale: 1.01
-                                                        },
-                                                        whileTap: {
-                                                            scale: 0.99
-                                                        },
-                                                        children: isRegenerating ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__["RefreshCw"], {
-                                                                    size: 13,
-                                                                    className: "animate-spin"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 307,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                "Regenerating Segment Audio..."
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 306,
-                                                            columnNumber: 23
-                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
-                                                                    size: 13
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 312,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                "Regenerate Segment Voice"
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 311,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 296,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    regenerationCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-[11px] text-green-600 dark:text-green-400 flex items-center gap-1 justify-center",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
-                                                                size: 12
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 320,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            "Segment regenerated successfully! (Take #",
-                                                            regenerationCount + 1,
-                                                            ")"
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                        lineNumber: 319,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 265,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 237,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                lineNumber: 182,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "px-6 py-3 bg-slate-100/70 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "flex items-center gap-1.5 font-medium",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$corner$2d$down$2d$right$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CornerDownRight$3e$__["CornerDownRight"], {
-                                                size: 13,
-                                                className: "text-orange-500"
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 331,
-                                                columnNumber: 17
-                                            }, this),
-                                            "Edit any individual segment using prompts. The AI re-synthesizes just that audio segment seamlessly."
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 330,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "hidden sm:inline font-mono text-[11px] text-slate-400",
-                                        children: "Segment-Based Video Architecture"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 334,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                lineNumber: 329,
+                                lineNumber: 54,
                                 columnNumber: 13
                             }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                        lineNumber: 140,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                    lineNumber: 139,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 lg:grid-cols-12 gap-10 items-start",
-                    children: [
+                        }, void 0, false, {
+                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                            lineNumber: 53,
+                            columnNumber: 11
+                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:col-span-7",
+                            className: "grid gap-0 lg:grid-cols-[1.2fr_0.8fr]",
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    className: "text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: "DubFlow AI vs. Typical Video Dubbing Tools"
-                                    }, void 0, false, {
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-4 sm:p-5",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "relative overflow-hidden rounded-[1.4rem] bg-theme-ink",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+                                                alt: "Creative media editing workspace",
+                                                className: "h-[300px] w-full object-cover opacity-80 sm:h-[360px]"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                lineNumber: 76,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute inset-0 bg-gradient-to-t from-[#171917]/90 via-[#171917]/35 to-transparent"
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                lineNumber: 77,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm",
+                                                children: activeSegment.time
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                lineNumber: 78,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>setIsPlaying((value)=>!value),
+                                                className: "absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md",
+                                                children: isPlaying ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pause$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Pause$3e$__["Pause"], {
+                                                    size: 22
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                    lineNumber: 80,
+                                                    columnNumber: 32
+                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$play$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Play$3e$__["Play"], {
+                                                    size: 22,
+                                                    className: "ml-1 fill-current"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                    lineNumber: 80,
+                                                    columnNumber: 54
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                lineNumber: 79,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute inset-x-5 bottom-5 rounded-[1.1rem] border border-white/10 bg-black/35 p-3 text-white backdrop-blur-sm",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[#ead9cc]",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: "Original"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                                lineNumber: 84,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: activeSegment.tone
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                                lineNumber: 85,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                        lineNumber: 83,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-base font-medium",
+                                                        children: [
+                                                            "“",
+                                                            activeSegment.original,
+                                                            "”"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                        lineNumber: 87,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                lineNumber: 82,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                        lineNumber: 346,
+                                        lineNumber: 75,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                    lineNumber: 345,
+                                    lineNumber: 74,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg bg-white dark:bg-navy-800",
+                                    className: "border-t theme-border theme-card p-4 sm:p-5   lg:border-l lg:border-t-0",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid grid-cols-12 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800 p-3.5 text-xs font-bold text-slate-600 dark:text-slate-400",
+                                            className: "rounded-[1.3rem] border theme-border theme-card p-4  ",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "col-span-7",
-                                                    children: "Feature"
-                                                }, void 0, false, {
+                                                    className: "mb-3 flex items-center justify-between",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-[10px] uppercase tracking-[0.14em] theme-text-muted ",
+                                                            children: "Dubbed line"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                            lineNumber: 95,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
+                                                            size: 14,
+                                                            className: "theme-text-accent"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                            lineNumber: 96,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                    lineNumber: 351,
+                                                    lineNumber: 94,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-lg font-medium leading-relaxed theme-text-primary ",
+                                                    children: [
+                                                        "“",
+                                                        activeSegment.dub,
+                                                        "”"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                    lineNumber: 98,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "col-span-3 text-center text-blue-600 dark:text-blue-400 font-extrabold",
-                                                    children: "DubFlow AI"
-                                                }, void 0, false, {
+                                                    className: "mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.12em] theme-text-secondary ",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__["CheckCircle2"], {
+                                                            size: 13,
+                                                            className: "theme-text-accent"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
+                                                            lineNumber: 99,
+                                                            columnNumber: 121
+                                                        }, this),
+                                                        " Emotion matched to ",
+                                                        activeSegment.tone
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                    lineNumber: 352,
-                                                    columnNumber: 17
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "col-span-2 text-center text-slate-400",
-                                                    children: "Others"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                    lineNumber: 353,
+                                                    lineNumber: 99,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                            lineNumber: 350,
+                                            lineNumber: 93,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "divide-y divide-slate-100 dark:divide-slate-800/60",
-                                            children: comparisons.map((row, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "grid grid-cols-12 p-3.5 text-xs items-center hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors",
+                                            className: "mt-4 space-y-3",
+                                            children: highlights.map(({ icon: Icon, title, description })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex gap-3 rounded-[1.1rem] border theme-border theme-card p-3  ",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "col-span-7 font-medium text-slate-700 dark:text-slate-300",
-                                                            children: row.feature
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 362,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "col-span-3 flex justify-center",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "w-5 h-5 rounded-full bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 flex items-center justify-center",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
-                                                                    size: 12,
-                                                                    strokeWidth: 3
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 367,
-                                                                    columnNumber: 25
-                                                                }, this)
+                                                            className: "flex h-11 w-11 items-center justify-center rounded-2xl theme-accent-soft theme-text-accent  ",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                                size: 18
                                                             }, void 0, false, {
                                                                 fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 366,
-                                                                columnNumber: 23
+                                                                lineNumber: 105,
+                                                                columnNumber: 131
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 365,
+                                                            lineNumber: 105,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "col-span-2 flex justify-center",
-                                                            children: row.others ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
-                                                                    size: 11
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "font-semibold theme-text-primary ",
+                                                                    children: title
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 373,
-                                                                    columnNumber: 27
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 372,
-                                                                columnNumber: 25
-                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "w-5 h-5 rounded-full bg-red-100 dark:bg-red-500/15 text-red-500 flex items-center justify-center",
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
-                                                                    size: 11,
-                                                                    strokeWidth: 2.5
+                                                                    lineNumber: 107,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "mt-1 text-sm leading-relaxed theme-text-secondary ",
+                                                                    children: description
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                    lineNumber: 377,
-                                                                    columnNumber: 27
+                                                                    lineNumber: 108,
+                                                                    columnNumber: 23
                                                                 }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                                lineNumber: 376,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        }, void 0, false, {
+                                                            ]
+                                                        }, void 0, true, {
                                                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                            lineNumber: 370,
+                                                            lineNumber: 106,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
-                                                }, i, true, {
+                                                }, title, true, {
                                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                    lineNumber: 358,
+                                                    lineNumber: 104,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                            lineNumber: 356,
+                                            lineNumber: 102,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                    lineNumber: 349,
+                                    lineNumber: 92,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                            lineNumber: 344,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5",
-                            children: highlights.map((h, i)=>{
-                                const Icon = h.icon;
-                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-navy-800/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center mb-3 shadow-sm",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                                size: 17
-                                            }, void 0, false, {
-                                                fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                                lineNumber: 397,
-                                                columnNumber: 21
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                            lineNumber: 396,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                            className: "text-xs font-bold text-slate-900 dark:text-white mb-1.5",
-                                            children: h.title
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                            lineNumber: 399,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed",
-                                            children: h.desc
-                                        }, void 0, false, {
-                                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                            lineNumber: 402,
-                                            columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, i, true, {
-                                    fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                                    lineNumber: 392,
-                                    columnNumber: 17
-                                }, this);
-                            })
-                        }, void 0, false, {
-                            fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                            lineNumber: 388,
+                            lineNumber: 73,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/sections/WhyDubFlow.jsx",
-                    lineNumber: 342,
+                    lineNumber: 52,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/sections/WhyDubFlow.jsx",
-            lineNumber: 111,
+            lineNumber: 45,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/sections/WhyDubFlow.jsx",
-        lineNumber: 107,
+        lineNumber: 44,
         columnNumber: 5
     }, this);
 }

@@ -1,156 +1,85 @@
 'use client';
 
-import { Mail, ExternalLink } from 'lucide-react';
+import { Mail, ExternalLink, Globe, MessageSquareText, Sparkles } from 'lucide-react';
 import Logo from './Logo';
 
-function GithubIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-      <path d="M9 18c-4.51 2-5-2-7-2" />
-    </svg>
-  );
-}
-
-function LinkedinIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
-  );
-}
-
-function YoutubeIcon({ size = 18 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-      <path d="m10 15 5-3-5-3z" />
-    </svg>
-  );
-}
-
-const footerLinks = {
-  'Quick Links': [
-    { label: 'Home', href: '#home' },
-    { label: 'Features', href: '#features' },
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: 'AI Demo', href: '#ai-demo' },
-    { label: 'FAQ', href: '#faq' },
-  ],
-  'Support': [
-    { label: 'Contact Us', href: '#contact' },
-    { label: 'Help Center', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Service', href: '#' },
-  ],
-};
-
-const socials = [
-  { icon: GithubIcon, href: 'https://github.com', label: 'GitHub' },
-  { icon: LinkedinIcon, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: YoutubeIcon, href: 'https://youtube.com', label: 'YouTube' },
+const quickLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'Features', href: '#features' },
+  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'AI Demo', href: '#ai-demo' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
-export default function Footer({ onOpenSignup }) {
+const supportLinks = [
+  { label: 'Contact', href: '#contact' },
+  { label: 'Help center', href: '#faq' },
+  { label: 'Privacy policy', href: '#home' },
+  { label: 'Terms of service', href: '#home' },
+];
+
+const socials = [
+  { label: 'Web', icon: Globe, href: 'https://dubflow.ai' },
+  { label: 'Community', icon: MessageSquareText, href: 'https://example.com/community' },
+  { label: 'Updates', icon: Sparkles, href: 'https://example.com/updates' },
+];
+
+export default function Footer() {
   const handleScroll = (href) => {
+    if (!href.startsWith('#')) return;
     const id = href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    const node = document.getElementById(id);
+    if (node) {
+      const top = node.getBoundingClientRect().top + window.scrollY - 90;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 
   return (
-    <footer
-      id="contact"
-      className="relative border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-navy-900"
-    >
-      {/* Subtle top gradient */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand column */}
+    <footer id="contact" className="border-t theme-border theme-footer  ">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <Logo size="md" className="mb-4" />
-            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
-              DubFlow AI is an intelligent multilingual video dubbing platform. 
-              Transform your videos into natural, multilingual experiences with 
-              AI-powered dubbing, voice generation, and precise segment editing.
-            </p>
-            <div className="flex items-center gap-3">
-              {socials.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex items-center justify-center w-10 h-10 rounded-xl
-                             bg-slate-200 dark:bg-slate-800 
-                             text-slate-600 dark:text-slate-400
-                             hover:bg-blue-500 dark:hover:bg-blue-600
-                             hover:text-white
-                             border border-slate-300 dark:border-slate-700
-                             hover:border-blue-500 dark:hover:border-blue-600
-                             transition-all duration-200"
-                >
-                  <Icon size={18} />
+            <Logo size="md" className="mb-5" />
+            <p className="max-w-md text-[0.98rem] leading-relaxed theme-text-secondary ">DubFlow AI helps creators and brands localize video content with expressive voices, precise edits, and modern multilingual workflows.</p>
+            <div className="mt-6 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border theme-border theme-card theme-text-primary   "><Mail size={16} /></div>
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.14em] theme-text-muted ">Reach us</div>
+                <div className="text-sm font-medium theme-text-primary ">hello@dubflow.ai</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-[10px] font-semibold uppercase tracking-[0.18em] theme-text-muted ">Quick links</h3>
+            <ul className="mt-4 space-y-3 text-sm theme-text-secondary ">
+              {quickLinks.map((link) => (
+                <li key={link.label}><button onClick={() => handleScroll(link.href)} className="inline-flex items-center gap-1 transition-colors duration-200 theme-accent-hover">{link.label}<ExternalLink size={12} /></button></li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-[10px] font-semibold uppercase tracking-[0.18em] theme-text-muted ">Support</h3>
+            <ul className="mt-4 space-y-3 text-sm theme-text-secondary ">
+              {supportLinks.map((link) => (
+                <li key={link.label}><button onClick={() => handleScroll(link.href)} className="inline-flex items-center gap-1 transition-colors duration-200 theme-accent-hover">{link.label}<ExternalLink size={12} /></button></li>
+              ))}
+            </ul>
+            <div className="mt-6 flex items-center gap-3">
+              {socials.map(({ label, icon: Icon, href }) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="flex h-10 w-10 items-center justify-center rounded-full border theme-border theme-card theme-text-primary transition-all duration-200 theme-border-hover theme-accent-hover   ">
+                  <Icon size={15} />
                 </a>
               ))}
             </div>
           </div>
-
-          {/* Link columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">
-                {title}
-              </h3>
-              <ul className="space-y-3">
-                {links.map(({ label, href }) => (
-                  <li key={label}>
-                    {href.startsWith('#') ? (
-                      <button
-                        onClick={() => handleScroll(href)}
-                        className="text-sm text-slate-600 dark:text-slate-400 
-                                   hover:text-blue-500 dark:hover:text-blue-400 
-                                   transition-colors duration-200"
-                      >
-                        {label}
-                      </button>
-                    ) : (
-                      <a
-                        href={href}
-                        className="text-sm text-slate-600 dark:text-slate-400 
-                                   hover:text-blue-500 dark:hover:text-blue-400 
-                                   transition-colors duration-200 inline-flex items-center gap-1 group"
-                      >
-                        {label}
-                        <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500 dark:text-slate-500">
-            &copy; {new Date().getFullYear()} DubFlow AI. All rights reserved. Built as an FYP Project.
-          </p>
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-              <span className="w-2 h-2 bg-green-500 rounded-full inline-block animate-pulse" />
-              All systems operational
-            </span>
-          </div>
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t theme-border pt-6 text-sm theme-text-muted   sm:flex-row">
+          <div>© {new Date().getFullYear()} DubFlow AI. All rights reserved.</div>
+          <div className="flex items-center gap-2"><span className="inline-flex h-2 w-2 rounded-full theme-button" /> Built for premium localization</div>
         </div>
       </div>
     </footer>

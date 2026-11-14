@@ -43,17 +43,17 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
   if (success) {
     return (
       <ModalWrapper onClose={onClose}>
-        <div className="bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 p-10 text-center shadow-2xl">
+        <div className="theme-card rounded-2xl border theme-border p-10 text-center theme-shadow-float">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', damping: 15 }}
-            className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-500/15 flex items-center justify-center mx-auto mb-4"
+            className="w-16 h-16 rounded-full theme-success flex items-center justify-center mx-auto mb-4"
           >
-            <LogIn size={28} className="text-green-500" />
+            <LogIn size={28} className="theme-success-text" />
           </motion.div>
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Welcome back!</h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Signing you in to DubFlow AI...</p>
+          <h3 className="text-xl font-bold theme-text-primary mb-1">Welcome back!</h3>
+          <p className="text-sm theme-text-secondary">Signing you in to DubFlow AI...</p>
         </div>
       </ModalWrapper>
     );
@@ -61,22 +61,22 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
 
   return (
     <ModalWrapper onClose={onClose}>
-      <div className="bg-white dark:bg-navy-800 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-2xl overflow-hidden">
+      <div className="theme-card rounded-2xl border theme-border theme-shadow-float overflow-hidden">
         {/* Header */}
-        <div className="relative px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+        <div className="relative px-6 pt-6 pb-4 border-b theme-border">
           <div className="flex items-center justify-between">
             <Logo size="sm" />
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center theme-text-muted theme-accent-hover theme-hover transition-colors"
               aria-label="Close"
             >
               <X size={18} />
             </button>
           </div>
           <div className="mt-4">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Welcome back</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Sign in to your DubFlow AI account</p>
+            <h2 className="text-xl font-bold theme-text-primary">Welcome back</h2>
+            <p className="text-sm theme-text-secondary mt-0.5">Sign in to your DubFlow AI account</p>
           </div>
         </div>
 
@@ -85,7 +85,7 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
           {/* Google Button */}
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border theme-border text-sm font-medium theme-text-primary theme-hover transition-colors"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
@@ -97,18 +97,18 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
           </button>
 
           <div className="relative flex items-center gap-3">
-            <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
-            <span className="text-xs text-slate-400">or</span>
-            <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
+            <div className="flex-1 h-px theme-bg-secondary" />
+            <span className="text-xs theme-text-muted">or</span>
+            <div className="flex-1 h-px theme-bg-secondary" />
           </div>
 
           {/* Email field */}
           <div>
-            <label htmlFor="login-email" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+            <label htmlFor="login-email" className="block text-xs font-semibold theme-text-primary mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 theme-text-muted">
                 <Mail size={16} />
               </div>
               <input
@@ -120,18 +120,17 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
                 onChange={handleChange}
                 placeholder="you@example.com"
                 className={`w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border transition-colors
-                            bg-slate-50 dark:bg-slate-800/60 
-                            text-slate-900 dark:text-slate-100
-                            placeholder:text-slate-400 dark:placeholder:text-slate-500
-                            focus:outline-none focus:ring-2 focus:ring-blue-500/30
+                            theme-input
+                            theme-text-primary
+                            theme-focus
                             ${errors.email
-                              ? 'border-red-400 dark:border-red-500 focus:border-red-400'
-                              : 'border-slate-200 dark:border-slate-700 focus:border-blue-400 dark:focus:border-blue-500'
+                              ? 'theme-input-error'
+                              : 'theme-border'
                             }`}
               />
             </div>
             {errors.email && (
-              <p className="flex items-center gap-1 mt-1 text-xs text-red-500">
+              <p className="flex items-center gap-1 mt-1 text-xs theme-danger-text">
                 <AlertCircle size={11} /> {errors.email}
               </p>
             )}
@@ -140,15 +139,15 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
           {/* Password field */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label htmlFor="login-password" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="login-password" className="text-xs font-semibold theme-text-primary">
                 Password
               </label>
-              <button type="button" className="text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
+              <button type="button" className="text-xs theme-text-accent theme-accent-hover transition-colors">
                 Forgot password?
               </button>
             </div>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 theme-text-muted">
                 <Lock size={16} />
               </div>
               <input
@@ -160,26 +159,25 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
                 onChange={handleChange}
                 placeholder="••••••••"
                 className={`w-full pl-9 pr-10 py-2.5 rounded-xl text-sm border transition-colors
-                            bg-slate-50 dark:bg-slate-800/60 
-                            text-slate-900 dark:text-slate-100
-                            placeholder:text-slate-400 dark:placeholder:text-slate-500
-                            focus:outline-none focus:ring-2 focus:ring-blue-500/30
+                            theme-input
+                            theme-text-primary
+                            theme-focus
                             ${errors.password
-                              ? 'border-red-400 dark:border-red-500 focus:border-red-400'
-                              : 'border-slate-200 dark:border-slate-700 focus:border-blue-400 dark:focus:border-blue-500'
+                              ? 'theme-input-error'
+                              : 'theme-border'
                             }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 theme-text-muted theme-accent-hover transition-colors"
                 aria-label={showPass ? 'Hide password' : 'Show password'}
               >
                 {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.password && (
-              <p className="flex items-center gap-1 mt-1 text-xs text-red-500">
+              <p className="flex items-center gap-1 mt-1 text-xs theme-danger-text">
                 <AlertCircle size={11} /> {errors.password}
               </p>
             )}
@@ -192,9 +190,9 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
               type="checkbox"
               checked={remember}
               onChange={(e) => setRemember(e.target.checked)}
-              className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500/30"
+              className="w-4 h-4 rounded theme-border accent-[var(--primary-accent)] focus:ring-[var(--primary-accent)]/30"
             />
-            <label htmlFor="remember-me" className="text-xs text-slate-600 dark:text-slate-400 cursor-pointer">
+            <label htmlFor="remember-me" className="text-xs theme-text-secondary cursor-pointer">
               Remember me for 30 days
             </label>
           </div>
@@ -205,8 +203,8 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
             disabled={loading}
             className={`w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all
                         ${loading
-                          ? 'bg-blue-500/60 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/20'
+                          ? 'theme-button opacity-60 cursor-not-allowed'
+                          : 'theme-button theme-shadow'
                         }`}
             whileHover={!loading ? { scale: 1.01 } : {}}
             whileTap={!loading ? { scale: 0.99 } : {}}
@@ -225,12 +223,12 @@ export default function LoginModal({ onClose, onSwitchToSignup }) {
           </motion.button>
 
           {/* Switch to signup */}
-          <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-center text-xs theme-text-secondary">
             Don&apos;t have an account?{' '}
             <button
               type="button"
               onClick={onSwitchToSignup}
-              className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-semibold transition-colors"
+              className="theme-text-accent theme-accent-hover font-semibold transition-colors"
             >
               Create Account
             </button>

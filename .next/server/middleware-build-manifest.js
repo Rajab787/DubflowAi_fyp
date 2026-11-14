@@ -7,25 +7,23 @@ globalThis.__BUILD_MANIFEST = {
     "static/chunks/0cz1d0mv5g_q7.js"
   ],
   "lowPriorityFiles": [
-    "static/q1BAo8ELww15WDZJBJ9NR/_buildManifest.js",
-    "static/q1BAo8ELww15WDZJBJ9NR/_ssgManifest.js",
-    "static/q1BAo8ELww15WDZJBJ9NR/_clientMiddlewareManifest.js"
+    "static/TlW3-tOtVvXy_prwddiFM/_buildManifest.js",
+    "static/TlW3-tOtVvXy_prwddiFM/_ssgManifest.js",
+    "static/TlW3-tOtVvXy_prwddiFM/_clientMiddlewareManifest.js"
   ],
   "rootMainFiles": [
-    "static/chunks/310vm2bl3xxpt.js",
-    "static/chunks/1wnov70f88xjy.js",
+    "static/chunks/0j1we3cwg31qe.js",
+    "static/chunks/0m3mby5pxg4oz.js",
     "static/chunks/0yvvyghqmkrn7.js",
-    "static/chunks/0c1ad7rcpjghx.js",
     "static/chunks/turbopack-2u1d16houkiyo.js"
   ],
   "rootMainFilesTree": {},
   "pagesChunkGroupBootstrapParams": {
     "/page": {
       "otherChunks": [
-        "static/chunks/310vm2bl3xxpt.js",
-        "static/chunks/1wnov70f88xjy.js",
-        "static/chunks/0yvvyghqmkrn7.js",
-        "static/chunks/0c1ad7rcpjghx.js"
+        "static/chunks/0j1we3cwg31qe.js",
+        "static/chunks/0m3mby5pxg4oz.js",
+        "static/chunks/0yvvyghqmkrn7.js"
       ],
       "runtimeModuleIds": [
         94553
@@ -33,10 +31,9 @@ globalThis.__BUILD_MANIFEST = {
     },
     "/_not-found/page": {
       "otherChunks": [
-        "static/chunks/310vm2bl3xxpt.js",
-        "static/chunks/1wnov70f88xjy.js",
-        "static/chunks/0yvvyghqmkrn7.js",
-        "static/chunks/0c1ad7rcpjghx.js"
+        "static/chunks/0j1we3cwg31qe.js",
+        "static/chunks/0m3mby5pxg4oz.js",
+        "static/chunks/0yvvyghqmkrn7.js"
       ],
       "runtimeModuleIds": [
         94553
@@ -44,10 +41,9 @@ globalThis.__BUILD_MANIFEST = {
     },
     "/_global-error/page": {
       "otherChunks": [
-        "static/chunks/310vm2bl3xxpt.js",
-        "static/chunks/1wnov70f88xjy.js",
-        "static/chunks/0yvvyghqmkrn7.js",
-        "static/chunks/0c1ad7rcpjghx.js"
+        "static/chunks/0j1we3cwg31qe.js",
+        "static/chunks/0m3mby5pxg4oz.js",
+        "static/chunks/0yvvyghqmkrn7.js"
       ],
       "runtimeModuleIds": [
         94553
