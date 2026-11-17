@@ -49,10 +49,10 @@ export default function Home() {
       <main>
         <Hero onOpenSignup={openSignup} />
         <AiDemo />
-        <Features />
-        <HowItWorks />
         <WhyDubFlow />
         <Languages />
+        <Features />
+        <HowItWorks />
         <FAQ />
         <FinalCTA onOpenSignup={openSignup} />
       </main>

@@ -6,11 +6,12 @@ import { Menu, X, ChevronRight } from 'lucide-react';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 
+
 const navLinks = [
   { label: 'Home', href: '#home' },
+  { label: 'AI Demo', href: '#ai-demo' },
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'AI Demo', href: '#ai-demo' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -19,29 +20,7 @@ export default function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignu
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      const sections = navLinks.map((link) => link.href.replace('#', ''));
-      for (let i = sections.length - 1; i >= 0; i -= 1) {
-        const el = document.getElementById(sections[i]);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
-      }
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = useCallback((href) => {
-    setIsMobileOpen(false);
+  const scrollToSection = useCallback((href) => {
     const id = href.replace('#', '');
     const el = document.getElementById(id);
     if (el) {
@@ -50,13 +29,60 @@ export default function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignu
     }
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      const sections = navLinks
+        .map((link) => document.getElementById(link.href.slice(1)))
+        .filter(Boolean);
+      const activeSection = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 120 && rect.bottom > 120;
+      }) || [...sections].reverse().find((section) => section.getBoundingClientRect().top <= 120);
+
+      if (activeSection) setActiveSection(activeSection.id);
+    };
+
+    const handleHashNavigation = () => {
+      if (window.location.hash) scrollToSection(window.location.hash);
+      handleScroll();
+    };
+
+    if (window.location.hash) scrollToSection(window.location.hash);
+    handleScroll();
+    const animationFrame = window.requestAnimationFrame(handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('hashchange', handleHashNavigation);
+    window.addEventListener('popstate', handleHashNavigation);
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hashchange', handleHashNavigation);
+      window.removeEventListener('popstate', handleHashNavigation);
+    };
+  }, [scrollToSection]);
+
+  const handleNavClick = useCallback((href) => {
+    setIsMobileOpen(false);
+    scrollToSection(href);
+  }, [scrollToSection]);
+
   return (
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'border-b theme-border theme-nav theme-shadow-nav backdrop-blur-xl  ' : 'bg-transparent'}`}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between gap-4">
-            <motion.button onClick={() => handleNavClick('#home')} className="flex-shrink-0" whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
-              <Logo size="md" />
+            <motion.button
+              onClick={() => handleNavClick('#home')}
+              className="shrink-0"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <img
+                src="/DubFlow%20AI%20Logo%20Mark.png"
+                alt="DubFlow AI"
+                className="h-16 w-auto"
+              />
             </motion.button>
 
             <nav className="hidden items-center gap-2 lg:flex" aria-label="Main navigation">
@@ -89,7 +115,7 @@ export default function Header({ isDark, onToggleTheme, onOpenLogin, onOpenSignu
       <AnimatePresence>
         {isMobileOpen && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-40 bg-black/35 backdrop-blur-sm lg:hidden" onClick={() => setIsMobileOpen(false)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-40 cursor-pointer bg-black/35 backdrop-blur-sm lg:hidden" onClick={() => setIsMobileOpen(false)} />
             <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 260 }} className="fixed right-0 top-0 z-50 h-full w-72 border-l theme-border theme-bg-main p-4 theme-shadow-float   lg:hidden">
               <div className="mb-6 flex items-center justify-between">
                 <Logo size="sm" />
